@@ -1,8 +1,10 @@
 # ProyectoCompilador
 
-**TODO: Add description**
+Compilador del equipo "The Well Stressed Coders Company" Integrado por Brenda, Marian, Charlie y Eric
 
 ## Installation
+
+compilar con mix escript.build desde bash
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 by adding `proyecto_compilador` to your list of dependencies in `mix.exs`:
