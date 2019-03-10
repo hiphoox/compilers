@@ -4,7 +4,7 @@ Compilador del equipo "The Well Stressed Coders Company" Integrado por Brenda, M
 
 ## Instalación
 
-Compilar con mix escript.build desde bash
+Compilar con mix escript.build desde bash y ejecutar con ./twscc_compilador_c
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 by adding `proyecto_compilador` to your list of dependencies in `mix.exs`:
