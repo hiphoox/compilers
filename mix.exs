@@ -3,7 +3,7 @@ defmodule ProyectoCompilador.MixProject do
 
   def project do
     [
-      app: :proyecto_compilador,
+      app: :twscc_compilador_c,
       version: "0.1.0",
       elixir: "~> 1.8",
       escript: [main_module: Proyecto_compilador],
