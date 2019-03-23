@@ -3,8 +3,10 @@ defmodule CammComp.MixProject do
 
   def project do
     [
-      app: :camm_comp,
+      app: :CammComp,
       version: "0.1.0",
+      ## Nombre del modulo que va a ser el MAIN (modulo principal)
+      escript: [main_module: CammComp],
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps()
