@@ -2,13 +2,18 @@ defmodule Orquestador do
 
   def manager(arg, file_adress) do
 
-    IO.puts("\nLectura del codigo fuente (ORQUESTADOR):");
+    ##IO.puts("\nLectura del codigo fuente (ORQUESTADOR):");
     file_content=  File.read!(file_adress); ##lectura del archivo
     #IO.inspect(file_content);
 
     #llamada al modulo de lexer
-    tokens_separados =  Lexer.scan_word(file_content, 1);
-    IO.inspect(tokens_separados);
+    tokens_separados =  Lexer.scan_word(file_content);
+
+    if arg == "--tokens" do
+          IO.inspect(tokens_separados);
+    else
+    end
+
 
     ##llamada al PARSER
 
