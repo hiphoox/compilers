@@ -7,7 +7,7 @@ defmodule Proyecto_compilador do
 
   def main(argv) do
 
-    ##IO.inspect(argv);
+    IO.inspect(argv);
     case length(argv) do
       0 -> IO.puts("Compilador de C de twscc. Escriba --help para la ayuda.");
       1 -> is_help = Enum.at(argv, 0) =~ "--help";
@@ -20,7 +20,7 @@ defmodule Proyecto_compilador do
     end
 
   end
-
+  #modulo de ayuda
   def help() do
     IO.puts("Usage:\n ./twscc_compilador_c [option] nombre del archivo.c")
     IO.puts("Options:\n")

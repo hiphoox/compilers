@@ -8,7 +8,8 @@ defmodule Orquestador do
 
     #llamada al modulo de lexer
     tokens_separados =  Lexer.scan_word(file_content);
-
+    ast = Parser.parsero(tokens_separados);
+    
     if arg == "--tokens" do
           IO.inspect(tokens_separados);
     else
@@ -16,7 +17,6 @@ defmodule Orquestador do
 
 
     ##llamada al PARSER
-
     ##llamada al
 
     #DICHA LISTA DE SALIDA YA SALDRÁ EN ORDEN PARA CONSTRUIR
