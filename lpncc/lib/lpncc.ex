@@ -4,7 +4,7 @@ defmodule Lpncc do
   """
 
    def main(_args) do
-    file_content=File.read!("Pruebas/return2.c") 
+    file_content=File.read!("Pruebas/return_2.c") 
     trimmed_content=String.trim(file_content)
     words = Regex.split(~r/\s+/,trimmed_content)
     tokens=Lexer.scan_words(words)
