@@ -1,4 +1,4 @@
-defmodule Proyecto_compilador do
+defmodule Proyecto_compilador do #version 0.8, falta arbol y generador de codigo
   @moduledoc """
   Documentacion for proyecto_compilador.
   """
