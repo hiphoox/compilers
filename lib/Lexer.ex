@@ -53,7 +53,7 @@ defmodule Lexer do #separando el lexer del modulo principal, mueve funcion (refa
 
         "int" <> cadena_restante -> {:int_Keyword, cadena_restante}
 
-        "main" <> cadena_restante -> {:main_keyword, cadena_restante}
+        "main" <> cadena_restante -> {:main_Keyword, cadena_restante}
 
         #el DEFAULT del case
         cadena_restante -> get_constant(cadena_restante) #crea funcion y pasale la cadena que no cumplió con los casos anteriores

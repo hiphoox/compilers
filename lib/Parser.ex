@@ -1,55 +1,78 @@
 defmodule Parser do
 
-  def parsero(token_list)do
-    parse_program(token_list);
-    def parse_program(token_list) do
-      parse_function(token_list);
-      def parse_function(token_list) do
-        ##parsear int main(){...
-        #{lista tokens, elemento extraido a almacenar en la variable. Util para el AST}
-        {token_list, a} = parse_and_remove(token_list, :int_Keyword);
-        {token_list, b}  = parse_and_remove(token_list, :main_Keyword);
-        {token_list, c} = parse_and_remove(token_list, :open_paren);
-        {token_list, d} = parse_and_remove(token_list, :close_paren);
-        {tokens, e} = parse_and_remove(tokens, :open_brace);
-        ##antes de construir el nodo de la funcion main, parse las declaraciones a continuacion
-        parse_statement(token_list);
-        def parse_statement(token_list) do
-          ##parsear {return 2;...
-          {tokens, f} = parse_and_remove(tokens, :return_Keyword);
-          {tokens, g} = parse_and_remove(tokens, {:constant, 2});
-          {tokens, h} = parse_and_remove(tokens, :semicolon);
-        end
-        #si el parseo anterior fue correcto, finaliza el nodo funcion y créalo hacia arriba
-        {tokens, i} = parse_and_remove(tokens, :semicolon);
-      end
-    end
-
-    IO.puts("<Aquí debería ir el árbol>");
-    IO.inspect(tokens);
-    IO.puts("\nElementos extraidos individualmente para construir el árbol:")
-    IO.inspect(a, label: "NT")
-    IO.inspect(b, label: "NT")
-    IO.inspect(c, label: "NT")
-    IO.inspect(d, label: "NT")
-    IO.inspect(e, label: "NT")
-    IO.inspect(f, label: "T")
-    IO.inspect(g, label: "T")
+  def parsero(token_list) do
+    #llamada a creación de la gramática para el AST, debería devolver un árbol. Actualmente regresa "nil"
+    ast_tree = parse_program(token_list);
 
   end
 
-  def parse_and_remove(token_list, atom) do
-      #mostrar lista antes de remover elemento
-      IO.inspect(token_list);
-      ##si él atomo o tupla de constante coincide con el primer elemento de la lista...
-      if_found = List.first(token_list) == atom;
-      if if_found do #true si lo encontró, entonces lo elimina de la lista
-        IO.inspect(List.first(token_list), label: "Se encontró token, extraer a una variable para el AST: ")
-        #Devolver la lista actualizada y el elemento del AST en una tupla
-        {list, ast_elem} = {List.delete(token_list, atom), List.first(token_list)} ##último valor regresado por la función
-      else
-        IO.puts("Cadena inválida, finaliza el parseo");
-      end
+  def parsear(lista, atom) do
+    #extrae primer elemento de la lista y lo compara con átomo o si es tupla {constante, 4}
+    if (List.first(lista) == atom) do
+      #devuelve el primer elemento de la lista y bórralo
+      {List.first(lista), List.delete(lista, atom)};
+    else
+      IO.puts("Error en el parseo");
+      #devuelve la misma lista sin alterar.
+      {nil, lista}
+    end
+  end
+
+  def parse_program(token_list) do
+    IO.puts("*NODO PROGRAMA, GENERANDO RAMAS:")
+    #llamando a parse_function(list)
+    {nil, token_list}= parse_function(token_list);
+    IO.puts("*NODO PROGRAMA FINALIZADO")
+    IO.inspect(token_list, label: "Lista de tokens restantes");
+    nil; #en esta linea debería regresar un árbol
+  end
+
+  def parse_function(token_list) do
+    IO.puts("*NODO FUNCION, GENERANDO RAMAS:")
+    #parsear int main(){...
+    #{elemento extraido, lista tokens} a almacenar en la variable. Util para el AST}
+    {a, token_list} = parsear(token_list, :int_Keyword);
+    {b, token_list} = parsear(token_list, :main_Keyword);
+    {c, token_list} = parsear(token_list, :open_paren);
+    {d, token_list} = parsear(token_list, :close_paren);
+    {e, token_list} = parsear(token_list, :open_brace);
+        IO.inspect(token_list, label: "Lista de tokens");
+    ##mostrando elementos extraidos
+    IO.inspect(a, label: "T");
+    IO.inspect(b, label: "NT");
+    IO.inspect(c, label: "T");
+    IO.inspect(d, label: "T");
+    IO.inspect(e, label: "T");
+    ##antes de construir el nodo de la funcion main, parse las declaraciones a continuacion
+    {nil, token_list} = parse_statement(token_list);
+    #si el parseo anterior fue correcto, finaliza el nodo funcion y créalo hacia arriba
+    {g, token_list} = parsear(token_list, :close_brace);
+    IO.inspect(g, label: "T");
+    IO.puts("*NODO FUNCION FINALIZADO")
+    {nil, token_list};  ##se vuelve a poner, es lo que devolverá esta funcion
+  end
+
+  def parse_statement(token_list) do
+    IO.puts("*NODO STATEMENTS, GENERANDO RAMAS:")
+    ##parsear {return 2;...
+    {h, token_list} = parsear(token_list, :return_Keyword);
+
+    {i, token_list} =
+    case List.first(token_list) do
+      #aquí puede haber dos derivaciones de la constante, 2 o 4. Util para cuando tengamos que ampliar la gramática
+      {:constant, 2} -> parsear(token_list, {:constant, 2});
+      {:constant, 4} -> parsear(token_list, {:constant, 4});
+    end
+
+    {j, token_list} = parsear(token_list, :semicolon);
+
+    IO.inspect(h, label: "T");
+    IO.inspect(i, label: "T");
+    IO.inspect(j, label: "T");
+    ##parseo correcto, vuelve a terminar de ejecutar el parse_function devolviendo la lista restante
+    IO.puts("*NODO STATEMENT FINALIZADO")
+    #devuelve nil, token para que function continue utilizando la lista
+    {nil, token_list};
   end
 
 end
