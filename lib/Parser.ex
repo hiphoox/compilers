@@ -69,7 +69,7 @@ defmodule Parser do
     IO.inspect(h, label: "T");
     IO.inspect(i, label: "T");
     IO.inspect(j, label: "T");
-    ##parseo correcto, vuelve a terminar de ejecutar el parse_function devolviendo la lista restante
+    ##parseo correcto, vuelvee a terminar de ejecutar el parse_function devolviendo la lista restante
     IO.puts("*NODO STATEMENT FINALIZADO")
     #devuelve nil, token para que function continue utilizando la lista
     {nil, token_list};
