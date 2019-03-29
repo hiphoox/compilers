@@ -13,6 +13,7 @@ defmodule Orquestador do
     ast = Parser.parsero(tokens_separados);
     if arg == "--ast" or "-a" do
           IO.inspect(ast);
+          IO.puts(ast);
         else
         end
 
