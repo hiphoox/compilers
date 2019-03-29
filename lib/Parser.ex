@@ -70,6 +70,14 @@ defmodule Parser do
 
     state={:statement,[h,exp,j]}
     {nil, token_list,state};
+<<<<<<< HEAD
+=======
+
+  end
+
+  def parse_exp(token_list) do
+    IO.puts("NODO EXPRESIÓN, GENERANDO RAMAS")
+>>>>>>> 5fe59347e89142b985ab5dac604160b7de23b043
 
   end
 
