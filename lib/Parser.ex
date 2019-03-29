@@ -2,8 +2,8 @@ defmodule Parser do
 
   def parsero(token_list) do
     #llamada a creación de la gramática para el AST, debería devolver un árbol. Actualmente regresa "nil"
-    parse_program(token_list);
-
+    ast_tree = parse_program(token_list);
+##
 
   end
 
@@ -70,20 +70,12 @@ defmodule Parser do
 
     state={:statement,[h,exp,j]}
     {nil, token_list,state};
-<<<<<<< HEAD
-=======
 
   end
 
   def parse_exp(token_list) do
     IO.puts("NODO EXPRESIÓN, GENERANDO RAMAS")
->>>>>>> 5fe59347e89142b985ab5dac604160b7de23b043
 
-  end
-
-  def parse_exp(token_list) do
-    IO.puts("NODO EXPRESIÓN, GENERANDO RAMAS")
-###################
     {i, token_list} =
     case List.first(token_list) do
       #aquí puede haber dos derivaciones de la constante, 2 o 4. Util para cuando tengamos que ampliar la gramática
