@@ -12,6 +12,7 @@ defmodule Proyecto_compilador do #version 0.8, falta arbol y generador de codigo
              help();
            else
              IO.puts("ERROR, comando inválido");
+             help();
            end
            ##llamar al orquestador para comenzar proceso, envía bandera respectiva para la salida
       2 -> out = Orquestador.manager(Enum.at(argv, 0), Enum.at(argv, 1));
@@ -22,7 +23,7 @@ defmodule Proyecto_compilador do #version 0.8, falta arbol y generador de codigo
   def help() do
     IO.puts("Usage:\n ./twscc_compilador_c [option] nombre del archivo.c")
     IO.puts("Options:\n")
-    IO.puts("-n          Normal compilation (no console output)");
+    IO.puts("-n       Normal compilation (no console output)");
     IO.puts("--tokens, -t     Prints in screen the list of tokens");
     IO.puts("--ast , -a      Prints in screen the Abstract Syntax Tree");
     IO.puts("--assembler, -s       Generate the assembler .s file");
