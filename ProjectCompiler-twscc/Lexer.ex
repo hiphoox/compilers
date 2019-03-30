@@ -52,4 +52,8 @@ def lex_raw_tokens(program) when program != "" do #compara la cadena para ver qu
 
     end
 
+    def lex_raw_tokens(_program) do #debe haber otra funcion llamada igual para recibir la cadena vacia (en realidad cualquiera)
+      [] ##para devolver una lista vacía
+    end
+
 end
