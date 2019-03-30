@@ -13,11 +13,11 @@ defmodule Lexer do
     def lex_raw_tokens(program) when program != "" do
       {token, rest} =
       case program do
-        "int" <> rest -> {:keyword, rest}
+        "int" <> rest -> {:intkeyword, rest}
 
-        "return" <> rest -> {:keyword, rest}
+        "return" <> rest -> {:returnkeyword, rest}
 
-        "main" <> rest -> {:keyword, rest}
+        "main" <> rest -> {:mainkeyword, rest}
 
         "{" <> rest -> {:open_brance, rest}
 
