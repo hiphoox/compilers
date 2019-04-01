@@ -13,17 +13,12 @@ defmodule Orquestador do
           IO.inspect(tokens_separados);
     else
     end
-
-    ##llamada al PARSER
-
-    ##llamada al
-
-    #DICHA LISTA DE SALIDA YA SALDRÁ EN ORDEN PARA CONSTRUIR
-
-    ##ver todos los casos posibles para dividir, probando por ejemplo todo el codigo en el mismo renglon
-    #"main(){return" buscar los tokens a identifiar (palabras reservadas: main, (, ), {, }, return, etc..)
-    ##utilizar atomos para etiquetas (:main, :return) por ejemplo, la tupla del 2 {:integer, 2}
-    ## para main: {:keyword o id, "main"}
+    ast = Parser.parsero(tokens_separados);
+    if arg == "--ast" or "-a" do
+          IO.inspect(ast);
+          IO.puts(ast);
+        else
+    end
 
   end
 
