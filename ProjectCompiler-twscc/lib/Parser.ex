@@ -35,5 +35,11 @@ defmodule Parser do
 {d, token_list} = parsear(token_list, :close_paren);
 {e, token_list} = parsear(token_list, :open_brace);
     IO.inspect(token_list, label: "Lista de tokens");
+    ##mostrando elementos extraidos
+IO.inspect(a, label: "T");
+IO.inspect(b, label: "NT");
+IO.inspect(c, label: "T");
+IO.inspect(d, label: "T");
+IO.inspect(e, label: "T");
    end
 end
