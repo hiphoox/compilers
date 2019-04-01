@@ -5,8 +5,8 @@ defmodule Saneador do
   ##reportar que algo está mal antes de procesarlo
 
   def fix_code_format(file_content) do
-    ##COMENTARIO BUENO: Sirve para limpiar la cadena de entrada y remover saltos de línea.
-    ##IO.puts("\nSaltos de línea (antes y despues del codigo) removidos (SANEADOR):");
+    ##adición de pattern matching para encontrar la función main antes de comenzar la limpieza
+    is_main = (file_content =~ "main")
     trimmed_content =  String.trim(file_content) ##borrara los saltos de linea antes y despues
     ##IO.inspect(trimmed_content);
     ##leer los tokens. Los numeros hacerles cast de String "2" a int 2
