@@ -48,5 +48,12 @@ IO.inspect(e, label: "T");
      IO.puts("*NODO STATEMENTS, GENERANDO RAMAS:")
      ##parsear {return 2;...
      {h, token_list} = parsear(token_list, :return_Keyword);
+
+     {i, token_list} =
+case List.first(token_list) do
+  #aquí puede haber dos derivaciones de la constante, 2 o 4. Util para cuando tengamos que ampliar la gramática
+  {:constant, 2} -> parsear(token_list, {:constant, 2});
+  {:constant, 4} -> parsear(token_list, {:constant, 4});
+end
    end
 end
