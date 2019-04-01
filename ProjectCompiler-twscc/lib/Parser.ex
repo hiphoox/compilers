@@ -24,4 +24,16 @@ defmodule Parser do
     IO.inspect(token_list, label: "Lista de tokens restantes");
     nil; #en esta linea debería regresar un árbol
   end
+
+   def parse_function(token_list) do
+     IO.puts("*NODO FUNCION, GENERANDO RAMAS:")
+#parsear int main(){...
+#{elemento extraido, lista tokens} a almacenar en la variable. Util para el AST}
+{a, token_list} = parsear(token_list, :int_Keyword);
+{b, token_list} = parsear(token_list, :main_Keyword);
+{c, token_list} = parsear(token_list, :open_paren);
+{d, token_list} = parsear(token_list, :close_paren);
+{e, token_list} = parsear(token_list, :open_brace);
+    IO.inspect(token_list, label: "Lista de tokens");
+   end
 end
