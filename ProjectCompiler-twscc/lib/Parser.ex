@@ -45,6 +45,8 @@ IO.inspect(e, label: "T");
    end
 
    def parse_statement(token_list) do
-
+     IO.puts("*NODO STATEMENTS, GENERANDO RAMAS:")
+     ##parsear {return 2;...
+     {h, token_list} = parsear(token_list, :return_Keyword);
    end
 end
