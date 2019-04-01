@@ -19,6 +19,10 @@ defmodule Orquestador do
           IO.puts(ast);
         else
     end
+    ensamblador=Generador_codigo.assembly(ast);
+if arg == "--S" do
+
+else end
 
   end
 
