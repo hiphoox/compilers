@@ -47,6 +47,7 @@ IO.inspect(e, label: "T");
 {g, token_list} = parsear(token_list, :close_brace);
 IO.inspect(g, label: "T");
 IO.puts("*NODO FUNCION FINALIZADO")
+ func={:function,[a,b,c,d,e,state,g]}##aqui se agregan los nodos
 {nil, token_list};  ##se vuelve a poner, es lo que devolverá esta funcion
    end
 
