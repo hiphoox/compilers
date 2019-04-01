@@ -41,7 +41,13 @@ IO.inspect(b, label: "NT");
 IO.inspect(c, label: "T");
 IO.inspect(d, label: "T");
 IO.inspect(e, label: "T");
-
+##antes de construir el nodo de la funcion main, parse las declaraciones a continuacion
+{nil, token_list} = parse_statement(token_list);
+#si el parseo anterior fue correcto, finaliza el nodo funcion y créalo hacia arriba
+{g, token_list} = parsear(token_list, :close_brace);
+IO.inspect(g, label: "T");
+IO.puts("*NODO FUNCION FINALIZADO")
+{nil, token_list};  ##se vuelve a poner, es lo que devolverá esta funcion
    end
 
    def parse_statement(token_list) do
