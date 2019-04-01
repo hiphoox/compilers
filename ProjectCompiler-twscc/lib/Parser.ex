@@ -22,7 +22,7 @@ defmodule Parser do
     {nil, token_list}= parse_function(token_list);
     IO.puts("*NODO PROGRAMA FINALIZADO")
     IO.inspect(token_list, label: "Lista de tokens restantes");
-    nil; #en esta linea debería regresar un árbol
+    ast={:program,[func]}#dEFINICION DEL ARBOL
   end
 
    def parse_function(token_list) do
