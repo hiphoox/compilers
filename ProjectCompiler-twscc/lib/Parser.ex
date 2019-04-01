@@ -55,5 +55,15 @@ case List.first(token_list) do
   {:constant, 2} -> parsear(token_list, {:constant, 2});
   {:constant, 4} -> parsear(token_list, {:constant, 4});
 end
+
+{j, token_list} = parsear(token_list, :semicolon);
+
+IO.inspect(h, label: "T");
+IO.inspect(i, label: "T");
+IO.inspect(j, label: "T");
+##parseo correcto, vuelve a terminar de ejecutar el parse_function devolviendo la lista restante
+IO.puts("*NODO STATEMENT FINALIZADO")
+#devuelve nil, token para que function continue utilizando la lista
+{nil, token_list};
    end
 end
