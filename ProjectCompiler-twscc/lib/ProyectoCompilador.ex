@@ -9,6 +9,7 @@ defmodule Proyecto_compilador do
              help();
            else
              IO.puts("ERROR, comando inválido");
+             help();
            end
       2 -> Orquestador.manager(Enum.at(argv, 0), Enum.at(argv, 1));
     end
