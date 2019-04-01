@@ -41,5 +41,10 @@ IO.inspect(b, label: "NT");
 IO.inspect(c, label: "T");
 IO.inspect(d, label: "T");
 IO.inspect(e, label: "T");
+
+   end
+
+   def parse_statement(token_list) do
+
    end
 end
