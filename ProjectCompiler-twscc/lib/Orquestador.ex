@@ -9,11 +9,10 @@ defmodule Orquestador do
     #llamada al modulo de lexer
     tokens_separados =  Lexer.scan_word(file_content);
 
-    if arg == "--tokens" do
+    if arg == "--tokens" or "-t" do
           IO.inspect(tokens_separados);
     else
     end
-
 
     ##llamada al PARSER
 
