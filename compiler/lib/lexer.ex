@@ -6,14 +6,13 @@ defmodule Lexer do
 	words =Regex.split(~r/\r\n/,trimmed_content)
 	contador=0
 	regresa_lexer=hacer_lista(words,contador)
-	IO.inspect(regresa_lexer)
 	end
   def hacer_lista(program,linea) when program != []  do
 		    codigo_linea=hd program
 		    otras_lineas=tl program
 				lista_token_sin_num = Regex.split(~r/\s+/,codigo_linea, trim: true)
 				lista_token_etiquetados=lex_law_tokens(lista_token_sin_num,linea)
-				lista_token_con_num=Enum.flat_map(lista_token_etiquetados, fn x -> [{x,linea}] end)
+				lista_token_con_num=Enum.flat_map(lista_token_etiquetados, fn x -> [[x,linea]] end)
 		    linea=linea+1
 		    otrostokens=hacer_lista(otras_lineas,linea)
 		    lista_token_con_num ++ otrostokens
@@ -24,7 +23,7 @@ defmodule Lexer do
 		if valor != :nil do
 					case valor do
 						[value] ->
-						 [{:constant,String.to_integer(value)},String.trim_leading(program, value)]
+						 [[:constant,String.to_integer(value)],String.trim_leading(program, value)]
 					end
 		else
 			IO.puts("ERROR LEXICO; EN linea")
@@ -53,7 +52,7 @@ defmodule Lexer do
 						";" <> rest ->
 							[:semicolon, rest]
 						"return" <> rest ->
-							[:return__keyword, rest]
+							[:return_keyword, rest]
 						"int" <> rest ->
 							[:int_keyword, rest]
 						"main" <> rest ->
