@@ -54,23 +54,19 @@ IO.puts("*NODO FUNCION FINALIZADO")
      IO.puts("*NODO STATEMENTS, GENERANDO RAMAS:")
      ##parsear {return 2;...
      {h, token_list} = parsear(token_list, :return_Keyword);
+     #deriva una expresión
+     {nil, token_list,exp} = parse_exp(token_list);
+     {j, token_list} = parsear(token_list, :semicolon);
 
-     {i, token_list} =
-      case List.first(token_list) do
-        #aquí puede haber dos derivaciones de la constante, 2 o 4. Util para cuando tengamos que ampliar la gramática
-        {:constant, 2} -> parsear(token_list, {:constant, 2});
-        {:constant, 4} -> parsear(token_list, {:constant, 4});
-      end
+     IO.inspect(h, label: "T");
+     IO.inspect(j, label: "T");
+     ##parseo correcto, vuelvee a terminar de ejecutar el parse_function devolviendo la lista restante
+     IO.puts("*NODO STATEMENT FINALIZADO")
+     #devuelve nil, token para que function continue utilizando la lista
 
-      {j, token_list} = parsear(token_list, :semicolon);
+     state={:statement,[h,exp,j]}#definicion de la expresion statement
 
-      IO.inspect(h, label: "T");
-      IO.inspect(i, label: "T");
-      IO.inspect(j, label: "T");
-      ##parseo correcto, vuelve a terminar de ejecutar el parse_function devolviendo la lista restante
-      IO.puts("*NODO STATEMENT FINALIZADO")
-      #devuelve nil, token para que function continue utilizando la lista
-      {nil, token_list};
+     {nil, token_list,state};
    end
 
    def parse_exp(token_list) do
