@@ -7,7 +7,6 @@ defmodule Saneador do
   def fix_code_format(file_content) do
     ##adición de pattern matching para encontrar la función main antes de comenzar la limpieza
     is_main = (file_content =~ "main")
-    trimmed_content =  String.trim(file_content) ##borrara los saltos de linea antes y despues
     if is_main do
       ##COMENTARIO BUENO: Sirve para limpiar la cadena de entrada y remover saltos de línea.
       ##IO.puts("\nSaltos de línea (antes y despues del codigo) removidos (SANEADOR):");

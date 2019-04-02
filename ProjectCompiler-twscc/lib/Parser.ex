@@ -19,10 +19,10 @@ defmodule Parser do
   def parse_program(token_list) do
     IO.puts("*NODO PROGRAMA, GENERANDO RAMAS:")
     #llamando a parse_function(list)
-    {nil, token_list}= parse_function(token_list);
+    {nil, token_list, func}= parse_function(token_list);
     IO.puts("*NODO PROGRAMA FINALIZADO")
     IO.inspect(token_list, label: "Lista de tokens restantes");
-    ast={:program,[func]}#dEFINICION DEL ARBOL
+    ast={:program, nil, [func]}#dEFINICION DEL ARBOL
   end
 
    def parse_function(token_list) do
