@@ -1,4 +1,4 @@
-<img src=/home/alexmontecillo/Escritorio/Compiladores/compilers2019_2/tecnologia-elixir.png alt= "Elixir"  width= "10" height= "5">
+![elixir](tecnologia-elixir.png)
 
 
 
@@ -6,14 +6,15 @@
 
 ##### En este repositorio se creara un compilador de sublenguaje para C implementado en Elixir   para la clase de Compiladores. 
 
-- [ ] ##### *Integrantes del Equipo:*
-*Omar Orlando Ortega*
+##### Integrantes del Equipo:  
+
+Omar Orlando Ortega 
 *Óscar Gutiérrez Castillo*
 *Galileo Cabrera  Garibaldi*
 *J.Alejandro Montecillo Sandoval*
 *Francisco Javier Espinoza Jimez*
 
-- [ ] ## Requerimientos 
+## Requerimientos 
 
 - [ ] - Installar  elixir  
 
