@@ -13,4 +13,11 @@ defmodule Generador_codigo do
   #sin hijos el nodo
   defp postorder({}, code), do: code;
   #nodo con hijos
+  defp postorder({_atomo, value, izquierda ,derecha }, code) do
+    code = postorder(izquierda, code)
+    code = postorder(derecha, code) #devuelve un ok y continua
+    #IO.puts(value)
+    #IO.inspect(code)
+    codigo_gen(value, code);
+  end
 end
