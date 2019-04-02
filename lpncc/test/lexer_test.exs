@@ -30,7 +30,7 @@ defmodule LexerTest do
              state[:tokens]
   end
 
-  test "Todo junto alv", state do
+  test "Todo junto en una sola cadena", state do
     assert Lexer.scan_words(["int main(){return 2; }"]) == state[:tokens]
   end
 
