@@ -20,4 +20,11 @@ defmodule Generador_codigo do
     #IO.inspect(code)
     codigo_gen(value, code);
   end
+
+  def codigo_gen("program", codigo) do
+    """
+    .section        __TEXT,__text,regular,pure_instructions
+    .p2align        4, 0x90
+    """ <> codigo
+  end
 end
