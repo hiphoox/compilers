@@ -1,8 +1,8 @@
-defmodule NqccTest do
+defmodule LpnTest do ##NqccTest
   use ExUnit.Case
-  doctest Nqcc
+  doctest LpnNqcc
 
   # test "greets the world" do
-  #   assert Nqcc.hello() == :world
+  #   assert Lpn.hello() == :world
   # end
 end

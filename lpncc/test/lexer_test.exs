@@ -1,10 +1,11 @@
 defmodule LexerTest do
   use ExUnit.Case
-  doctest Lexer
+  #doctest Lexer
 
+  ##Ejecutar antes de que las pruebas se ejecuten
   setup_all do
     {:ok,
-     tokens: [
+     tokens: [ ###Lista de tokens que devuelve el lexer
        :int_keyword,
        :main_keyword,
        :open_paren,
