@@ -27,4 +27,11 @@ defmodule Generador_codigo do
     .p2align        4, 0x90
     """ <> codigo
   end
+
+  def codigo_gen("main_Keyword", codigo) do
+    """
+      .globl  _main         ## -- Begin function main
+  _main:                    ## @main
+  """ <> codigo
+  end
 end
