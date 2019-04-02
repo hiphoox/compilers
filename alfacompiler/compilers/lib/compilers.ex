@@ -1,6 +1,6 @@
-defmodule compilers do
+defmodule Compilers do
   @moduledoc """
-  Documentation for compilers.
+  Documentation for Compilers.
   """
 
   def main(_args) do
