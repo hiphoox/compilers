@@ -34,4 +34,8 @@ defmodule Generador_codigo do
   _main:                    ## @main
   """ <> codigo
   end
+
+  def codigo_gen(8709, codigo) do
+    "$#{8709}"
+  end
 end
