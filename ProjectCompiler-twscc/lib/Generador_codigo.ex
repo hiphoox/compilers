@@ -2,14 +2,15 @@ defmodule Generador_codigo do
 
   def assembly(ast) do
 
-        #f = fn x -> IO.write "#{x} " end
-        IO.write "\npostorder:  "
+    #f = fn x -> IO.write "#{x} " end
+    IO.write "\npostorder:  "
 
-        code = postorder(ast, "")
-        IO.puts("\n")
-        IO.puts(code)
+    code = postorder(ast, "")
+    IO.puts("\n")
+    IO.puts(code)
 
-  end ##termina funcion post_order_arbol
+
+  end
   #sin hijos el nodo
   defp postorder({}, code), do: code;
   #nodo con hijos
@@ -45,4 +46,7 @@ defmodule Generador_codigo do
         ret
     """
   end
+
+
+
 end
