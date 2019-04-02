@@ -8,7 +8,8 @@ defmodule Lpncc do
     trimmed_content=String.trim(file_content)
     words = Regex.split(~r/\s+/,trimmed_content)
     tokens=Lexer.scan_words(words)
+    arbol=Parser.parseo(tokens)
     #IO.puts(words)
-    IO.inspect(tokens) #Loguardaenunalista
+    #IO.inspect(tokens) #Loguardaenunalista
   end
 end
