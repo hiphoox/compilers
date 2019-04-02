@@ -38,4 +38,11 @@ defmodule Generador_codigo do
   def codigo_gen(8709, codigo) do
     "$#{8709}"
   end
+
+  def codigo_gen("return", codigo) do
+    """
+        movl    #{codigo}, %eax
+        ret
+    """
+  end
 end
