@@ -1,4 +1,4 @@
-![elixir](tecnologia-elixir.png)
+![elixir](tecnologia-elixir.jpg)
 
 
 
@@ -51,10 +51,31 @@ Omar Orlando Ortega
    $ git checkout -b lpn 
    ```
 
-3. Ejecución.
+3. Cambiarse a la carpeta del repositorio. 
+
+   ```bash
+   $ cd lpncc 
+   
+   ```
+
+
+4. Ejecución
 
    ```bash
    $ mix escript.build 
+   ```
+
+   ## USO 
+
+   ```bash
+   $ ./lpncc  [--help | -o | -s]  "/rutaDeArchivo.c"
+   
+   ```
+
+   ## Ejemplo
+
+   ```bash
+   $ ./lpncc ./Pruebas/return_2.c 
    ```
 
    
