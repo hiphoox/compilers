@@ -6,11 +6,21 @@ defmodule Parser do
 	    <exp> ::= <int>
     """
 
-    def statement ()
+    def parseo(tokens)  do 
+        if tokens != []  do
+            program(tokens)
+        else
+            IO.puts("Error : Falta de Tokens") 
+        end             
+    end
+    
+    def program(tokens) do
+        funcion (tokens)
+    end
 
-    def funcion do
+    def funcion([elemento | tokens]) do
         if elemento == :int_keyword  do
-            [elemento| tokens] = tokens
+            [elemento | tokens] = tokens
             IO.puts("INT")
         else
          IO.puts("Error de sintaxis")
@@ -31,25 +41,30 @@ defmodule Parser do
         else
         IO.puts("Error falta parentesis ')' ")
         end
-        if  elemento == :return_keyword do
-            expresion=    
-            statement(elemento)
-            [elemento | tokens] = tokens  
+        if  elemento == :open_brace do
+            statements = statement([elemento | tokens]) 
         else
         IO.puts("Error de sintaxis sin return ")
         end
+        {statement_node, [elemento | tokens]} ->
+            if elemento == :close_brace do
+              {%AST{node_name: :function, valor: :main, left_node: statement_node}, rest}
+            else
+              {{:error, "Error, close brace missed"}, rest}
+            end
         
     end
-     
-    def program(tokens) do
-            funcion (tokens)
+
+    def statement ([elemento | tokens]) do
+        if elemento == :return_keyword do
+            expresion = expression(tokens)
+        end        
+    end
+
+    def expression([elemento | tokens]) do
+        if elemento do
+            {:constant, valor} -> {%AST{constante: :constant, valor: valor}, tokens}
+            _ -> IO.puts("Error: Constante no encontrada")
         end
-    
-    def parseo(tokens)  do 
-        if tokens != []  do
-            program(tokens)
-        else
-            IO.puts("Error : Falta de Tokens") 
-        end             
-    end    
+    end
 end
