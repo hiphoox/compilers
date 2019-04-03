@@ -2,6 +2,7 @@ import  sys
 import argparse
 from file_clean import *
 from lexer_module import *
+from parser_module import *
 
 parser = argparse.ArgumentParser()
 group = parser.add_mutually_exclusive_group()
@@ -20,3 +21,7 @@ except IOError as e: #excepción en caso de que el archivo no exista
 
 token_list = lexer(raw_text)
 print(token_list)
+try:
+	ast = parser_f(token_list)
+except IndexError as e:
+	raise SystemExit("Syntax error, not enough tokens in the token list.")
