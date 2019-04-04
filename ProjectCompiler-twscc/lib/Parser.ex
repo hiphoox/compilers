@@ -31,16 +31,13 @@ defmodule Parser do
   end
 
   def parse_exp(tl) do
-    {tl, node_exp} =
+    #tokens restantes, atomo extraido y su dato para el nodo
+    [remain_tl, elem_atom, value] =
     case List.first(tl) do
-      {:constant,_} -> parse_constant(tl);
-      #Aquí se ampliará la gramática conforme las entregas
-      ############################
-      ############################
-      ############################
+      {:constant, _} ->  tl |> parse_atom_value(:constant)
       _ -> IO.puts("Error: falta una expresión después de return");
     end
-    {tl, node_exp}
+    [remain_tl, {elem_atom, value, {}, {}}]
   end
 
   def parse_constant(tl) do
