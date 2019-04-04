@@ -22,12 +22,8 @@ defmodule Parser do
   end
 
   def parse_program(t1) do
-    IO.puts("*NODO PROGRAMA, GENERANDO RAMAS:")
-    #llamando a parse_function(list)
-    {nil, token_list,func}= parse_function(token_list);
-    IO.puts("*NODO PROGRAMA FINALIZADO")
-    IO.inspect(token_list, label: "Lista de tokens restantes");
-    ast={:program,[func]}#dEFINICION DEL ARBOL
+    {_, func_node}= parse_function(tl);
+    {:program, "program", func_node, {}} #raiz, finaliza árbol
   end
 
   def parse_function(t1) do
