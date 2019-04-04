@@ -79,7 +79,7 @@
 
         def expresion([elemento | tokens]) do
             case elemento do
-                {:constant, value} -> {%AST{node_name: :constant, value: valor}, tokens}
+                {:constant, valor} -> {%AST{node_name: :constant, value: valor}, tokens}
                 _ -> IO.puts("Error: Constante no encontrada")
             end
         end
