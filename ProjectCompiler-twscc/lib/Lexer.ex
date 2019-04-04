@@ -19,11 +19,16 @@ defmodule Lexer do #separando el lexer del modulo principal, mueve funcion (refa
 
   #identificar que es un numero (uno o varios)
   def get_constant(program) do
-    case Regex.run(~r/\d+/, program) do #recibe expresion regular con digito: Regex.run(~r/\d+/, "123213jjasdasdasd")["123213"]
+    #puede leer enteros negativos, sin embargo el parser no los dejará pasar
+      try do
+      case Regex.run(~r/-?\d+/, program) do #recibe expresion regular con digito: Regex.run(~r/\d+/, "123213jjasdasdasd")["123213"]
       #pattern matching para extraer el valor de la lista que devuelve run
       #devuelve tupla con etiqueta {:constante, 1234}                       ##quita el valor numerico de cadena y devuelve el remanente
-      [valor] -> {{:constant, String.to_integer(valor)}, String.trim_leading(program, valor)}
+        [valor] -> {{:constant, String.to_integer(valor)}, String.trim_leading(program, valor)}
       end
+    rescue
+      CaseClauseError -> nil
+    end
   end
 
 
