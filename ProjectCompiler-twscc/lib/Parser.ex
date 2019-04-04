@@ -23,13 +23,11 @@ defmodule Parser do
   end
 
   def parse_statement(tl) do
-    {h, tl} = parsear(tl, :return_Keyword);
-    #deriva una expresión a partir desde aquí
-    {tl, exp_node} = parse_exp(tl);
-    #si el parseo fue correcto, finaliza el parse del nodo Statement y llámalo "Return"
-    {_J, tl} = parsear(tl, :semicolon);
-    state_node={h, "return" , exp_node, {}}
-    {tl, state_node};
+    #devuelve los tokens restantes y el atomo extraido para el nombre del nodo
+    [remain_tl, elem] = tl |> parse_ret_value(:return_Keyword)
+    [tl, exp_node] = parse_exp(remain_tl);
+    remain_tl = tl |> parse(:semicolon)
+    [remain_tl, {elem, "return" , exp_node, {}}];
   end
 
   def parse_exp(tl) do
