@@ -39,13 +39,12 @@ defmodule Generador_codigo do
     "$#{8709}"
   end
 
-  def codigo_gen("return", codigo) do
+  ##pega el valor de la constante y añade una instruccion return
+  def codigo_gen(:return_Keyword, _, codigo) do
     """
-        movl    #{codigo}, %eax
+        movl    #{codigo}, %ax
         ret
     """
   end
-
-
 
 end
