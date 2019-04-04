@@ -19,6 +19,8 @@ defmodule Orquestador do
       nil -> :ok
     end
   rescue
+    ##mostrar un mensaje de que no se pudo leer el archivo
+    File.Error -> IO.puts("Error: no se pudo leer el archivo de código fuente. ¿Es correcta la ruta?");
+    FunctionClauseError -> IO.puts("Error: no se pudo generar el código ensamblador.");
   end
-
 end
