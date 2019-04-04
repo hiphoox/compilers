@@ -1,12 +1,7 @@
 defmodule Parser do
 
-  def parsero(tl) do
-    try do
+  def main(tl) do
       parse_program(tl);
-    rescue
-      #no hacer nada, dejar que el orquestador indique que hubo un error de parseo y no podrá generar el árbol
-      MatchError -> nil;
-    end
   end
 
   def parse_program(tl) do
