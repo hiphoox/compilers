@@ -40,11 +40,6 @@ defmodule Parser do
     [remain_tl, {elem_atom, value, {}, {}}]
   end
 
-  def parse_constant(tl) do
-    {a, tl} = parsear_entero(tl)
-    {tl, {elem(a, 0), elem(a, 1), {}, {}}}
-  end
-
   def parse(lista, atom) do
       #extrae primer elemento de la lista y lo compara con átomo o si es tupla {constante, 4}
       if (List.first(lista) == atom) do
