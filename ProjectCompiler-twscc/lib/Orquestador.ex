@@ -13,10 +13,12 @@ defmodule Orquestador do
     ast = Parser.parsero(tokens_separados);
     if arg == "--ast" or "-a" do
           IO.inspect(ast);
+          IO.puts(ast);
         else
         end
     ensamblador=Generador_codigo.assembly(ast);
     if arg == "--S" do
+
     else end
 
   end
