@@ -28,12 +28,12 @@ defmodule Generador_codigo do
       """ <> codigo #concatena esto antes del codigo
     end
 
-  def codigo_gen("main_Keyword", codigo) do
-    """
-      .globl  _main         ## -- Begin function main
-  _main:                    ## @main
-  """ <> codigo
-  end
+    def codigo_gen(:function, _, codigo) do
+      """
+        .globl  _main         ## -- Begin function main
+    _main:                    ## @main
+    """ <> codigo #concatena esto antes del codigo
+    end
 
   def codigo_gen(8709, codigo) do
     "$#{8709}"
