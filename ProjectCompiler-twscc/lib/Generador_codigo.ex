@@ -35,10 +35,9 @@ defmodule Generador_codigo do
     """ <> codigo #concatena esto antes del codigo
     end
 
-  def codigo_gen(8709, codigo) do
-    "$#{8709}"
-  end
-
+    def codigo_gen(:constant, value, _) do
+      "$#{value}" #guarda el valor de la constate
+    end
   ##pega el valor de la constante y añade una instruccion return
   def codigo_gen(:return_Keyword, _, codigo) do
     """
