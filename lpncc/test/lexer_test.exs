@@ -29,38 +29,37 @@ defmodule LexerTest do
      ]}
   end
 
-  test "elements separated just by spaces(Elementos separadas espacios)", state do
-    assert Lexer.scan_words(["int", "main(){return", "2;}"]) == state[:tokens] or state[:tokens2]
+  test "1.- Elementos separadas espacios ", state do
+    assert Lexer.scan_words(["int", "main(){return", "2;}"]) == state[:tokens2] or state[:tokens]
   end
 
-  test "function name separated of function body", state do
+  test "2.- Funcion separada del main y el cuerpo del programa", state do
     assert Lexer.scan_words(["int", "main()", "{return", "2;}"]) == state[:tokens] or state[:tokens2]
   end
 
-  test "everything is separated", state do
+  test "3.- Todo separado ", state do
     assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", "2", ";", "}"]) ==
              state[:tokens]  or state[:tokens2]
   end
-
-  test "Todo junto en una sola cadena", state do
-    assert Lexer.scan_words(["int main(){return 2; }"]) == state[:tokens]  or state[:tokens2]
-  end
-
-  test "Return Separado", state do
-    assert Lexer.scan_words(["int", "main(){return 0;}"]) == state[:tokens]  or state[:tokens2]
+  
+  test "4.- Retornando un 0", state do
+    assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", "0", ";", "}"]) ==
+             state[:tokens2]
   end
   
-  test "Con saltos de linea", state do
-    assert Lexer.scan_words(["""
-        int
-      ""","""
-      main
-          """ ,
-          """
-          (
-      """, """
-          )
-      """ , "{", "return", "0", ";", "}"]) ==
+  ### Para prbar los saltos de linea
+  test "5.- Con saltos de linea en int y main usando sanitizer", state do
+    assert  "int\nmain\n()\n{return 0;}" |> Sanitizer.sanitize_source() |>Lexer.scan_words() ==
+             state[:tokens]  or state[:tokens2]
+  end
+
+  test "6.- Con saltos de linea en todo usando sanitizer", state do
+    assert  "int\nmain\n(\n)\n{\nreturn\n0\n;\n}\n" |> Sanitizer.sanitize_source() |>Lexer.scan_words() ==
+             state[:tokens]  or state[:tokens2]
+  end
+  
+  test "7.- Con espacios entre los caracteres en todo usando sanitizer", state do
+    assert  "int    main    (   )   {   return    0   ;   }   " |> Sanitizer.sanitize_source() |>Lexer.scan_words() ==
              state[:tokens]  or state[:tokens2]
   end
 end
