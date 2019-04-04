@@ -1,10 +1,12 @@
 defmodule Xforce do
 
 	def  main do
-			nom_file="test/example_S_1.c"
-			lista_toks=Lexer.main(nom_file)
-			arbol_ast=Parser.parse_function(lista_toks)
-			generatedCode=CodeGenerator.generate_code(arbol_ast);
+			file_path="example_S_1_sintaxis.c"
+			assembly_path = String.replace_trailing(file_path, ".c", ".s")
+			lista_toks=Lexer.main(file_path)
+			arbol_ats=Parser.parse_function(lista_toks)
+			assembler=CodeGenerator.generate_code(arbol_ats)
+	    oo=Linker.generate_binary(assembler, assembly_path)
+			IO.inspect(oo)
 	end
-
 end
