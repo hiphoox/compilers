@@ -20,19 +20,6 @@ defmodule Parser do
     end
   end
 
-  def parsear_entero(lista) do
-    #extrae primer elemento de la lista y lo compara con átomo o si es tupla {constante, 4}
-    int = List.first(lista);
-    if Enum.member?(0..4294967295, elem(int, 1)) do
-      #devuelve el primer elemento de la lista y bórralo
-      {List.first(lista), List.delete(lista, int)};
-    else
-      IO.puts("Error al parsear una constante entera.");
-      #devuelve la misma lista sin alterar.
-      {nil, lista}
-    end
-  end
-
   def parse_program(token_list) do
     #IO.puts("*NODO PROGRAMA, GENERANDO RAMAS:")
     #llamando a parse_function(list)
