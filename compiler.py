@@ -18,10 +18,18 @@ try:
 	raw_text = read_file(args.file)
 except IOError as e: #excepción en caso de que el archivo no exista 
 	raise SystemExit(e)
-
+##Lexical analysis segment##
 token_list = lexer(raw_text)
-print(token_list)
+if args.tokens:
+	print(token_list)
+	sys.exit("Token list succesfully generated")
+###-----###
+##Syntax analysys segment##
 try:
-	ast = parser_f(token_list)
+	as_tree = parser_f(token_list)
 except IndexError as e:
 	raise SystemExit("Syntax error, not enough tokens in the token list.")
+if args.ast:
+	print(as_tree)
+	sys.exit("AST succesfully generated")
+###-----###
