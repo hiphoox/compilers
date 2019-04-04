@@ -27,21 +27,12 @@ defmodule Parser do
   end
 
   def parse_function(t1) do
-    #IO.puts("*NODO FUNCION, GENERANDO RAMAS:")
-    #parsear int main(){...
     #{elemento extraido, lista tokens} a almacenar en la variable. Util para el AST}
-    {a, token_list} = parsear(token_list, :int_Keyword);
-    {b, token_list} = parsear(token_list, :main_Keyword);
-    {c, token_list} = parsear(token_list, :open_paren);
-    {d, token_list} = parsear(token_list, :close_paren);
-    {e, token_list} = parsear(token_list, :open_brace);
-        #IO.inspect(token_list, label: "Lista de tokens");
-    ##mostrando elementos extraidos
-    #IO.inspect(a, label: "T");
-    #IO.inspect(b, label: "NT");
-    #IO.inspect(c, label: "T");
-    #IO.inspect(d, label: "T");
-    #IO.inspect(e, label: "T");
+    {_a, tl} = parsear(tl, :int_Keyword);
+    {_b, tl} = parsear(tl, :main_Keyword);
+    {_c, tl} = parsear(tl, :open_paren);
+    {_d, tl} = parsear(tl, :close_paren);
+    {_e, tl} = parsear(tl, :open_brace);
     ##antes de construir el nodo de la funcion main, parse las declaraciones a continuacion
     {nil, token_list, state} = parse_statement(token_list);
     #si el parseo anterior fue correcto, finaliza el nodo funcion y créalo hacia arriba
