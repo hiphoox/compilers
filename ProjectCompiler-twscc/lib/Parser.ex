@@ -34,13 +34,10 @@ defmodule Parser do
     {_d, tl} = parsear(tl, :close_paren);
     {_e, tl} = parsear(tl, :open_brace);
     ##antes de construir el nodo de la funcion main, parse las declaraciones a continuacion
-    {nil, token_list, state} = parse_statement(token_list);
+    {tl, state_node} = parse_statement(tl);
     #si el parseo anterior fue correcto, finaliza el nodo funcion y créalo hacia arriba
-    {g, token_list} = parsear(token_list, :close_brace);
-    #IO.inspect(g, label: "T");
-    #IO.puts("*NODO FUNCION FINALIZADO")
-    func={:function, Atom.to_string(b), state, {}}##aqui se agregan los nodos
-    {nil, token_list, func};  ##se vuelve a poner, es lo que devolverá esta funcion
+    {_, tl} = parsear(tl, :close_brace)
+    {tl, {:function, "main", state_node, {}}};  ##se vuelve a poner, es lo que devolverá esta funcion
   end
 
   def parse_statement(t1) do
