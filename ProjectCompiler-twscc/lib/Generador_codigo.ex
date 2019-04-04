@@ -1,15 +1,15 @@
 defmodule Generador_codigo do
 
-  def assembly(ast) do
+  def assembly(ast,file_adress) do
 
-        #IO.write "\nPostorden del AST\n"
-        #llama a la funcion que recorre en post orden y devuelve el código
-        code = postorden(ast, "")
-        #IO.inspect(code)
-        ruta_ensamblador=genera_ruta_ensamblador(file_adress);
-      #  IO.inspect(ruta_ensamblador)
-        genera_archivo_ensamblador(code,ruta_ensamblador);
-        IO.inspect(ruta_ensamblador)
+    #IO.write "\nPostorden del AST\n"
+    #llama a la funcion que recorre en post orden y devuelve el código
+    code = postorden(ast, "")
+    #IO.inspect(code)
+    ruta_ensamblador=genera_ruta_ensamblador(file_adress);
+  #  IO.inspect(ruta_ensamblador)
+    genera_archivo_ensamblador(code,ruta_ensamblador);
+    IO.inspect(ruta_ensamblador)
   end
   #sin hijos el nodo
   defp postorden({}, code), do: code;
@@ -22,8 +22,8 @@ defmodule Generador_codigo do
     #si ya no encuentra más hijos, extrae el valor, genera el código y concatenalo con "code"
     #IO.inspect(value, label: "Dato obtenido")
     codigo_gen(atomo, value, code);
-
   end
+
 #funciones "sobreescritas"
   def codigo_gen(:program, _, codigo) do
     """
@@ -45,20 +45,17 @@ defmodule Generador_codigo do
   ##pega el valor de la constante y añade una instruccion return
   def codigo_gen(:return_Keyword, _, codigo) do
     """
-        movl    #{codigo}, %ax
+        movl    #{codigo}, %eax
         ret
     """
   end
-
   def genera_ruta_ensamblador (file_adress) do
       ruta_ensamblador = String.replace_trailing(file_adress, ".c", ".s");#se cambiará la extención del archivo en la ruta especificada
   end
-
   def genera_archivo_ensamblador(code,ruta_ensamblador) do
 
     #  ensamblador_archivo = Path.basename(ruta_ensamblador)##Returns the last component of the path or the path itself if it does not contain any directory separators
       File.write!(ruta_ensamblador, code)
 
   end
-
 end
