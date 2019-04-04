@@ -15,9 +15,7 @@ defmodule Parser do
       #devuelve el primer elemento de la lista y bórralo
       {List.first(lista), List.delete(lista, atom)};
     else
-      IO.puts("Error en el parseo");
-      #devuelve la misma lista sin alterar.
-      {nil, lista}
+        IO.inspect(atom, label: "Error: falta un ");
     end
   end
 
