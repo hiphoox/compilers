@@ -60,17 +60,6 @@ defmodule Parser do
       end
   end
 
-  def parsear_entero(lista) do
-    #extrae primer elemento de la lista y lo compara con átomo o si es tupla {constante, 4}
-    #entero de 16 bits sin signo
-    if Enum.member?(0..4294967295, elem(List.first(lista), 1)) do
-      #devuelve el primer elemento de la lista y bórralo
-      {List.first(lista), List.delete(lista, List.first(lista))};
-    else
-      IO.puts("Error: número entero inválido");
-    end
-  end
-
   def parse_ret_value(tl, atom) do
     if List.first(tl) == atom do #si hace match con el token
         [Enum.drop(tl, 1), List.first(tl)] #elimina de la lista el token
