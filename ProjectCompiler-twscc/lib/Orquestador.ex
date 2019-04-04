@@ -10,13 +10,10 @@ defmodule Orquestador do
      nil  -> Generador_codigo.assembly(ast,file_address)|>Linker.genera_archivo_binario();
       "-t" -> IO.inspect(tokens_separados);
       "-a" -> IO.inspect(ast);
-      "-t" -> IO.inspect(tokens_separados);
-      "-a" -> IO.inspect(ast);
-      "-s" -> IO.inspect(ensamblador)
+      "-s" -> Generador_codigo.assembly(ast,file_address);#generación del código
       "--debug" -> IO.inspect(tokens_separados)
                    IO.inspect(ast);
-                   IO.puts(ensamblador)
-      nil -> :ok
+                   Generador_codigo.assembly(ast,file_address); #generación del código
     end
   rescue
     ##mostrar un mensaje de que no se pudo leer el archivo
