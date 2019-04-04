@@ -2,10 +2,14 @@ defmodule Generador_codigo do
 
   def assembly(ast) do
 
-    #IO.write "\nPostorden del AST\n"
-    #llama a la funcion que recorre en post orden y devuelve el código
-    code = postorden(ast, "")
-
+        #IO.write "\nPostorden del AST\n"
+        #llama a la funcion que recorre en post orden y devuelve el código
+        code = postorden(ast, "")
+        #IO.inspect(code)
+        ruta_ensamblador=genera_ruta_ensamblador(file_adress);
+      #  IO.inspect(ruta_ensamblador)
+        genera_archivo_ensamblador(code,ruta_ensamblador);
+        IO.inspect(ruta_ensamblador)
   end
   #sin hijos el nodo
   defp postorden({}, code), do: code;
