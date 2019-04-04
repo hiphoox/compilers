@@ -5,7 +5,7 @@ defmodule Orquestador do
     file_content=  File.read!(file_adress); ##lectura del archivo
 
     tokens_separados =  Lexer.scan_word(file_content);
-    if arg == "--tokens" or "--n" do
+    if arg == "--tokens" or "-t" do
           IO.inspect(tokens_separados);
     else
     end
