@@ -2,13 +2,9 @@ defmodule Generador_codigo do
 
   def assembly(ast) do
 
-    #f = fn x -> IO.write "#{x} " end
-    IO.write "\npostorder:  "
-
-    code = postorder(ast, "")
-    IO.puts("\n")
-    IO.puts(code)
-
+        #IO.write "\nPostorden del AST\n"
+        #llama a la funcion que recorre en post orden y devuelve el código
+        code = postorden(ast, "")
 
   end
   #sin hijos el nodo

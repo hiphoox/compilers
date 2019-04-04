@@ -1,6 +1,6 @@
 defmodule Parser do
 
-  def parsero(t1) do
+  def parsero(tl) do
     try do
       parse_program(tl);
     rescue
@@ -9,33 +9,12 @@ defmodule Parser do
     end
   end
 
-  def parsear(lista, atom) do
-    #extrae primer elemento de la lista y lo compara con átomo o si es tupla {constante, 4}
-    if (List.first(lista) == atom) do
-      #devuelve el primer elemento de la lista y bórralo
-      {List.first(lista), List.delete(lista, atom)};
-    else
-        IO.inspect(atom, label: "Error: falta un ");
-    end
-  end
-
-  def parsear_entero(lista) do
-  #extrae primer elemento de la lista y lo compara con átomo o si es tupla {constante, 4}
-  #entero de 16 bits sin signo
-  if Enum.member?(0..4294967295, elem(List.first(lista), 1)) do
-    #devuelve el primer elemento de la lista y bórralo
-    {List.first(lista), List.delete(lista, List.first(lista))};
-  else
-    IO.puts("Error: número entero inválido");
-  end
-end
-
-  def parse_program(t1) do
+  def parse_program(tl) do
     {_, func_node}= parse_function(tl);
     {:program, "program", func_node, {}} #raiz, finaliza árbol
   end
 
-  def parse_function(t1) do
+  def parse_function(tl) do
     #{elemento extraido, lista tokens} a almacenar en la variable. Util para el AST}
     {_a, tl} = parsear(tl, :int_Keyword);
     {_b, tl} = parsear(tl, :main_Keyword);
@@ -49,7 +28,7 @@ end
     {tl, {:function, "main", state_node, {}}};  ##se vuelve a poner, es lo que devolverá esta funcion
   end
 
-  def parse_statement(t1) do
+  def parse_statement(tl) do
     {h, tl} = parsear(tl, :return_Keyword);
     #deriva una expresión a partir desde aquí
     {tl, exp_node} = parse_exp(tl);
@@ -59,7 +38,7 @@ end
     {tl, state_node};
   end
 
-  def parse_exp(t1) do
+  def parse_exp(tl) do
     {tl, node_exp} =
     case List.first(tl) do
       {:constant,_} -> parse_constant(tl);
@@ -72,8 +51,30 @@ end
     {tl, node_exp}
   end
 
-  def parse_constant(t1) do
+  def parse_constant(tl) do
     {a, tl} = parsear_entero(tl)
     {tl, {elem(a, 0), elem(a, 1), {}, {}}}
   end
+
+  def parsear(lista, atom) do
+      #extrae primer elemento de la lista y lo compara con átomo o si es tupla {constante, 4}
+      if (List.first(lista) == atom) do
+        #devuelve el primer elemento de la lista y bórralo
+        {List.first(lista), List.delete(lista, atom)};
+      else
+        IO.inspect(atom, label: "Error: falta un ");
+      end
+  end
+
+  def parsear_entero(lista) do
+    #extrae primer elemento de la lista y lo compara con átomo o si es tupla {constante, 4}
+    #entero de 16 bits sin signo
+    if Enum.member?(0..4294967295, elem(List.first(lista), 1)) do
+      #devuelve el primer elemento de la lista y bórralo
+      {List.first(lista), List.delete(lista, List.first(lista))};
+    else
+      IO.puts("Error: número entero inválido");
+    end
+  end
+
 end
