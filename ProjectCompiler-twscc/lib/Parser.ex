@@ -41,38 +41,26 @@ defmodule Parser do
   end
 
   def parse_statement(t1) do
-    #IO.puts("*NODO STATEMENTS, GENERANDO RAMAS:")
-    ##parsear {return 2;...
-    {h, token_list} = parsear(token_list, :return_Keyword);
-    #deriva una expresión
-    {nil, token_list, exp} = parse_exp(token_list);
-    {j, token_list} = parsear(token_list, :semicolon);
-
-    #IO.inspect(h, label: "T");
-    #IO.inspect(j, label: "T");
-    ##parseo correcto, vuelvee a terminar de ejecutar el parse_function devolviendo la lista restante
-    #IO.puts("*NODO STATEMENT FINALIZADO")
-    #devuelve nil, token para que function continue utilizando la lista
-
-    state={h, "return" , exp, {} }#definicion de la expresion statement
-
-    {nil, token_list,state};
-
+    {h, tl} = parsear(tl, :return_Keyword);
+    #deriva una expresión a partir desde aquí
+    {tl, exp_node} = parse_exp(tl);
+    #si el parseo fue correcto, finaliza el parse del nodo Statement y llámalo "Return"
+    {_J, tl} = parsear(tl, :semicolon);
+    state_node={h, "return" , exp_node, {}}
+    {tl, state_node};
   end
 
   def parse_exp(t1) do
-    #IO.puts("NODO EXPRESIÓN, GENERANDO RAMAS")
-    #IO.inspect(token_list);
-    {nil, token_list, node} =
-    case List.first(token_list) do
-      #aquí puede haber dos derivaciones de la constante, 2 o 4. Util para cuando tengamos que ampliar la gramática
-      {:constant, _} -> parse_constant(token_list);
-
+    {tl, node_exp} =
+    case List.first(tl) do
+      {:constant,_} -> parse_constant(tl);
+      #Aquí se ampliará la gramática conforme las entregas
+      ############################
+      ############################
+      ############################
+      _ -> IO.puts("Error: falta una expresión después de return");
     end
-
-    #IO.puts("NODO EXPRESIÓN FINALIZADO")
-    exp={elem(node, 0), elem(node, 1), node, {}}
-    {nil, token_list, node}
+    {tl, node_exp}
   end
 
   def parse_constant(t1) do
