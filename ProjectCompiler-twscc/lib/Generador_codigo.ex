@@ -50,4 +50,11 @@ defmodule Generador_codigo do
       ruta_ensamblador = String.replace_trailing(file_adress, ".c", ".s");#se cambiará la extención del archivo en la ruta especificada
   end
 
+  def genera_archivo_ensamblador(code,ruta_ensamblador) do
+
+    #  ensamblador_archivo = Path.basename(ruta_ensamblador)##Returns the last component of the path or the path itself if it does not contain any directory separators
+      File.write!(ruta_ensamblador, code)
+
+  end
+
 end
