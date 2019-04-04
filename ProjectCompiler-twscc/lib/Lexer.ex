@@ -45,6 +45,7 @@ defmodule Lexer do #separando el lexer del modulo principal, mueve funcion (refa
 
 
     #lo que devuela el case, haz pattern matching contra esto para recuperarlo...
+    try do
     {token, cadena_restante} =
     case program do #case de la cadena
 
@@ -73,7 +74,9 @@ defmodule Lexer do #separando el lexer del modulo principal, mueve funcion (refa
     #tokens_restantes es la cadena restante con los caracteres sin separar hasta que se vacíe
     tokens_restantes = lex_raw_tokens(cadena_restante) #añadir este token al final de la lista
     [token | tokens_restantes] ##agrega los tokens restantes AL FINAL DE la lista de token
-
+  rescue
+    MatchError -> IO.inspect(program, label: "Error de sintaxis")
+  end
   end
 
   def lex_raw_tokens(_program) do #debe haber otra funcion llamada igual para recibir la cadena vacia (en realidad cualquiera)
