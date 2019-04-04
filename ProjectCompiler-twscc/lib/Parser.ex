@@ -1,11 +1,12 @@
 defmodule Parser do
 
   def parsero(t1) do
-
-    #llamada a creación de la gramática para el AST, debería devolver un árbol. Actualmente regresa "nil"
-    ast_tree = parse_program(token_list);
-##
-
+    try do
+      parse_program(tl);
+    rescue
+      #no hacer nada, dejar que el orquestador indique que hubo un error de parseo y no podrá generar el árbol
+      MatchError -> nil;
+    end
   end
 
   def parsear(lista, atom) do
