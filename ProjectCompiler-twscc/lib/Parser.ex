@@ -5,8 +5,7 @@ defmodule Parser do
   end
 
   def parse_program(tl) do
-    {_, func_node}= parse_function(tl);
-    {:program, "program", func_node, {}} #raiz, finaliza árbol
+    {:program, "program", parse_function(tl), {}} #raiz, finaliza árbol y lo devuelve a main
   end
 
   def parse_function(tl) do
