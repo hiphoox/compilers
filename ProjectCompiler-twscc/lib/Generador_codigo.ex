@@ -46,4 +46,8 @@ defmodule Generador_codigo do
     """
   end
 
+  def genera_ruta_ensamblador (file_adress) do
+      ruta_ensamblador = String.replace_trailing(file_adress, ".c", ".s");#se cambiará la extención del archivo en la ruta especificada
+  end
+
 end

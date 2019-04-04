@@ -40,34 +40,32 @@ defmodule Parser do
     [remain_tl, {elem_atom, value, {}, {}}]
   end
 
-  def parse(lista, atom) do
-      #extrae primer elemento de la lista y lo compara con átomo o si es tupla {constante, 4}
-      if (List.first(lista) == atom) do
-        #devuelve el primer elemento de la lista y bórralo
-        {List.first(lista), List.delete(lista, atom)};
-      else
-        IO.inspect(atom, label: "Error: falta un ");
-      end
-  end
+    def parse(tl, atom) do
+      if List.first(tl) == atom do  #si hace match con el token
+         Enum.drop(tl, 1); #elimina de la lista el token
+       else
+         IO.inspect(atom, label: "Error al parsear: Falta el elemento")
+         spawn_link fn -> exit(1) end #lanzar un error matando al proceso en sí para interrumpir la ejecucion
+       end
+    end
 
-  def parse_ret_value(tl, atom) do
-    if List.first(tl) == atom do #si hace match con el token
-        [Enum.drop(tl, 1), List.first(tl)] #elimina de la lista el token
-        #regresa tokens restante y el valor del átomo
-     else
-       IO.inspect(atom, label: "Error al parsear: Falta el elemento")
-       spawn_link fn -> exit(1) end
-     end
-  end
+    def parse_ret_value(tl, atom) do
+      if List.first(tl) == atom do #si hace match con el token
+          [Enum.drop(tl, 1), List.first(tl)] #elimina de la lista el token
+          #regresa tokens restante y el valor del átomo
+       else
+         IO.inspect(atom, label: "Error al parsear: Falta el elemento")
+         spawn_link fn -> exit(1) end
+       end
+    end
 
-  def parse_atom_value(tl, atom) do
-    if elem(List.first(tl), 0) == atom do #si hace match con el token
-        [Enum.drop(tl, 1), elem(List.first(tl), 0), elem(List.first(tl), 1)] #elimina de la lista el token
-        #regresa tokens restantes, valor del atomo y dato que tendrá el nodo
-     else
-       IO.inspect(atom, label: "Error al parsear: Falta el elemento")
-       spawn_link fn -> exit(1) end
-     end
-  end
-
+    def parse_atom_value(tl, atom) do
+      if elem(List.first(tl), 0) == atom do #si hace match con el token
+          [Enum.drop(tl, 1), elem(List.first(tl), 0), elem(List.first(tl), 1)] #elimina de la lista el token
+          #regresa tokens restantes, valor del atomo y dato que tendrá el nodo
+       else
+         IO.inspect(atom, label: "Error al parsear: Falta el elemento")
+         spawn_link fn -> exit(1) end
+       end
+    end
 end
