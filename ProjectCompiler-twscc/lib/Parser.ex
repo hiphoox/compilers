@@ -1,6 +1,6 @@
 defmodule Parser do
 
-  def parsero(token_list) do
+  def parsero(t1) do
 
     #llamada a creación de la gramática para el AST, debería devolver un árbol. Actualmente regresa "nil"
     ast_tree = parse_program(token_list);
@@ -20,7 +20,7 @@ defmodule Parser do
     end
   end
 
-  def parse_program(token_list) do
+  def parse_program(t1) do
     IO.puts("*NODO PROGRAMA, GENERANDO RAMAS:")
     #llamando a parse_function(list)
     {nil, token_list,func}= parse_function(token_list);
@@ -29,7 +29,7 @@ defmodule Parser do
     ast={:program,[func]}#dEFINICION DEL ARBOL
   end
 
-  def parse_function(token_list) do
+  def parse_function(t1) do
     #IO.puts("*NODO FUNCION, GENERANDO RAMAS:")
     #parsear int main(){...
     #{elemento extraido, lista tokens} a almacenar en la variable. Util para el AST}
@@ -55,7 +55,7 @@ defmodule Parser do
     {nil, token_list, func};  ##se vuelve a poner, es lo que devolverá esta funcion
   end
 
-  def parse_statement(token_list) do
+  def parse_statement(t1) do
     #IO.puts("*NODO STATEMENTS, GENERANDO RAMAS:")
     ##parsear {return 2;...
     {h, token_list} = parsear(token_list, :return_Keyword);
@@ -75,7 +75,7 @@ defmodule Parser do
 
   end
 
-  def parse_exp(token_list) do
+  def parse_exp(t1) do
     #IO.puts("NODO EXPRESIÓN, GENERANDO RAMAS")
     #IO.inspect(token_list);
     {nil, token_list, node} =
@@ -90,7 +90,7 @@ defmodule Parser do
     {nil, token_list, node}
   end
 
-  def parse_constant(token_list) do
+  def parse_constant(t1) do
     {a, token_list} = parsear_entero(token_list)
     const = {elem(a, 0), elem(a, 1), {}, {}} #T
     {nil, token_list, const}
