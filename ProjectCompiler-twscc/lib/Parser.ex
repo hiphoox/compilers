@@ -9,17 +9,17 @@ defmodule Parser do
   end
 
   def parse_function(tl) do
-    #{elemento extraido, lista tokens} a almacenar en la variable. Util para el AST}
-    {_a, tl} = parsear(tl, :int_Keyword);
-    {_b, tl} = parsear(tl, :main_Keyword);
-    {_c, tl} = parsear(tl, :open_paren);
-    {_d, tl} = parsear(tl, :close_paren);
-    {_e, tl} = parsear(tl, :open_brace);
-    ##antes de construir el nodo de la funcion main, parse las declaraciones a continuacion
-    {tl, state_node} = parse_statement(tl);
-    #si el parseo anterior fue correcto, finaliza el nodo funcion y créalo hacia arriba
-    {_, tl} = parsear(tl, :close_brace)
-    {tl, {:function, "main", state_node, {}}};  ##se vuelve a poner, es lo que devolverá esta funcion
+    #ir revisando si existe el elemento en la lista de tokens
+    remain_tl = tl
+       |> parse(:int_Keyword)
+       |> parse(:main_Keyword)
+       |> parse(:open_paren)
+       |> parse(:close_paren)
+       |> parse(:open_brace)
+    #ahora revisa las declaraciones, si todo es correcto devuelve un nodo y continua el parseo
+    [tl, state_node] = parse_statement(remain_tl);
+    tl |> parse(:close_brace)
+    {:function, "main", state_node, {}};  ##se vuelve a poner, es lo que devolverá esta funcion
   end
 
   def parse_statement(tl) do
@@ -50,7 +50,7 @@ defmodule Parser do
     {tl, {elem(a, 0), elem(a, 1), {}, {}}}
   end
 
-  def parsear(lista, atom) do
+  def parse(lista, atom) do
       #extrae primer elemento de la lista y lo compara con átomo o si es tupla {constante, 4}
       if (List.first(lista) == atom) do
         #devuelve el primer elemento de la lista y bórralo
