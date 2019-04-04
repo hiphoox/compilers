@@ -64,8 +64,7 @@ defmodule Parser do
   end
 
   def parse_constant(t1) do
-    {a, token_list} = parsear_entero(token_list)
-    const = {elem(a, 0), elem(a, 1), {}, {}} #T
-    {nil, token_list, const}
+    {a, tl} = parsear_entero(tl)
+    {tl, {elem(a, 0), elem(a, 1), {}, {}}}
   end
 end
