@@ -2,14 +2,14 @@ defmodule Orquestador do
 
   def manager(arg, file_adress) do
     try do
-    file_content=  File.read!(file_adress); ##lectura del archivo
-    tokens_separados =  Lexer.scan_word(file_content);
-    ast = Parser.parsero(tokens_separados); #generación del árbol
-    ensamblador=Generador_codigo.assembly(ast); #generación del código
-    ruta_ensamblador = String.replace_trailing(file_adress, ".c", ".s");#se cambiará la extención del archivo en la ruta especificada
-    #Linker.genera_archivo_binario(ensamblador,ruta_ensamblador);
+    file_content= File.read!(file_address); ##lectura del archivo
+    tokens_separados =  Lexer.scan_word(file_content); #generación de Tokens
+    ast = Parser.main(tokens_separados); #generación del árbol
+
     case arg do
-      #nil  -> IO.inspect(ruta_ensamblador);
+     nil  -> Generador_codigo.assembly(ast,file_address)|>Linker.genera_archivo_binario();
+      "-t" -> IO.inspect(tokens_separados);
+      "-a" -> IO.inspect(ast);
       "-t" -> IO.inspect(tokens_separados);
       "-a" -> IO.inspect(ast);
       "-s" -> IO.inspect(ensamblador)
