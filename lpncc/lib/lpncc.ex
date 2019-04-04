@@ -29,7 +29,7 @@
       IO.puts("Compiling file: " <> file_path)
       assembly_path = String.replace_trailing(file_path, ".c", ".s")
       File.read!(file_path)
-      #|> Sanitizer.sanitize_source()
+      |> Sanitizer.sanitize_source()
       #|> IO.inspect(label: "\nSanitizer ouput")
       |> Lexer.scan_words()
       |> IO.inspect(label: "\nLexer ouput")
