@@ -36,6 +36,7 @@ defmodule Parser do
     case List.first(tl) do
       {:constant, _} ->  tl |> parse_atom_value(:constant)
       _ -> IO.puts("Error: falta una expresión después de return");
+           spawn_link fn -> exit(1) end
     end
     [remain_tl, {elem_atom, value, {}, {}}]
   end
