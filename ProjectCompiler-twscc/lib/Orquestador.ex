@@ -3,8 +3,8 @@ defmodule Orquestador do
   def manager(arg, file_adress) do
     try do
     file_content=  File.read!(file_adress); ##lectura del archivo
-
     tokens_separados =  Lexer.scan_word(file_content);
+    ast = Parser.parsero(tokens_separados); #generación del árbol
     if arg == "--tokens" or "-t" do
           IO.inspect(tokens_separados);
     else
