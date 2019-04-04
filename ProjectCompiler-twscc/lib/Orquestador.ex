@@ -7,21 +7,17 @@ defmodule Orquestador do
     ast = Parser.parsero(tokens_separados); #generación del árbol
     ensamblador=Generador_codigo.assembly(ast); #generación del código
     ruta_ensamblador = String.replace_trailing(file_adress, ".c", ".s");#se cambiará la extención del archivo en la ruta especificada
-    if arg == "--tokens" or "-t" do
-          IO.inspect(tokens_separados);
-    else
+    #Linker.genera_archivo_binario(ensamblador,ruta_ensamblador);
+    case arg do
+      #nil  -> IO.inspect(ruta_ensamblador);
+      "-t" -> IO.inspect(tokens_separados);
+      "-a" -> IO.inspect(ast);
+      "-s" -> IO.inspect(ensamblador)
+      "--debug" -> IO.inspect(tokens_separados)
+                   IO.inspect(ast);
+                   IO.puts(ensamblador)
+      nil -> :ok
     end
-
-    ast = Parser.parsero(tokens_separados);
-    if arg == "--ast" or "-a" do
-          IO.inspect(ast);
-          IO.puts(ast);
-        else
-        end
-    ensamblador=Generador_codigo.assembly(ast);
-    if arg == "--S" do
-
-    else end
   rescue
   end
 
