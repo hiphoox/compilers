@@ -20,12 +20,13 @@ defmodule Generador_codigo do
     codigo_gen(atomo, value, code);
   end
 
-  def codigo_gen("program", codigo) do
-    """
-    .section        __TEXT,__text,regular,pure_instructions
-    .p2align        4, 0x90
-    """ <> codigo
-  end
+  #funciones "sobreescritas"
+    def codigo_gen(:program, _, codigo) do
+      """
+      .section        __TEXT,__text,regular,pure_instructions
+      .p2align        4, 0x90
+      """ <> codigo #concatena esto antes del codigo
+    end
 
   def codigo_gen("main_Keyword", codigo) do
     """
