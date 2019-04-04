@@ -1,7 +1,7 @@
 defmodule Orquestador do
 
   def manager(arg, file_adress) do
-
+    try do
     file_content=  File.read!(file_adress); ##lectura del archivo
 
     tokens_separados =  Lexer.scan_word(file_content);
@@ -20,7 +20,7 @@ defmodule Orquestador do
     if arg == "--S" do
 
     else end
-
+  rescue
   end
 
 end
