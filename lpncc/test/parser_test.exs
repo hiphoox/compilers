@@ -1,15 +1,19 @@
-#########################
-##Aquí va el test del parser
-##:error, cadena 
-#setup_all do
-#    {:error, "error clsoe brasse missed"}
-#end
+defmodule ParserTest do
+  use ExUnit.Case
+  doctest Parser
+  ### Documentacion}
+  setup_all do
+    {:error, "Falla"}
 
-###Prototipo de pruebas para parserS
-#test "pribando " state do
-#    assert "int main(){return 0;"
-#    |> Sanitizer
-#    |> Lexer.scan_words
-#    |> Parser.parse_program
-#    {:error, "Error, close falta llave"}
-#end
+    IO.puts("Pruebas para el parser")
+
+    test "1.- Prueba", test do
+      assert "int main()return 2;}"
+             |> Sanitizer
+             |> Lexer.scan_words()
+             |> Parser.parseo()
+
+      {:error, "Error, falta la llave"}
+    end
+  end
+end
