@@ -3,11 +3,12 @@ defmodule Lexer do
     try do
     Enum.flat_map(words, &lex_raw_tokens/1) #Se itera la lista
     rescue
-    RuntimeError, message:  "Error en la lectura! "
+    ArgumentError, message:  "No valida! "
     end
   end
 
 def get_constant(program) do
+  #se leen enteros
     case Regex.run(~r/^\d+/, program) do
       [value] ->
         {{:constant, String.to_integer(value)}, String.trim_leading(program, value)}
