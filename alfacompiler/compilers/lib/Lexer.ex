@@ -1,7 +1,12 @@
 defmodule Lexer do
   def scan_words(words) do
-    Enum.flat_map(words, &lex_raw_tokens/1)
+    try do
+    Enum.flat_map(words, &lex_raw_tokens/1) #Se itera la lista
+    rescue
+    RuntimeError, message:  "Error en la lectura! "
+    end
   end
+
 def get_constant(program) do
     case Regex.run(~r/^\d+/, program) do
       [value] ->
@@ -12,16 +17,16 @@ def lex_raw_tokens(program) when program != "" do
     {token, rest} =
       case program do
         "{" <> rest ->
-          {:open_brace, rest}
+          {:a_llave, rest}
 
         "}" <> rest ->
-          {:close_brace, rest}
+          {:c_llave, rest}
 
         "(" <> rest ->
-          {:open_paren, rest}
+          {:a_parentesis, rest}
 
         ")" <> rest ->
-          {:close_paren, rest}
+          {:c_parentesis, rest}
 
         ";" <> rest ->
           {:semicolon, rest}
