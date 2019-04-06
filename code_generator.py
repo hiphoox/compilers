@@ -18,13 +18,14 @@ def program_code():
     return code_snip
 
 def function_code():
-    code_snip = """    .globl  _main         ## -- Begin function main
+    code_snip = """
+    .globl  _main         ## -- Begin function main
 _main:                    ## @main
     """
     return code_snip
 
 def expression_code(cte_snip):
-    code_snip = "movl    #{" + cte_snip + "}, %eax" + "\n" +"    ret"
+    code_snip = "movl    " + cte_snip + ", %eax" + "\n" +"    ret"
     return code_snip
 
 def constant_code(constant_value):
