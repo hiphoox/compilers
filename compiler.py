@@ -34,6 +34,10 @@ if args.ast:
 	print(as_tree)
 	sys.exit("AST succesfully generated")
 ###-----###
-
+##Code generator segment##
 assembler = generator(as_tree)
-print(assembler)
+if args.ensamblador:
+	print(assembler)
+	sys.exit("Assembler succesfully generated")
+###-----###
+
