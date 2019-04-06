@@ -1,4 +1,5 @@
 defmodule Lexer do
+
   def scan_words(words) do
     try do
     Enum.flat_map(words, &lex_raw_tokens/1) #Se itera la lista
