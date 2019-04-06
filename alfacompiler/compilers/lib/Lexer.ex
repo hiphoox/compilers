@@ -4,7 +4,7 @@ defmodule Lexer do
     try do
     Enum.flat_map(words, &lex_raw_tokens/1) #Se itera la lista
     rescue
-    ArgumentError, message:  "No valida! "
+    e in RuntimeError  -> IO.puts("Error: " <> e.message)
     end
   end
 
