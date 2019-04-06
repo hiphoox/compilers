@@ -3,6 +3,7 @@ import argparse
 from file_clean import *
 from lexer_module import *
 from parser_module import *
+from code_generator import *
 
 parser = argparse.ArgumentParser()
 group = parser.add_mutually_exclusive_group()
@@ -33,3 +34,6 @@ if args.ast:
 	print(as_tree)
 	sys.exit("AST succesfully generated")
 ###-----###
+
+assembler = generator(as_tree)
+print(assembler)
