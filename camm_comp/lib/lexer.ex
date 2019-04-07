@@ -19,9 +19,9 @@ defmodule Lexer do
 
         "main" <> rest -> {:mainkeyword, rest}
 
-        "{" <> rest -> {:open_brance, rest}
+        "{" <> rest -> {:open_brace, rest}
 
-        "}" <> rest -> {:close_brance, rest}
+        "}" <> rest -> {:close_brace, rest}
 
         "(" <> rest -> {:open_parenthesis, rest}
 
