@@ -1,6 +1,6 @@
 # nqcc: Compis
 
-nqcc is a compiler for the following C sublanguage:
+nqcc is a compiler for the following subset of C language:
 
 ```c
 int main()
