@@ -10,7 +10,7 @@ defmodule Parser do
       # Se especifica el error que lanzara la tupla
       {function_node, rest} ->
         if rest == [] do
-            {:progrman, function_node}
+          %AST{node_name: :program, left_node: function_node}
         else
           {:error, "Error: Hay más elementos de los permitidos"}
         end
@@ -39,7 +39,7 @@ defmodule Parser do
 
                 {statement_node, [next_token | rest]} ->
                   if next_token == :c_llave do
-                    {{:function, :main, statement_node}, rest}
+                    {%AST{node_name: :function, value: :main, left_node: statement_node}, rest} ##Estruc  AST del prof
                   else
                     {{:error, "Error, llave de cierre no encontrada"}, rest}
                   end
@@ -72,7 +72,7 @@ defmodule Parser do
 
         {exp_node, [next_token | rest]} ->
           if next_token == :semicolon do
-            {{:return, exp_node}, rest}
+            {%AST{node_name: :return, left_node: exp_node}, rest} ##Estruc  AST del prof
           else #error
             {{:error, "Error: ; no encontrado"}, rest}
           end
@@ -84,11 +84,9 @@ defmodule Parser do
 
   def parse_expression([next_token | rest]) do
     case next_token do
-      {:constant, value} -> {{:constant, :int, value}, rest}
-      _ -> {{:error, "Error: valor contante no definido"}, rest}
-    end
+      {:constant, value} -> {%AST{node_name: :constant, value: value}, rest}
+      _ -> {{:error, "Error: constant value missed"}, rest} ##Estruc  AST del prof
+     end
   end
-
-
 
 end
