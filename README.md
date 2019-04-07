@@ -19,7 +19,7 @@ $ git clone --single-branch --branch compis https://github.com/hiphoox/compilers
 
 ### Prerequisites
 
-The compiler is designed to run in Unix and Linux operating systems using Python 3.6.5
+The compiler is designed to run in Unix operating systems (tested with OSX 10.11.4) using Python 3.6.5
 
 Install treelib
 
@@ -29,6 +29,15 @@ pip3 install treelib
 
 ### Usage
 
+```
+python3 compiler.py c_file_name [-h] [-o output_name] [-s | -t | -a] 
+```
+
+### Example
+
+```
+python3 compiler.py test.c -o example.o 
+```
 
 ## Running the tests
 
@@ -47,8 +56,6 @@ Explain how to run the automated tests for this system
 *
 *
 
-
-## License
 
 
 ## Acknowledgments
