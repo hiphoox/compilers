@@ -1,6 +1,6 @@
 
 defmodule Saneador do
-    def limpiando(file_content) do
+    def limpiado(file_content) do
       inicioMain = (file_content =~ "main")
       if inicioMain do
         ##Esto se hacia en el Inicio de la app

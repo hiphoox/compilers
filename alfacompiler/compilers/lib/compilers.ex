@@ -4,13 +4,27 @@ defmodule Compilers do
   """
 
 
-def main(_args) do
-  file_content = File.read!("examples/return_2.c")
-  trimmed_content = String.trim(file_content)
-  words = Regex.split(~r/\s+/, trimmed_content)
-  tokens = Lexer.scan_words(words)
-  IO.inspect(tokens)
+def main(args) do
+   args
+   |> parseando_args
+   |> procesando_args
+
 end
+
+def parseando_args(args) do
+  OptionParser.parse(args, switches: [help: :boolean])
+end
+
+defp procesando_args({[help: true],_,_}) do
+  mensajeAyuda()
+end
+
+defp procesando_args({_, [file_name],_}) do
+compilacion(file_name)
+end
+
+
+
 
   defp mensajeAyuda do
     IO.puts("Las opciones de uso del compilador son: \n ");
@@ -20,6 +34,13 @@ end
     IO.puts("--debug Modo de depuración\n");
 
 
+  end
+
+  defp compilacion(file_name) do
+    IO.puts("Compilando ... " <> file_name)
+  File.read!(file_name)
+  |> Saneador.limpiado()
+  |> Lexer.scan_words()
   end
 
 end
