@@ -4,6 +4,7 @@ from file_clean import *
 from lexer_module import *
 from parser_module import *
 from code_generator import *
+from linker_module import linker
 
 parser = argparse.ArgumentParser()
 group = parser.add_mutually_exclusive_group()
@@ -35,9 +36,23 @@ if args.ast:
 	sys.exit("AST succesfully generated")
 ###-----###
 ##Code generator segment##
-assembler = generator(as_tree)
+assembly = generator(as_tree)
 if args.ensamblador:
-	print(assembler)
-	sys.exit("Assembler succesfully generated")
+	print(assembly)
+	sys.exit("Assembly succesfully generated")
 ###-----###
-
+##Linker section##
+##Creating an assembler file for the linker##
+try:
+	assembly_dir = args.file.replace(".c",".asm")
+	with open(assembly_dir, 'w') as asm:
+		asm.write(assembly)
+except:
+	raise SystemExit(e)
+##Calling the linker##
+if args.output:
+	linker(assembly_dir, os.path.dirname(args.file)+"/"+args.output)
+else:
+	linker(assembler_dir, args.file.replace(".c", ".o"))
+print("Program succesfully generated")
+###------###
