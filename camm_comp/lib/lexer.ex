@@ -35,7 +35,7 @@ defmodule Lexer do
       [token | remaining_tokens]
     end
 
-    def lex_raw_tokens(program) do
+    def lex_raw_tokens(_program) do
       []
     end
 
