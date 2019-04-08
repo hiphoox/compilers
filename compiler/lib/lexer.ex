@@ -26,7 +26,7 @@ defmodule Lexer do
 						 [[:constant,String.to_integer(value)],String.trim_leading(program, value)]
 					end
 		else
-			IO.puts("ERROR LEXICO; EN linea")
+			IO.puts("ERROR LEXICO. EN linea")
 			IO.inspect(linea)
 			IO.puts("NO  espera:")
 			IO.inspect(program)

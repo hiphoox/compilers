@@ -1,7 +1,7 @@
 defmodule Xforce do
 
 	def  main do
-			file_path="example_S_1_sintaxis.c"
+			file_path="ejemplos/ejemplo.c"
 			assembly_path = String.replace_trailing(file_path, ".c", ".s")
 			lista_toks=Lexer.main(file_path)
 			arbol_ats=Parser.parse_function(lista_toks)
