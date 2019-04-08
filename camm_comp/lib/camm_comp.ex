@@ -2,6 +2,10 @@ defmodule CammComp do
   @moduledoc """
   Documentation for Compilador
   """
+  @commands %{
+  "help" => "Prints this help"
+  }
+
   def main(args) do
   args
   |> parse_args
@@ -31,7 +35,7 @@ end
    |> IO.inspect(label: "\nLexer ouput")
    |> Parser.parse_program()
    |> IO.inspect(label: "\nParser ouput")
-
+   |> CodeGenerator.generate_code()
  end
 
  defp print_help_message do

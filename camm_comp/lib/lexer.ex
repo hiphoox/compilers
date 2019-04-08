@@ -5,7 +5,7 @@ defmodule Lexer do
     end
 
     def get_constant(program) do
-      case Regex.run(~r/\d+/, program) do
+      case Regex.run(~r/^\d+/, program) do
         [value] -> {{:constant, String.to_integer(value)}, String.trim_leading(program,value)}
       end
     end
