@@ -15,17 +15,17 @@ defmodule Parser do
     end
   end
 
-  def parse_function([[next_token,numline] | rest]) do
+  def parse_function([{next_token,numline} | rest]) do
     if next_token == :int_keyword do
-      [[next_token,numline] | rest] = rest
+      [{next_token,numline} | rest] = rest
       if next_token == :main_keyword do
-        [[next_token,numline] | rest] = rest
+        [{next_token,numline} | rest] = rest
 
         if next_token == :open_paren do
-          [[next_token,numline] | rest] = rest
+          [{next_token,numline} | rest] = rest
 
           if next_token == :close_paren do
-            [[next_token,numline] | rest] = rest
+            [{next_token,numline} | rest] = rest
 
             if next_token == :open_brace do
               statement = parse_statement(rest)
@@ -34,7 +34,7 @@ defmodule Parser do
                 {{:error, error_message,numline}, rest} ->
                   {{:error, error_message,numline}, rest}
 
-                {statement_node, [[next_token,numline] | rest]} ->
+                {statement_node, [{next_token,numline} | rest]} ->
                   if next_token == :close_brace do
                     {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
                   else
@@ -58,7 +58,7 @@ defmodule Parser do
     end
   end
 
-  def parse_statement([[next_token,numline] | rest]) do
+  def parse_statement([{next_token,numline} | rest]) do
     if next_token == :return_keyword do
       expression = parse_expression(rest)
 
@@ -66,7 +66,7 @@ defmodule Parser do
         {{:error, error_message}, rest} ->
           {{:error, error_message}, rest}
 
-        {exp_node, [[next_token,numline] | rest]} ->
+        {exp_node, [{next_token,numline} | rest]} ->
           if next_token == :semicolon do
             {%AST{node_name: :return, left_node: exp_node}, rest}
           else
@@ -78,9 +78,9 @@ defmodule Parser do
     end
   end
 
-  def parse_expression([[next_token,numline] | rest]) do
+  def parse_expression([{next_token,numline} | rest]) do
     case next_token do
-      [:constant, value] -> {%AST{node_name: :constant, value: value}, rest}
+      {:constant, value} -> {%AST{node_name: :constant, value: value}, rest}
       _ -> {{:error, "Error: constant value missed in line",numline}, rest}
     end
   end

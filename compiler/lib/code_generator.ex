@@ -1,7 +1,5 @@
 defmodule CodeGenerator do
-  def generate_code(tupla_ast) do
-    list_ast=Tuple.to_list(tupla_ast)
-    ast= hd list_ast
+  def generate_code(ast) do
     code = post_order(ast)
     IO.puts("\nCode Generator output:")
     IO.puts(code)
@@ -23,8 +21,7 @@ defmodule CodeGenerator do
 
   def emit_code(:program, code_snippet, _) do
     """
-        .section        __TEXT,__text,regular,pure_instructions
-        .p2align        4, 0x90
+    
     """ <>
       code_snippet
   end

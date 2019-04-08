@@ -1,11 +1,12 @@
-defmodule Compiler.MixProject do
+defmodule Nqcc.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :compiler,
+      app: :nqcc,
       version: "0.1.0",
       elixir: "~> 1.8",
+      escript: [main_module: Nqcc],
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]

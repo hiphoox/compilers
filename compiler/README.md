@@ -1,21 +1,17 @@
-# Compiler
+# Nqcc
 
-**TODO: Add description**
+**This is a nice small C subset compiler implemented in Elixir.**
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `compiler` to your list of dependencies in `mix.exs`:
+1. git clone https://github.com/hiphoox/qncc.git
+2. cd qncc
+3. mix escript.build
 
-```elixir
-def deps do
-  [
-    {:compiler, "~> 0.1.0"}
-  ]
-end
-```
+## Using
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/compiler](https://hexdocs.pm/compiler).
+- nqcc file_name.c
+- nqcc --help
 
+## Examples
+- $ nqcc ./examples/return_2.c

@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure your application as:
 #
-#     config :compiler, key: :value
+#     config :nqcc, key: :value
 #
 # and access this configuration in your application as:
 #
-#     Application.get_env(:compiler, :key)
+#     Application.get_env(:nqcc, :key)
 #
 # You can also configure a third-party app:
 #
