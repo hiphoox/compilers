@@ -20,11 +20,8 @@ defp procesando_args({[help: true],_,_}) do
 end
 
 defp procesando_args({_, [file_name],_}) do
-compilacion(file_name)
+  compile_file(file_name)
 end
-
-
-
 
   defp mensajeAyuda do
     IO.puts("Las opciones de uso del compilador son: \n ");
@@ -36,11 +33,20 @@ end
 
   end
 
-  defp compilacion(file_name) do
-    IO.puts("Compilando ... " <> file_name)
-  File.read!(file_name)
-  |> Saneador.limpiado()
-  |> Lexer.scan_words()
+
+  defp compile_file(file_path) do
+    IO.puts("Compiling file: " <> file_path)
+    assembly_path = String.replace_trailing(file_path, ".c", ".s")
+
+    File.read!(file_path)
+    |> Saneador.limpiado()
+    |> IO.inspect(label: "\nSanitizer ouput")
+    |> Lexer.scan_words()
+    |> IO.inspect(label: "\nLexer ouput")
+    |> Parser.parse_program()
+    |> IO.inspect(label: "\nParser ouput")
+    |> CodeGenerator.generate_code()
+    |> Linker.generate_binary(assembly_path)
   end
 
 end

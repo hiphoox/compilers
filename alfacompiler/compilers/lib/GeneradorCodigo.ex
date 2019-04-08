@@ -14,7 +14,7 @@ defmodule CodeGenerator do
       ast_node ->
         code_snippet = post_order(ast_node.left_node)
         # TODO: Falta terminar de implementar cuando el arbol tiene mas ramas
-        #post_order(ast_node.right_node)
+        post_order(ast_node.right_node)
         emit_code(ast_node.node_name, code_snippet, ast_node.value)
     end
   end
