@@ -37,11 +37,7 @@ if args.ast:
 ###-----###
 ##Code generator segment##
 assembly = generator(as_tree)
-if args.ensamblador:
-	print(assembly)
-	sys.exit("Assembly succesfully generated")
 ###-----###
-##Linker section##
 ##Creating an assembler file for the linker##
 try:
 	assembly_dir = args.file.replace(".c",".asm")
@@ -49,10 +45,13 @@ try:
 		asm.write(assembly)
 except:
 	raise SystemExit(e)
+if args.ensamblador:
+	sys.exit("Assembly succesfully generated")
+##Linker section##
 ##Calling the linker##
 if args.output:
 	linker(assembly_dir, os.path.dirname(args.file)+"/"+args.output)
 else:
-	linker(assembler_dir, args.file.replace(".c", ".o"))
+	linker(assembly_dir, args.file.replace(".c", ".o"))
 print("Program succesfully generated")
 ###------###
