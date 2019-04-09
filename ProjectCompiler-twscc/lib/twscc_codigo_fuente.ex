@@ -1,19 +1,18 @@
-defmodule Proyecto_compilador do #version 0.8, falta arbol y generador de codigo
+defmodule Proyecto_compilador do #version 0.8,
   @moduledoc """
   Documentacion for proyecto_compilador.
   """
+  def main(args) do
 
-  def main(argv) do
-
-       case args do
-          ["-h"] -> help() |> IO.puts();
-          [path] -> if path =~ ".c", do: compile(path, :no_output), else: show_error(1) |> IO.puts;
-          ["-s", path] -> compile(path, :gen_asm); #órden de generar asm
-          ["-t", path] -> compile(path, :show_token); #mostrar tokens
-          ["-a", path] -> compile(path, :show_ast); #mostrar AST
-          ["-o", path, new_name] ->compile(path, new_name); #se recibe un nuevo nombre en vez de átomo
-          _ -> show_error(1) |> IO.puts;
-        end
+   case args do
+      ["-h"] -> help() |> IO.puts();
+      [path] -> if path =~ ".c", do: compile(path, :no_output), else: show_error(1) |> IO.puts;
+      ["-s", path] -> compile(path, :gen_asm); #órden de generar asm
+      ["-t", path] -> compile(path, :show_token); #mostrar tokens
+      ["-a", path] -> compile(path, :show_ast); #mostrar AST
+      ["-o", path, new_name] ->compile(path, new_name); #se recibe un nuevo nombre en vez de átomo
+      _ -> show_error(1) |> IO.puts;
+    end
   end
 
   defp compile(path, flag_or_name) do
@@ -25,7 +24,6 @@ defmodule Proyecto_compilador do #version 0.8, falta arbol y generador de codigo
      end
   end
 
-  #modulo de ayuda
   defp help() do
     "
     Uso:\n ./twscc_compilador_c nombre del archivo.c | [option] nombre del archivo.c\n
