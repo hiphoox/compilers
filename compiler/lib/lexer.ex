@@ -6,13 +6,12 @@ defmodule Lexer do
   def get_constant(program,linea) do
 		valor=Regex.run(~r/^\d+/, program)
 		if valor != :nil do
-					case valor do
-						[value] ->
-						{{{:constant, String.to_integer(value)},linea}, String.trim_leading(program, value)}
-
-					end
+			case valor do
+				[value] ->
+				{{{:constant, String.to_integer(value)},linea}, String.trim_leading(program, value)}
+			end
 		else
-			{program,"ERROR"}
+			{["ERROR",program,linea],""}
 		end
 	end
 
@@ -46,8 +45,6 @@ defmodule Lexer do
         "main" <> rest ->
           {{:main_keyword, linea_keyword}, rest}
 
-	"ERROR" <>rest ->
-		{{:ERROR,linea_keyword}, rest}
         rest ->
           get_constant(rest,linea)
       end
