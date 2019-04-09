@@ -1,6 +1,5 @@
 defmodule Sanitizer do
   def sanitize_source(file_content) do
-	IO.inspect(file_content)
    	trimmed_content = String.trim(file_content)
      	words =Regex.split(~r/\n/,trimmed_content)
      	contador=0

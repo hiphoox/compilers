@@ -19,7 +19,6 @@ defmodule Lexer do
 
 
   def lex_raw_tokens({program,linea}) when program != "" do
-     IO.inspect(program)
     linea_keyword=linea
     {token, rest} =
       case program do
@@ -46,7 +45,7 @@ defmodule Lexer do
 
         "main" <> rest ->
           {{:main_keyword, linea_keyword}, rest}
-	
+
 	"ERROR" <>rest ->
 		{{:ERROR,linea_keyword}, rest}
         rest ->
@@ -56,11 +55,11 @@ defmodule Lexer do
 		auxiliar_token={rest,linea}
 		remaining_tokens=lex_raw_tokens(auxiliar_token)
 		toke=[token | remaining_tokens]
-	else 
+	else
 		remaining_tokens=lex_raw_tokens(rest)
 		toke=[token | remaining_tokens]
 	end
-   
+
   end
 
   def lex_raw_tokens(_program) do
