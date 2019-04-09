@@ -8,7 +8,8 @@ defmodule Compilers do
   "help" => "Help",
   "t" => "Lexer",
   "a" => "Parser",
-  "s" => "Assembly"
+  "s" => "Assembly",
+  "o  nombre_ejecutable" => "Cambio nombre ejecutable"
 }
 
 
@@ -39,6 +40,7 @@ defp procesando_args({ _, ["t" ,file_name], _}) do
 end
 
 
+
 defp procesando_args({ _, ["s" ,file_name], _}) do
   assembly(file_name)
 end
@@ -48,14 +50,18 @@ defp procesando_args({ _, ["a" ,file_name], _}) do
 end
 
 
+defp procesando_args({ _, ["o" ,nombre_ejecutable, file_name], _}) do
+ nuevoNombre(nombre_ejecutable, file_name)
+end
 
 #################        Banderas     ##############3
 defp print_help_message do
   IO.puts("Bandera de AYUDA \n");
   IO.puts("Las opciones de uso del compilador son: \n");
-  IO.puts("-t Se muestra la lista de tokens\n");
-  IO.puts("-a Se muestra el árbol AST\n");
-  IO.puts("-s Se muestra el codigo ensamblador \n");
+  IO.puts("t Se muestra la lista de tokens\n");
+  IO.puts("a Se muestra el árbol AST\n");
+  IO.puts("s Se muestra el codigo ensamblador \n");
+  IO.puts("o Se cambia el nombre del ejecutable ")
 
 
   @commands
@@ -72,6 +78,21 @@ defp lexer(file_path) do
 
     |> IO.inspect(label: "\nGenerator Lexer")
 end
+
+defp  nuevoNombre(nombre_ejecutable, file_path) do
+  IO.puts("Se imprimira la lista de Tokens")
+  IO.puts("Compiling file: " <> file_path)
+  basename = Path.basename(file_path)
+  assembly_path = String.replace(file_path,basename,nombre_ejecutable)
+
+  File.read!(file_path)
+|> Saneador.limpiado()
+|> Lexer.scan_words()
+|> Parser.parse_program()
+|> CodeGenerator.generate_code()
+|> Linker.generate_binary(assembly_path <> ".s")
+end
+
 
 defp parser(file_path) do
   IO.puts("Se imprimira el Parser")
