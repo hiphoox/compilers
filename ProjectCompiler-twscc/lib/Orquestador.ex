@@ -11,15 +11,4 @@ defmodule Orquestador do
 
   end
 
-  def manager_nora_test(string) do
-    IO.puts("\n")
-      IO.puts(string)
-      tokens_separados =  Lexer.scan_word(string); #generación de Tokens
-      ast = Parser.main(tokens_separados); #generación del árbol
-      #Generador_codigo.assembly(ast,file_address)|>Linker.genera_archivo_binario();
-      #IO.inspect(tokens_separados);
-      IO.inspect(ast);
-      #Generador_codigo.assembly(ast,file_address)|>Linker.genera_archivo_binario();
-      :ok
-    end
   end
