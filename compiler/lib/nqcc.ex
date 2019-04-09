@@ -57,16 +57,16 @@ defmodule Nqcc do
 end
 
 defp compile_file_with_new_name(newName,file_path) do
-  IO.puts("Compiling file: " <> file_path)
-  basename = Path.basename(file_path)
-  assembly_path = String.replace(file_path,basename,newName)
-  assembly_path <> ".s"
-  File.read!(file_path)
-  |> Sanitizer.sanitize_source()
-  |> Lexer.scan_words()
-  |> Parser.parse_program()
-  |> CodeGenerator.generate_code()
-  |> Linker.generate_binary(assembly_path)
+IO.puts("Compiling file: " <> file_path)
+basename = Path.basename(file_path)
+assembly_path = String.replace(file_path,basename,newName)
+
+File.read!(file_path)
+|> Sanitizer.sanitize_source()
+|> Lexer.scan_words()
+|> Parser.parse_program()
+|> CodeGenerator.generate_code()
+|> Linker.generate_binary(assembly_path <> ".s")
 end
 
 
