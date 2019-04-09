@@ -65,7 +65,6 @@ defmodule LexerTest do
     assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", "0", ";", "}"]) == state[:tokens2] or state[:tokens]
   end
 
-  ### Para prbar los saltos de linea
   test "5.- Con saltos de linea en int y main usando sanitizer", state do
     assert "int\nmain\n()\n{return 0;}" |> Sanitizer.sanitize_source() |> Lexer.scan_words() ==
              state[:tokens] or state[:tokens2]
@@ -128,6 +127,6 @@ defmodule LexerTest do
   end
 
   test "16.- Mayusculas en el INT", state do
-    assert Lexer.scan_words(["int", "main( {return", "0;}"]) == state[:tokens2] or state[:tokens]
+    assert Lexer.scan_words(["INT", "main( {return", "0;}"]) == state[:tokens2] or state[:tokens]
   end
 end
