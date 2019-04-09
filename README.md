@@ -68,7 +68,7 @@ Omar Orlando Ortega
    ## USO 
 
    ```bash
-   $ ./lpncc  [--help | -o | -s]  "/rutaDeArchivo.c"
+   $ ./lpncc  [--help | --o | --s | --a | --t ]  "/rutaDeArchivo.c"
    
    ```
 
@@ -78,4 +78,13 @@ Omar Orlando Ortega
    $ ./lpncc ./Pruebas/return_2.c 
    ```
 
+   ```bash
+   $ ./lpncc --a ./Pruebas/return_2.c 
+   ```
+
+   ```bash
+   $  ./lpncc --t ./Pruebas/return_2.c 
+   ```
+
    
+
