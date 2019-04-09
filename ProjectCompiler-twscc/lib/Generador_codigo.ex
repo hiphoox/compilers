@@ -39,19 +39,19 @@ defmodule Generador_codigo do
 
   def codigo_gen(:function, _, codigo) do
     """
-      .globl  main         ## -- Begin function main
-  main:                    ## @main
+      .globl  _main         ## -- Begin function main
+  _main:                    ## @main
   """ <> codigo #concatena esto antes del codigo
   end
 
   def codigo_gen(:constant, value, _) do
-    "$#{value}" #guarda el valor de la constate
+    "#{value}" #guarda el valor de la constate
   end
   ##pega el valor de la constante y añade una instruccion return
   def codigo_gen(:return_Keyword, _, codigo) do
     """
-        movl    #{codigo}, %eax
-        ret
+        mov    eax, #{codigo}
+        ret                            ## -- End function
     """
   end
 
