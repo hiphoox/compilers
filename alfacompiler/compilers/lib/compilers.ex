@@ -128,4 +128,14 @@ end
   end
 
 
+   def call_nora_test(string) do
+    IO.puts("\n")
+    IO.puts(string)
+    tokens_separados =  Lexer.scan_words(string); #generación de Tokens
+    ast = Parser.parse_function(tokens_separados); #generación del árbol
+    IO.inspect(tokens_separados);
+    IO.inspect(ast);
+    :ok
+   end
+
 end
