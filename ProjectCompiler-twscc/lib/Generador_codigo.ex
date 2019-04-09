@@ -7,19 +7,6 @@ defmodule Generador_codigo do
                  #devuelve una cadena con codigo en ensamblador x86
     end
   end
-
-  def assembly(ast, file_address) do
-
-    #llama a la funcion que recorre en post orden y devuelve el código
-    code = postorden(ast, "")
-    #IO.inspect(code)
-    IO.puts("\n")
-    #IO.inspect(code)
-    ruta_ensamblador=genera_ruta_ensamblador(file_address);
-    IO.inspect(ruta_ensamblador, label: "Ensamblador generado");
-    genera_archivo_ensamblador(code, ruta_ensamblador);
-    ruta_ensamblador
-  end
   #sin hijos el nodo
   defp postorden({}, code), do: code;
   #nodo con hijos
@@ -58,20 +45,5 @@ defmodule Generador_codigo do
         mov    eax, #{codigo}
         ret                            ## -- End function
     """
-  end
-
-  def genera_ruta_ensamblador (file_adress) do
-    if file_adress =~ ".c" do
-    String.replace_trailing(file_adress, ".c", ".s");#se cambiará la extención del archivo en la ruta especificada
-    else
-      numero=String.length(file_adress);
-     String.pad_trailing(file_adress, numero+2 ,".s");
-    end
-    #  String.replace_trailing(file_adress, ".c", ".s");#se cambiará la extención del archivo en la ruta especificada
-  end
-
-  def genera_archivo_ensamblador(code,ruta_ensamblador) do
-    #  ensamblador_archivo = Path.basename(ruta_ensamblador)##Returns the last component of the path or the path itself if it does not contain any directory separators
-      File.write!(ruta_ensamblador, code)
   end
 end
