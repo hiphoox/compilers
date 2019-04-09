@@ -38,9 +38,6 @@ defp procesando_args({ _, ["t" ,file_name], _}) do
   lexer(file_name)
 end
 
-defp procesando_args({ _, ["p" ,file_name], _}) do
-  parser(file_name)
-end
 
 defp procesando_args({ _, ["s" ,file_name], _}) do
   assembly(file_name)
@@ -65,6 +62,26 @@ defp print_help_message do
   |> Enum.map(fn({command, description}) -> IO.puts("  #{command} - #{description}") end)
 end
 
+
+
+defp lexer(file_path) do
+  IO.puts("Se imprimira la lista de Tokens")
+    File.read!(file_path)
+    |> Saneador.limpiado()
+    |> Lexer.scan_words()
+
+    |> IO.inspect(label: "\nGenerator Lexer")
+end
+
+defp parser(file_path) do
+  IO.puts("Se imprimira el Parser")
+  File.read!(file_path)
+  |> Saneador.limpiado()
+  |> Lexer.scan_words()
+  |> Parser.parse_program()
+  |> IO.inspect(label: "\nParser output")
+end
+
 defp assembly(file_path) do
   IO.puts("Se imprimira el Ensamblador")
     File.read!(file_path)
@@ -74,25 +91,6 @@ defp assembly(file_path) do
     |> CodeGenerator.generate_code()
 
 end
-
-defp lexer(file_path) do
-  IO.puts("Se imprimira el Lexer")
-    File.read!(file_path)
-    |> Saneador.limpiado()
-    |> Lexer.scan_words()
-
-end
-
-defp parser(file_path) do
-  IO.puts("Se imprimira el Parser")
-  File.read!(file_path)
-  |> Saneador.limpiado()
-  |> Lexer.scan_words()
-  |> Parser.parse_program()
-
-end
-
-
 
   defp compile_file(file_path) do
     IO.puts("Compiling file: " <> file_path)
@@ -107,4 +105,6 @@ end
     |> CodeGenerator.generate_code()
     |> Linker.generate_binary(assembly_path)
   end
+
+
 end
