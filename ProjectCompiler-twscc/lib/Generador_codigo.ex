@@ -33,6 +33,7 @@ defmodule Generador_codigo do
 #funciones "sobreescritas"
   def codigo_gen(:program, _, codigo) do
     """
+    main
     .p2align        4, 0x90
     """ <> codigo #concatena esto antes del codigo
   end
@@ -41,7 +42,7 @@ defmodule Generador_codigo do
     """
     .section	__TEXT,__text,regular,pure_instructions
   	.intel_syntax noprefix
-  	.globl	_main                   ## -- Begin function 
+  	.globl	_main                   ## -- Begin function
   """ <> codigo #concatena esto antes del codigo
   end
 
