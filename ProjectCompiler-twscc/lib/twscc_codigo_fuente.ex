@@ -4,17 +4,16 @@ defmodule Proyecto_compilador do #version 0.8, falta arbol y generador de codigo
   """
 
   def main(argv) do
-   case length(argv) do
-      0 -> IO.puts("Compilador de C de twscc. Escriba -h para la ayuda.");
-      1 -> if (Enum.at(argv, 0) =~ "-h") do
-             help();
-           else
-             Orquestador.manager(nil, Enum.at(argv, 0), nil)
-           end
-           ##llamar al orquestador para comenzar proceso, envía bandera respectiva para la salida
-      2 -> Orquestador.manager(Enum.at(argv, 0), Enum.at(argv, 1),nil);
-      3 -> Orquestador.manager(Enum.at(argv, 0), Enum.at(argv, 1), Enum.at(argv,2))
-    end
+
+       case args do
+          ["-h"] -> help() |> IO.puts();
+          [path] -> if path =~ ".c", do: compile(path, :no_output), else: show_error(1) |> IO.puts;
+          ["-s", path] -> compile(path, :gen_asm); #órden de generar asm
+          ["-t", path] -> compile(path, :show_token); #mostrar tokens
+          ["-a", path] -> compile(path, :show_ast); #mostrar AST
+          ["-o", path, new_name] ->compile(path, new_name); #se recibe un nuevo nombre en vez de átomo
+          _ -> show_error(1) |> IO.puts;
+        end
   end
 
   defp compile(path, flag_or_name) do
