@@ -26,7 +26,6 @@ defmodule Linker do
                      write_program(path, flag);
     end
   end
-
   #escribe en disco el programa con el mismo nombre que el código fuente
   def write_program(path) do
     program_name = Path.basename(path, ".c")
@@ -37,4 +36,16 @@ defmodule Linker do
     File.rm(asm_file_path)
     IO.puts ("Ejecutable generado, para ver la salida del programa: ./#{program_name}; echo $?")
   end
+
+  #escribe en disco el programa con un nuevo nombre almacenado en flag
+  def write_program(path, flag) do
+    dir_name = Path.dirname(path)
+    asm_file_path = Path.basename(path, ".c")
+    asm_file_path = asm_file_path <> ".s"
+    System.cmd("gcc", [asm_file_path, "-o#{flag}"], cd: dir_name)
+    File.rm(asm_file_path)
+    IO.puts ("Ejecutable generado, para ver la salida del programa: ./#{flag}; echo $?")
+  end
+
+
 end
