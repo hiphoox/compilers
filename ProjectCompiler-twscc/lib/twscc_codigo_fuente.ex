@@ -12,19 +12,21 @@ defmodule Proyecto_compilador do #version 0.8,
       ["-a", path] -> compile(path, :show_ast); #mostrar AST
       ["-o", path, new_name] ->compile(path, new_name); #se recibe un nuevo nombre en vez de átomo
       _ -> show_error(1) |> IO.puts;
+           show_error(1)
     end
   end
 
-  defp compile(path, flag_or_name) do
+  def compile(path, flag_or_name) do
     if path =~ ".c" and File.exists?(path) do
       #envío de la ruta y bandera al orquestador
        Orquestador.manager(path, flag_or_name);
      else
        show_error(3) |> IO.puts;
+       show_error(3);
      end
   end
 
-  defp help() do
+  def help() do
     "
     Uso:\n ./twscc_compilador_c nombre del archivo.c | [option] nombre del archivo.c\n
     \b -t      Muestra en pantalla la lista de tokens.
@@ -34,7 +36,7 @@ defmodule Proyecto_compilador do #version 0.8,
     "
   end
 
-  defp show_error(num) do
+  def show_error(num) do
      case num do
        1 -> "Compilador de C de twscc. Escriba -h para la ayuda." #no se puso argumento
        2 -> "Comando(s) no válido. Escriba -h para la ayuda." #mensaje de error

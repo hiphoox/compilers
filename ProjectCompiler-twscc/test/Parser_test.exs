@@ -28,6 +28,11 @@ defmodule ParserTest do
     assert  Parser.parse_tokens(token_list, :no_output) == {:error, "Error al parsear el elemento close_paren"}
   end
 
+  test "Prueba 4 de Nora Sandler: Sin valor de retorno" do
+    token_list = Lexer.scan_word(File.read!("test/missing_retval.c"), :no_output);
+    assert  Parser.parse_tokens(token_list, :no_output) == {:error, "Error al parsear algun elemento de la expresion"}
+  end
+
   test "Código al cual le falta la expresión return" do
     token_list = Lexer.scan_word("\n\tint main(\n ) { \n \t2; }", :no_output);
     assert  Parser.parse_tokens(token_list, :no_output) == {:error, "Error al parsear el elemento return_Keyword"}

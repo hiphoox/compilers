@@ -21,15 +21,16 @@ defmodule Generador_codigo do
 #funciones "sobreescritas"
   def codigo_gen(:program, _, codigo) do
     """
+    .section        __TEXT,__text,regular,pure_instructions
     .p2align        4, 0x90
     """ <> codigo #concatena esto antes del codigo
   end
 
   def codigo_gen(:function, _, codigo) do
     """
-      .globl  _main         ## -- Begin function main
-  _main:                    ## @main
-  """ <> codigo #concatena esto antes del codigo
+        .globl  _main         ## -- Begin function main
+    _main:                    ## @main
+    """  <> codigo #concatena esto antes del codigo
   end
 
   def codigo_gen(:constant, value, _) do

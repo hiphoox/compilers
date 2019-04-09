@@ -103,7 +103,7 @@ defmodule LexerTest do
   end
 
   test "Prueba 7 de Nora Sandler: return en mayúsculas" do
-    assert Lexer.scan_word(File.read!("test/wrong_case.c"), :no_output) == {:error, "La sintaxis en inválida."}
+    assert Lexer.scan_word(File.read!("test/wrong_case.c"), :no_output) == {:error, "Error lexico, se encontró una expresión inválida en el código"}
   end
 
 end
