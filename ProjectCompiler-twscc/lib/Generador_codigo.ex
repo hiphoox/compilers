@@ -39,8 +39,9 @@ defmodule Generador_codigo do
 
   def codigo_gen(:function, _, codigo) do
     """
-      .globl  _main         ## -- Begin function main
-  _main:                    ## @main
+    .section	__TEXT,__text,regular,pure_instructions
+  	.intel_syntax noprefix
+  	.globl	_main                   ## -- Begin function 
   """ <> codigo #concatena esto antes del codigo
   end
 
