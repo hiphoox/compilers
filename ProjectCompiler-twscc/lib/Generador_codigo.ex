@@ -1,8 +1,11 @@
 defmodule Generador_codigo do
 
-  def assembly(ast) do
-        IO.puts(postorden(ast, ""))
-        :ok
+  def assembly(ast, _flag) do
+    case ast do
+      {:error, _} -> ast #devuelve el error y sigue propagando en en Linker
+                 _-> postorden(ast, "")
+                 #devuelve una cadena con codigo en ensamblador x86
+    end
   end
 
   def assembly(ast, file_address) do
