@@ -3,7 +3,10 @@ defmodule CammComp do
   Documentation for Compilador
   """
   @commands %{
-  "help" => "Prints this help"
+  "help" => "Help",
+  "t" => "Compiling only lexer",
+  "a" => "Compiling only parser",
+  "s" => "Compiling only assembler"
   }
 
   def main(args) do
@@ -24,23 +27,66 @@ end
    compile_file(file_name)
  end
 
+ defp process_args({ _, ["t" ,file_name], _}) do
+   print_token_list(file_name)
+ end
+
+ defp process_args({ _, ["a" ,file_name], _}) do
+   print_ast(file_name)
+ end
+
+ defp process_args({ _, ["s" ,file_name], _}) do
+   print_assembler(file_name)
+ end
+
  defp compile_file(file_path) do
    IO.puts("Compiling file: " <> file_path)
-   assembly = String.replace_trailing(file_path, ".c", ".s")
+   assembly_path = String.replace_trailing(file_path, ".c", ".s")
 
    File.read!(file_path)
    |> Sanitizer.sanitize_source()
-   |> IO.inspect(label: "\nSanitizer ouput")
+   |> IO.inspect(label: "\nSanitizer output")
    |> Lexer.scan_words()
-   |> IO.inspect(label: "\nLexer ouput")
+   |> IO.inspect(label: "\nLexer output")
    |> Parser.parse_program()
-   |> IO.inspect(label: "\nParser ouput")
+   |> IO.inspect(label: "\nParser output")
    |> CodeGenerator.generate_code()
-   |> Linker.generate_binary(assembly)
+   |> IO.inspect(label: "\nGenertor output")
+   |> Linker.generate_binary(assembly_path)
+ end
+
+ defp print_token_list(file_path) do
+   IO.puts("Compiling file: " <> file_path)
+
+   File.read!(file_path)
+   |> Sanitizer.sanitize_source()
+   |> Lexer.scan_words()
+   |> IO.inspect(label: "\nLexer output")
+ end
+
+ defp print_ast(file_path) do
+   IO.puts("Compiling file: " <> file_path)
+
+   File.read!(file_path)
+   |> Sanitizer.sanitize_source()
+   |> Lexer.scan_words()
+   |> Parser.parse_program()
+   |> IO.inspect(label: "\nParser output")
+ end
+
+ defp print_assembler(file_path) do
+   IO.puts("Compiling file: " <> file_path)
+
+   File.read!(file_path)
+   |> Sanitizer.sanitize_source()
+   |> Lexer.scan_words()
+   |> Parser.parse_program()
+   |> CodeGenerator.generate_code()
+   |> IO.inspect(label: "\nGenertor output")
  end
 
  defp print_help_message do
-   IO.puts("\nnqcc --help file_name \n")
+   IO.puts("\nCompilator --help file_name \n")
 
    IO.puts("\nThe compiler supports following options:\n")
 
