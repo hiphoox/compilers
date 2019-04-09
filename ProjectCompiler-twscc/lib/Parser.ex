@@ -14,13 +14,17 @@ defmodule Parser do
       output
   end
   end
-  
+
   def main(tl) do
       parse_program(tl);
   end
 
   def parse_program(tl) do
-    {:program, "program", parse_function(tl), {}} #raiz, finaliza árbol y lo devuelve a main
+    [tokens, func_node] = parse_function(tokens)
+    case tokens do
+      {:error, _} -> tokens
+      _-> {:program, "program", func_node, {}}
+    end
   end
 
   def parse_function(tl) do
