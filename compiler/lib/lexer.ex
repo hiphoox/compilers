@@ -12,7 +12,7 @@ defmodule Lexer do
 
 					end
 		else
-			[program,"ERROR"]
+			{program,"ERROR"}
 		end
 	end
 
@@ -46,7 +46,9 @@ defmodule Lexer do
 
         "main" <> rest ->
           {{:main_keyword, linea_keyword}, rest}
-
+	
+	"ERROR" <>rest ->
+		{{:ERROR,linea_keyword}, rest}
         rest ->
           get_constant(rest,linea)
       end
