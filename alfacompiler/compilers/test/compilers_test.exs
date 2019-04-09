@@ -60,11 +60,6 @@ defmodule CompilersTest do
     IO.puts("no_newlines.c OK!!!!\n")
   end
 
-  test "Nora_newlines" do
-    assert Compilers.call_nora_test([File.read!("test/Nora/valid/newlines.c")]) == :ok
-    IO.puts("newlines.c OK!!!!\n")
-  end
-
   test "Nora_return_2" do
     assert Compilers.call_nora_test([File.read!("test/Nora/valid/return_2.c")]) == :ok
     IO.puts("return_2.c OK!!!!\n")
