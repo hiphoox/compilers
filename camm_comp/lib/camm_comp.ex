@@ -36,6 +36,7 @@ end
    |> Parser.parse_program()
    |> IO.inspect(label: "\nParser ouput")
    |> CodeGenerator.generate_code()
+   |> Linker.generate_binary(assembly_path)
  end
 
  defp print_help_message do
