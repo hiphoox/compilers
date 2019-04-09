@@ -28,17 +28,24 @@ defmodule Parser do
   end
 
   def parse_function(tl) do
-    #ir revisando si existe el elemento en la lista de tokens
-    remain_tl = tl
-       |> parse(:int_Keyword)
-       |> parse(:main_Keyword)
-       |> parse(:open_paren)
-       |> parse(:close_paren)
-       |> parse(:open_brace)
-    #ahora revisa las declaraciones, si todo es correcto devuelve un nodo y continua el parseo
-    [tl, state_node] = parse_statement(remain_tl);
-    tl |> parse(:close_brace)
-    {:function, "main", state_node, {}};  ##se vuelve a poner, es lo que devolverá esta funcion
+    #si en algun momento del parseo, tokens = {:error, ...} propagalo
+    {_atom, _value, tokens} = parse(tokens, :int_Keyword)
+    {_atom, _value, tokens} = parse(tokens, :main_Keyword)
+    {_atom, _value, tokens} = parse(tokens, :open_paren)
+    {_atom, _value, tokens} = parse(tokens, :close_paren)
+    {_atom, _value, tokens} = parse(tokens, :open_brace)
+    #si tokens = {:error,..} sigue propagandolo
+    [tokens, state_node] = parse_statement(tokens)
+    #aquí sigue llegando la tupla de error en tokens, sigue pasandola...
+    {_atom, _value, tokens} = parse(tokens, :close_brace)
+
+    #Si tokens trae error, devuelve ese mismo error sin crear un nodo de árbol
+    case tokens do
+      {:error, _} -> [tokens, ""]
+
+      #de lo contrario, devuelve lista de tokens y el nodo a construir
+      _ -> [tokens, {:function, "main", state_node, {}}]
+    end
   end
 
   def parse_statement(tl) do
