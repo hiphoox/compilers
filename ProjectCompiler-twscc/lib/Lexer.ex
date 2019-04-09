@@ -1,15 +1,14 @@
   defmodule Lexer do #separando el lexer del modulo principal, mueve funcion (refactoring)
 
-  def scan_word(file_content) do
-    words = Saneador.fix_code_format(file_content);
-      try do
-        #IO.puts("\nGenerando lista de tokens (LEXER)")
-        Enum.flat_map(words, &lex_raw_tokens/1); ##(coleccion [lista], funcion) #va a iterar contra los elementos de la lista. por cada elemento iterado se lo pasa a la funcion
-      rescue
-        Protocol.UndefinedError -> nil
-        ArgumentError -> IO.puts("Error: La sintaxis del código es inválida.")
-      end
+  def scan_word(string, flag) do
+    #Realiza limpieza del código
+    words = Saneador.fix_format(string)
+    case words do
+      [""] -> {:error, "Código fuente vacío, nada por procesar"}
+        _ ->  start_lexing(words, flag) #sino, comienza a generar tokens
     end
+    #deberá devolver la lista de tokens
+  end
 
 
   #identificar que es un numero (uno o varios)
