@@ -16,6 +16,16 @@ defmodule Proyecto_compilador do #version 0.8, falta arbol y generador de codigo
       3 -> Orquestador.manager(Enum.at(argv, 0), Enum.at(argv, 1), Enum.at(argv,2))
     end
   end
+
+  defp compile(path, flag_or_name) do
+    if path =~ ".c" and File.exists?(path) do
+      #envío de la ruta y bandera al orquestador
+       Orquestador.manager(path, flag_or_name);
+     else
+       show_error(3) |> IO.puts;
+     end
+  end
+
   #modulo de ayuda
   defp help() do
     "
