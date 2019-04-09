@@ -8,4 +8,22 @@ defmodule Linker do
     end
 
   end
+
+  def generate_exe_or_asm(asm, flag, path) do
+    case flag do
+      :gen_asm    -> File.write!(String.replace_trailing(path, ".c", ".s"), asm)
+                     IO.inspect(String.replace_trailing(path, ".c", ".s"), label: "Se generó correctamente el archivo de ensamblador ")
+
+      :show_token -> File.write!(String.replace_trailing(path, ".c", ".s"), asm)
+                     write_program(path);
+
+      :show_ast   -> File.write!(String.replace_trailing(path, ".c", ".s"), asm)
+                     write_program(path);
+
+      :no_output  -> File.write!(String.replace_trailing(path, ".c", ".s"), asm)
+                     write_program(path);
+               _  -> File.write!(String.replace_trailing(path, ".c", ".s"), asm)
+                     write_program(path, flag);
+    end
+  end
 end
