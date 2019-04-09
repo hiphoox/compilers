@@ -50,7 +50,7 @@ end
    |> IO.inspect(label: "\nLexer output")
    |> Parser.parse_program()
    |> IO.inspect(label: "\nParser output")
-   |> CodeGenerator.generate_code()
+   |> Generator.generate_code()
    |> IO.inspect(label: "\nGenertor output")
    |> Linker.generate_binary(assembly_path)
  end
@@ -81,7 +81,7 @@ end
    |> Sanitizer.sanitize_source()
    |> Lexer.scan_words()
    |> Parser.parse_program()
-   |> CodeGenerator.generate_code()
+   |> Generator.generate_code()
    |> IO.inspect(label: "\nGenertor output")
  end
 
