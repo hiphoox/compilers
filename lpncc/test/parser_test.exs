@@ -258,4 +258,58 @@ defmodule ParserTest do
                value: nil
              }
   end
+  test "14.- Prueba" do
+    assert "int\n main( )\n {\n return\n 2;}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words()
+           |> Parser.parseo() ==
+             %AST{
+               left_node: %AST{
+                 left_node: %AST{
+                   left_node: %AST{
+                     left_node: nil,
+                     node_name: :constant,
+                     right_node: nil,
+                     value: 2
+                   },
+                   node_name: :return,
+                   right_node: nil,
+                   value: nil
+                 },
+                 node_name: :function,
+                 right_node: nil,
+                 value: :main
+               },
+               node_name: :program,
+               right_node: nil,
+               value: nil
+             }
+  end
+  test "15.- Prueba" do
+    assert "int\n main( )\n {\n return\n 2;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words()
+           |> Parser.parseo() ==
+             %AST{
+               left_node: %AST{
+                 left_node: %AST{
+                   left_node: %AST{
+                     left_node: nil,
+                     node_name: :constant,
+                     right_node: nil,
+                     value: 2
+                   },
+                   node_name: :return,
+                   right_node: nil,
+                   value: nil
+                 },
+                 node_name: :function,
+                 right_node: nil,
+                 value: :main
+               },
+               node_name: :program,
+               right_node: nil,
+               value: nil
+             }
+  end
 end
