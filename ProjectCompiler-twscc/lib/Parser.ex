@@ -1,5 +1,20 @@
 defmodule Parser do
 
+  def parse_tokens(token_list, flag) do
+    output =
+    case token_list do
+      #si llegó tupla de error desde el Lexer, mándasela ahora al Generador de Código
+      {:end, _} -> token_list #si llegó tupla de error desde el Lexer, mándasela ahora al G
+      _ -> parse_program(token_list)
+    end
+    if flag == :show_ast do
+      IO.inspect(output)
+      output
+    else
+      output
+  end
+  end
+  
   def main(tl) do
       parse_program(tl);
   end
