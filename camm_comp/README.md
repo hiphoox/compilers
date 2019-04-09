@@ -1,4 +1,4 @@
-# CammComp
+﻿# CammComp
 
 -->Compilador de un pequeño subconjunto de C<--
 
@@ -33,7 +33,11 @@
 
 -> $ CammComp a examples/e1.c
 
+##EXTRA
 
+ Para ver estas instrucciones de manera grafica puedo consultar la guia de usuario grafica en el siguiente enlace:
+
+https://www.flipsnack.com/CAAMCOM/caam-compilador-guia-de-usuario.html
 
 
    
