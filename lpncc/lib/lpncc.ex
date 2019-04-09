@@ -18,7 +18,7 @@ defmodule Lpncc do
   end
 
   def parse_args(args) do
-    OptionParser.parse(args, switches: [help: :boolean])
+    OptionParser.parse(args, switches: [help: :boolean, o: :boolean])
   end
 
   defp process_args({[help: true], _, _}) do
@@ -34,7 +34,7 @@ defmodule Lpncc do
     lista_tokens(file_name)
   end
 
-  defp process_args({[o: file_name],[nuevo_nombre], _}) do
+  defp process_args({[o: file_name],[file_name, nuevo_nombre], _}) do
     compilar_con_nuevo_nombre(nuevo_nombre, file_name)
   end
 
@@ -63,11 +63,11 @@ defmodule Lpncc do
   end
 
   defp compilar_con_nuevo_nombre(nuevo_nombre, file_name) do
-    IO.puts("Compilando Archivo: " <> file_path)
-    nombre_actual = Path.basename(file_path)
-    assembly_path = String.replace(file_path,nombre_actual,nuevo_nombre)
+    IO.puts("Compilando Archivo: " <> file_name)
+    nombre_actual = Path.basename(file_name)
+    assembly_path = String.replace(file_name,nombre_actual,nuevo_nombre)
 
-    File.read!(file_path)
+    File.read!(file_name)
     |> Sanitizer.sanitize_source()
     |> IO.inspect(label: "\nSalida sanitizer:")
     |> Lexer.scan_words()
