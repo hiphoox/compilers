@@ -1,5 +1,4 @@
 defmodule Parser do
-
   def parse_tokens(token_list, flag) do
     output =
     case token_list do
@@ -14,19 +13,8 @@ defmodule Parser do
       output
   end
   end
-  def parse_constant(token, atom) do
-        #¿token trae tupla error en vez de la lista? devuelvela tal como está
-    case token do
-      {:error, _} -> {"", "", token}; #envia null porque solo te interesa propagar tokens
-                  _ -> if elem(List.first(token), 0) == atom do
-                          {atom, elem(List.first(token), 1), Enum.drop(token, 1)}
-                       else
-                          #IO.inspect(atom, label: "Error al parsear el ")
-                          {"", "", {:error, "Error al parsear el elemento " <> Atom.to_string(atom)}}
-                       end
-    end
-  end
-  def parse_program(tl) do
+
+  def parse_program(tokens) do
     [tokens, func_node] = parse_function(tokens)
     case tokens do
       {:error, _} -> tokens
@@ -34,7 +22,7 @@ defmodule Parser do
     end
   end
 
-  def parse_function(tl) do
+  def parse_function(tokens) do
     #si en algun momento del parseo, tokens = {:error, ...} propagalo
     {_atom, _value, tokens} = parse(tokens, :int_Keyword)
     {_atom, _value, tokens} = parse(tokens, :main_Keyword)
@@ -55,7 +43,7 @@ defmodule Parser do
     end
   end
 
-  def parse_statement(tl) do
+  def parse_statement(tokens) do
     {atom, _value, tokens} = parse(tokens, :return_Keyword)
 
     [tokens, exp_node] = parse_expression(tokens)
@@ -83,17 +71,31 @@ defmodule Parser do
 
   end
 
-    def parse(tl, atom) do
-      #Si el token entrante es un error, devuelvelo tal como está
-      case token do
-        {:error, _} -> {"", "", token};
-                  _ -> if List.first(token) == atom do
-                       {atom, "", Enum.drop(token, 1)}
+  def parse_constant(token, atom) do
+        #¿token trae tupla error en vez de la lista? devuelvela tal como está
+    case token do
+      {:error, _} -> {"", "", token}; #envia null porque solo te interesa propagar tokens
+                  _ -> if elem(List.first(token), 0) == atom do
+                          {atom, elem(List.first(token), 1), Enum.drop(token, 1)}
                        else
-
-                          #devuelve errores, únicamente la tupla de error.
+                          #IO.inspect(atom, label: "Error al parsear el ")
                           {"", "", {:error, "Error al parsear el elemento " <> Atom.to_string(atom)}}
                        end
-      end
     end
+  end
+
+  def parse(token, atom) do
+    #Si el token entrante es un error, devuelvelo tal como está
+    case token do
+      {:error, _} -> {"", "", token};
+                _ -> if List.first(token) == atom do
+                     {atom, "", Enum.drop(token, 1)}
+                     else
+
+                        #devuelve errores, únicamente la tupla de error.
+                        {"", "", {:error, "Error al parsear el elemento " <> Atom.to_string(atom)}}
+                     end
+    end
+  end
+
 end
