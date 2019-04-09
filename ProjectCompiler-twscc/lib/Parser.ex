@@ -14,7 +14,18 @@ defmodule Parser do
       output
   end
   end
-
+  def parse_constant(token, atom) do
+        #¿token trae tupla error en vez de la lista? devuelvela tal como está
+    case token do
+      {:error, _} -> {"", "", token}; #envia null porque solo te interesa propagar tokens
+                  _ -> if elem(List.first(token), 0) == atom do
+                          {atom, elem(List.first(token), 1), Enum.drop(token, 1)}
+                       else
+                          #IO.inspect(atom, label: "Error al parsear el ")
+                          {"", "", {:error, "Error al parsear el elemento " <> Atom.to_string(atom)}}
+                       end
+    end
+  end
   def parse_program(tl) do
     [tokens, func_node] = parse_function(tokens)
     case tokens do
