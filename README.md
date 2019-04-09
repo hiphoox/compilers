@@ -53,7 +53,7 @@ Explain how to run the automated tests for this system
 
 * **Luis Miramontes** - *System architect* - [Tenkoni](https://github.com/Tenkoni)
 * **Fernando Bustamante** - *System integrator* - [Farlan11](https://github.com/Farlan11)
-*
+* **Antonio Molina** - *Project Manager* - [marmolinaa](https://github.com/marmolinaa)
 *
 
 
