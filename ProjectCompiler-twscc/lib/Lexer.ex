@@ -10,6 +10,22 @@
     #deberá devolver la lista de tokens
   end
 
+  def start_lexing(words, flag) do
+    token_list = Enum.flat_map(words, &lex_raw_tokens/1)
+    #si hubo error en la sintaxis, debe de haber un token llamado ":error".
+    if Enum.member?(token_list, :error) do
+      #Si dicho token existe, entonces devuelve tupla de error
+      {:error, "La sintaxis es inválida."}
+    else
+      #revisa la bandera para mostrar o no en pantalla la lista de tokens
+       if flag == :show_token do
+         IO.inspect(token_list)
+         token_list;
+       else
+         token_list
+       end
+     end
+  end
 
   #identificar que es un numero (uno o varios)
   def get_constant(program) do
