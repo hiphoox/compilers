@@ -27,21 +27,6 @@
      end
   end
 
-  #identificar que es un numero (uno o varios)
-  def get_constant(program) do
-      #puede leer enteros negativos, sin embargo el parser no los dejará pasar
-        try do
-        case Regex.run(~r/-?\d+/, program) do
-          #verificar que no esté pegado el return con la constante
-          [valor] -> if Regex.match?( ~r/(\s|^)-?\d+(?=\s|)/, program) do
-                     {{:constant, String.to_integer(valor)}, String.trim_leading(program, valor)}
-                    end
-        end
-      rescue
-        CaseClauseError -> nil
-      end
-  end
-
   def lex_raw_tokens(program) when program != "" do #compara la cadena para ver que caso cumple
   {token, cadena_restante} =
   case program do
@@ -66,5 +51,16 @@
   def lex_raw_tokens(_program) do
     [] ##para devolver una lista vacía
   end
+
+  def get_constant_chk_error(remain_string) do
+    #Constante o cadena inválida, procesar
+    if Regex.run(~r/-?\d+/, remain_string) != nil do
+        case Regex.run(~r/\d+/, remain_string) do
+           [valor] -> {{:constant, String.to_integer(valor)}, String.trim_leading(remain_string, valor)}
+        end
+      else #Si no fue una constante, fue un error en el código
+          {:error, ""}
+      end
+    end
 
 end
