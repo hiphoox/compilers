@@ -50,15 +50,12 @@ end
   end
 
   def call_nora_test(string) do
-    IO.puts("El programa a compilar es")
-      IO.puts(string)
-      tokens_separados =  Lexer.scan_words(string); #lista de tokens
-      ast = Parser.parse_function(tokens_separados); #genera AST
-      #Generador_codigo.assembly(ast,file_address)|>Linker.genera_archivo_binario();
-      IO.inspect(tokens_separados);
-      IO.inspect(ast);
-      #Generador_codigo.assembly(ast,file_address)|>Linker.genera_archivo_binario();
-      :ok
+     IO.puts("\nEl programa a compilar es: ")
+     IO.puts(string)
+     tokens_separados =  Lexer.scan_words(string); #lista de tokens
+     #ast = Parser.parse_function(tokens_separados); #genera AST
+     IO.inspect(tokens_separados);
+     :ok
     end
 
 end

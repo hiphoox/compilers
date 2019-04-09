@@ -40,8 +40,8 @@ defmodule CompilersTest do
              state[:tokens]
   end
   
-  test "Nora_spaces" do
-    assert Compilers.call_nora_test(File.read!("test/Nora/valid/spaces.c")) == :ok
+  test "Nora_spaces", state do
+    assert Compilers.call_nora_test([File.read!("test/Nora/valid/spaces.c")]) == state[:tokens]
     IO.puts("Spaces.c OK!!!!\n")
   end
 
