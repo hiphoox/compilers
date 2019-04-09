@@ -39,6 +39,36 @@ end
    print_assembler(file_name)
  end
 
+ defp process_args({ _, ["t","a" ,file_name], _}) do
+   print_token_list(file_name)
+   print_ast(file_name)
+ end
+
+ defp process_args({ _, ["a","t" ,file_name], _}) do
+   print_ast(file_name)
+   print_token_list(file_name)
+ end
+
+ defp process_args({ _, ["a","s" ,file_name], _}) do
+   print_ast(file_name)
+   print_assembler(file_name)
+ end
+
+ defp process_args({ _, ["s","a" ,file_name], _}) do
+   print_assembler(file_name)
+   print_ast(file_name)
+ end
+
+ defp process_args({ _, ["t","s" ,file_name], _}) do
+   print_token_list(file_name)
+   print_assembler(file_name)
+ end
+
+ defp process_args({ _, ["s","t" ,file_name], _}) do
+   print_assembler(file_name)
+   print_token_list(file_name)
+ end
+
  defp compile_file(file_path) do
    IO.puts("Compiling file: " <> file_path)
    assembly = String.replace_trailing(file_path, ".c", ".s")
