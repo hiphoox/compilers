@@ -1,3 +1,7 @@
+
+import sys  #porque esta en una carpeta de fuera
+sys.path.append("..")
+
 from code_generator import *
 from lexer_module import *
 from parser_module import *
@@ -32,7 +36,7 @@ def ensambladorEsperado2():
 #entonces solo deberia quedar $entero y con la expresion regular ya deberia quedar vacia pero si vemos que en uknown_inputs hay algo entonces
 #se regresa 0 para que el assert mande error
 def assembler_spaces(ensambladorEsperado1, ensambladorEsperado2):
-	archivo = open("test_nora/stage_1/valid/spaces.c", "r")
+	archivo = open("stage_1/valid/spaces.c", "r")
 
 	plainText  = archivo.read()
 	listaTokens = lexer(plainText)
@@ -40,7 +44,6 @@ def assembler_spaces(ensambladorEsperado1, ensambladorEsperado2):
 	ensambladorGenerado= generator(arbolGenerado)
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado1,"")
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado2,"")
-
 	#ensambladorGenerado = ensambladorGenerado + "ww"
 	keywords = re.compile('[\$]+|[0-9]+')
 
@@ -51,7 +54,7 @@ def assembler_spaces(ensambladorEsperado1, ensambladorEsperado2):
 	return 1
 
 def assembler_return_2(ensambladorEsperado1,ensambladorEsperado2):
-	archivo = open("test_nora/stage_1/valid/return_2.c", "r")
+	archivo = open("stage_1/valid/return_2.c", "r")
 
 	plainText  = archivo.read()
 	listaTokens = lexer(plainText)
@@ -71,7 +74,7 @@ def assembler_return_2(ensambladorEsperado1,ensambladorEsperado2):
 
 
 def assembler_multi_digit(ensambladorEsperado1,ensambladorEsperado2):
-	archivo = open("test_nora/stage_1/valid/multi_digit.c", "r")
+	archivo = open("stage_1/valid/multi_digit.c", "r")
 
 	plainText  = archivo.read()
 	listaTokens = lexer(plainText)
@@ -90,7 +93,7 @@ def assembler_multi_digit(ensambladorEsperado1,ensambladorEsperado2):
 	return 1
 
 def assembler_no_newlines(ensambladorEsperado1,ensambladorEsperado2):
-	archivo = open("test_nora/stage_1/valid/no_newlines.c", "r")
+	archivo = open("stage_1/valid/no_newlines.c", "r")
 
 	plainText  = archivo.read()
 	listaTokens = lexer(plainText)
@@ -110,7 +113,7 @@ def assembler_no_newlines(ensambladorEsperado1,ensambladorEsperado2):
 
 	
 def assembler_newlines(ensambladorEsperado1,ensambladorEsperado2):
-	archivo = open("test_nora/stage_1/valid/newlines.c", "r")
+	archivo = open("stage_1/valid/newlines.c", "r")
 
 	plainText  = archivo.read()
 	listaTokens = lexer(plainText)
@@ -129,7 +132,7 @@ def assembler_newlines(ensambladorEsperado1,ensambladorEsperado2):
 	return 1
 
 def assembler_return_0(ensambladorEsperado1,ensambladorEsperado2):
-	archivo = open("test_nora/stage_1/valid/return_0.c", "r")
+	archivo = open("stage_1/valid/return_0.c", "r")
 
 	plainText  = archivo.read()
 	listaTokens = lexer(plainText)
@@ -152,7 +155,7 @@ def assembler_return_0(ensambladorEsperado1,ensambladorEsperado2):
 ########################### INVALIDAS ########################### 
 
 def assembler_no_space(ensambladorEsperado1,ensambladorEsperado2):
-	archivo = open("test_nora/stage_1/invalid/no_space.c", "r")
+	archivo = open("stage_1/invalid/no_space.c", "r")
 
 	plainText  = archivo.read()
 	listaTokens = lexer(plainText)

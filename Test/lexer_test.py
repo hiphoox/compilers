@@ -1,4 +1,10 @@
-from lexer_module import * 
+
+import sys
+
+sys.path.append("..")#porque esta en una carpeta de fuera
+from lexer_module import *
+
+
 
 def lista():
 	lista = ['keyword_int',
@@ -25,7 +31,7 @@ tiene que tener la etiqueta integer es una tupla """
 	
 def lexer_return_2(listaEsperada):   #comparar lista fija con lista de tokens recibida con la gramatica original
 	
-	archivo = open("test_nora/stage_1/valid/return_2.c", "r")
+	archivo = open("stage_1/valid/return_2.c", "r")
 
 	plainText  = archivo.read()
 	#print(plainText)
@@ -43,11 +49,12 @@ def lexer_return_2(listaEsperada):   #comparar lista fija con lista de tokens re
 		
 		
 def lexer_multi_digit(listaEsperada): 
-	archivo = open("test_nora/stage_1/valid/multi_digit.c", "r")
+	archivo = open("stage_1/valid/multi_digit.c", "r")
 
 	plainText  = archivo.read()
 	#print(plainText)
 	listaTokens = lexer(plainText)
+	#print(listaTokens)
 	for x in range(0,len(listaEsperada)):
 
 		if (listaEsperada[x] != listaTokens[x]):
@@ -62,7 +69,7 @@ def lexer_multi_digit(listaEsperada):
    	
 
 def lexer_spaces(listaEsperada): 
-	archivo = open("test_nora/stage_1/valid/spaces.c", "r")
+	archivo = open("stage_1/valid/spaces.c", "r")
 
 	plainText  = archivo.read()
 	#print(plainText)
@@ -79,7 +86,7 @@ def lexer_spaces(listaEsperada):
 	#print("\nPrueba spaces exitosa")  #todos los tokens fueron iguales
 
 def lexer_newlines(listaEsperada): 
-	archivo = open("test_nora/stage_1/valid/newlines.c", "r")
+	archivo = open("stage_1/valid/newlines.c", "r")
 
 	plainText  = archivo.read()
 	#print(plainText)
@@ -96,7 +103,7 @@ def lexer_newlines(listaEsperada):
 	#print("\nPrueba newlines exitosa")  #todos los tokens fueron iguales
 
 def lexer_no_newlines(listaEsperada): 
-	archivo = open("test_nora/stage_1/valid/no_newlines.c", "r")
+	archivo = open("stage_1/valid/no_newlines.c", "r")
 
 	plainText  = archivo.read()
 	#print(plainText)
@@ -113,7 +120,7 @@ def lexer_no_newlines(listaEsperada):
 	#print("\nPrueba no_newlines exitosa")  #todos los tokens fueron iguales
 
 def lexer_return_0(listaEsperada): 
-	archivo = open("test_nora/stage_1/valid/return_0.c", "r")
+	archivo = open("stage_1/valid/return_0.c", "r")
 
 	plainText  = archivo.read()
 	#print(plainText)
@@ -130,7 +137,7 @@ def lexer_return_0(listaEsperada):
 	#print("\nPrueba return_0 exitosa")  #todos los tokens fueron iguales
 
 def lexer_no_space(listaEsperada): 
-	archivo = open("test_nora/stage_1/invalid/no_space.c", "r")
+	archivo = open("stage_1/invalid/no_space.c", "r")
 
 	plainText  = archivo.read()
 	#print(plainText)
@@ -151,7 +158,6 @@ def lexer_no_space(listaEsperada):
 
 
 #dado que usamos expresiones regulares, podemos reconocer tokens aun sin espacio
-
 
 
 

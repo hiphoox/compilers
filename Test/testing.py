@@ -2,6 +2,7 @@
 
 from lexer_test import *
 from generator_test import *
+from parser_test import *
 
 def pruebasValidas():
 	
@@ -22,5 +23,12 @@ def pruebasValidas():
 	assert lexer_no_newlines(lista()) == 1, "Prueba lexer_no_newlines fallida"
 	assert lexer_return_0(lista()) == 1, "Prueba lexer_return_0 fallida"
 	print("7 pruebas del Lexer ejecutadas correctamente")
+
+	assert arbol_return_2(arbolEsperado()) == 1, "Prueba parser_return_2 fallida"
+	assert arbol_multi_digit(arbolEsperado()) == 1, "Prueba parser_multi_digit fallida"
+	assert arbol_newlines(arbolEsperado()) == 1, "Prueba parser_newlines fallida"
+	assert arbol_no_newlines(arbolEsperado()) == 1, "Prueba parser_no_newlines fallida"
+	assert arbol_return_0(arbolEsperado()) == 1, "Prueba parser_return_0 fallida"
+	print("6 pruebas del parser ejecutadas correctamente") 
 
 pruebasValidas()
