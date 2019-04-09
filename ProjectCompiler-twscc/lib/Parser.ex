@@ -77,12 +77,17 @@ defmodule Parser do
   end
 
     def parse(tl, atom) do
-      if List.first(tl) == atom do  #si hace match con el token
-         Enum.drop(tl, 1); #elimina de la lista el token
-       else
-         IO.inspect(atom, label: "Error al parsear: Falta el elemento")
-         spawn_link fn -> exit(1) end #lanzar un error matando al proceso en sí para interrumpir la ejecucion
-       end
+      #Si el token entrante es un error, devuelvelo tal como está
+      case token do
+        {:error, _} -> {"", "", token};
+                  _ -> if List.first(token) == atom do
+                       {atom, "", Enum.drop(token, 1)}
+                       else
+
+                          #devuelve errores, únicamente la tupla de error.
+                          {"", "", {:error, "Error al parsear el elemento " <> Atom.to_string(atom)}}
+                       end
+      end
     end
 
     def parse_ret_value(tl, atom) do
