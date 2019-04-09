@@ -60,15 +60,20 @@ defmodule Parser do
     end
   end
 
-  def parse_exp(tl) do
-    #tokens restantes, atomo extraido y su dato para el nodo
-    [remain_tl, elem_atom, value] =
-    case List.first(tl) do
-      {:constant, _} ->  tl |> parse_atom_value(:constant)
-      _ -> IO.puts("Error: falta una expresión después de return");
-           spawn_link fn -> exit(1) end
+  def parse_expression(tokens) do
+    case tokens do
+      {:error, _} -> [tokens, nil]
+      _-> {atom, value, tokens} =
+          case List.first(tokens) do
+            {:constant, _} -> parse_constant(tokens, :constant)
+                          _-> {"", "", {:error, "Error al parsear algun elemento de la expresion"}}
+          end
+          case tokens do
+            {:error, _} -> [tokens, ""]
+            _ -> [tokens, {atom, value, {}, {}}]
+          end
     end
-    [remain_tl, {elem_atom, value, {}, {}}]
+
   end
 
     def parse(tl, atom) do
