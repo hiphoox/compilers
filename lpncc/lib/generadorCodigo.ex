@@ -26,11 +26,10 @@ defmodule CodeGenerator do
     """ <>
       code_snippet
   end
-
+  
   def emit_code(:function, code_snippet, :main) do
     """
         .globl  main
-        .type main, @function
     main:
     """ <>
       code_snippet
