@@ -18,14 +18,12 @@ Omar Orlando Ortega
 
 - [ ] - Installar  elixir  
 
-    ```
-    dnf install elixir      [Fedora 22 (and newer)]
-    
-    ```
 
   - Las instrucciones de instalación para cada sistema operativo pueden ser encontradas en [Elixir-lang.org](http://elixir-lang.org/) en la guía [Installing Elixir](http://elixir-lang.org/install.html)(en inglés).
+  
+  - La version actual del lpncc se encuentra diseñada para el funcionar en sistemas UNIX.
 
-    La version con la que se trabajo es la 1.8 para verificar su version teclee en una terminal 
+    La version con la que se trabajo es la 1.8 para verificar su version teclee en una terminal.
 
     ```
     $ elixir -v 
@@ -34,7 +32,6 @@ Omar Orlando Ortega
     Elixir 1.8
     ```
 
-    
 
 ## Instalación 
 
@@ -58,17 +55,19 @@ Omar Orlando Ortega
    
    ```
 
-
 4. Ejecución
 
    ```bash
    $ mix escript.build 
    ```
+   
 
    ## USO 
-
+   
+   El software soporta la modalidad de uso de banderas. Dentro del comando help explca el uso de cada una de ellas.
+   
    ```bash
-   $ ./lpncc  [--help | --o | --s | --a | --t ]  "/rutaDeArchivo.c"
+   $ ./lpncc  [--help | --o | --s | --a | --t ]  "/rutaDeArchivo/archivo.c"
    
    ```
 
