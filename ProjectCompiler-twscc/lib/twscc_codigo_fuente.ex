@@ -17,12 +17,13 @@ defmodule Proyecto_compilador do #version 0.8, falta arbol y generador de codigo
     end
   end
   #modulo de ayuda
-  def help() do
-    IO.puts("Uso:\n ./twscc_compilador_c nombre del archivo.c | [option] nombre del archivo.c")
-    IO.puts("Opciones:\n")
-    IO.puts(" -t      Muestra en pantalla la lista de tokens");
-    IO.puts(" -a      Muestra el Árbol Sintáctico Abstracto");
-    IO.puts(" -s      Genera el código fuente del ensamblador (x86)");
-    IO.puts(" --debug  Modo de depuración");
+  defp help() do
+    "
+    Uso:\n ./twscc_compilador_c nombre del archivo.c | [option] nombre del archivo.c\n
+    \b -t      Muestra en pantalla la lista de tokens.
+    \b -a      Muestra el Árbol Sintáctico Abstracto.
+    \b -s      Genera el código fuente del ensamblador (x86).
+    \b -o [nombre del archivo] [nombre_ejecutable] Especifica el nombre del ejecutable a generar.
+    "
   end
 end
