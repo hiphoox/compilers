@@ -1,21 +1,20 @@
-# Compilers
+Proyecto-Compiladores 
+===================== 
 
-**TODO: Add description**
+En este proyecto se desarrollando un compilador.
+Participantes:Paola,Billy,Logan,Yael y Salma.
 
-## Installation
+<p>Instalación</p>
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `compilers` to your list of dependencies in `mix.exs`:
+1.-Copiar el repositiorio
 
-```elixir
-def deps do
-  [
-    {:compilers, "~> 0.1.0"}
-  ]
-end
-```
+$git clone https://github.com/hiphoox/compilers2019_2.git
+$cd compilers2019_2
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/compilers](https://hexdocs.pm/compilers).
+2.-Trabajar en rama "alfa"
 
+ $git checkout alfa
+ 
+3.-Ejecución
+
+$mix script.build
