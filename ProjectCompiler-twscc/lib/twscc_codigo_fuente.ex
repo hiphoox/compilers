@@ -26,4 +26,12 @@ defmodule Proyecto_compilador do #version 0.8, falta arbol y generador de codigo
     \b -o [nombre del archivo] [nombre_ejecutable] Especifica el nombre del ejecutable a generar.
     "
   end
+
+  defp show_error(num) do
+     case num do
+       1 -> "Compilador de C de twscc. Escriba -h para la ayuda." #no se puso argumento
+       2 -> "Comando(s) no válido. Escriba -h para la ayuda." #mensaje de error
+       3 -> "Archivo inválido o no existe en el directorio." #mensaje de archivo inválido
+     end
+   end
 end
