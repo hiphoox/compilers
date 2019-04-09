@@ -41,7 +41,7 @@ end
 
  defp compile_file(file_path) do
    IO.puts("Compiling file: " <> file_path)
-   assembly_path = String.replace_trailing(file_path, ".c", ".s")
+   assembly = String.replace_trailing(file_path, ".c", ".s")
 
    File.read!(file_path)
    |> Sanitizer.sanitize_source()
@@ -52,7 +52,7 @@ end
    |> IO.inspect(label: "\nParser output")
    |> Generator.generate_code()
    |> IO.inspect(label: "\nGenertor output")
-   |> Linker.generate_binary(assembly_path)
+   |> Linker.generate_binary(assembly)
  end
 
  defp print_token_list(file_path) do
