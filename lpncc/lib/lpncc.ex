@@ -54,9 +54,9 @@ defmodule Lpncc do
     File.read!(file_path)
     |> Sanitizer.sanitize_source()
     |> IO.inspect(label: "\n Salida sanitizer: ")
-    |> Lexer.scan_words()
+    |> Lexer.scan_words() {:error , valor}
     |> IO.inspect(label: "\n Salida Lexer: ")
-    |> Parser.parseo()
+    |> Parser.parseo() {:error ,falta main}
     |> IO.inspect(label: "\n Salida Parser:")
     |> CodeGenerator.generate_code()
     |> Linker.generate_binary(assembly_path)
