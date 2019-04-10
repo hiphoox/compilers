@@ -35,14 +35,14 @@ defmodule CodeGenerator do
       code_snippet
   end
 
+  def emit_code(:constant, _, value) do
+    "$#{value}"
+  end
+
   def emit_code(:return, code_snippet, _) do
     """
         movl    #{code_snippet}, %eax
         ret
     """
-  end
-
-  def emit_code(:constant, _code_snippet, value) do
-    "$#{value}"
   end
 end

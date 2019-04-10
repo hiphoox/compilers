@@ -51,23 +51,23 @@ defmodule Parser do
                   if elemento == :close_brace do
                     {%AST{node_name: :function, value: :main, left_node: statement_node}, tokens}
                   else
-                    {{:error, "Error, falta '{'"}, tokens}
+                    IO.puts("Error, falta '{'")
                   end
               end
             else
-              {:error, "Error, falta '}'"}
+              IO.puts("Error, falta '}'")
             end
           else
-            {:error, "Error, falta ')'"}
+            IO.puts("Error, falta ')'")
           end
         else
-          {:error, "Error, falta '('"}
+          IO.puts("Error, falta '('")
         end
       else
-        {:error, "Error, no hay main."}
+        IO.puts("Error, no hay main.")
       end
     else
-      {:error, "Error, error de sintaxis (return 404)"}
+      IO.puts("Error, error de sintaxis 'return not found'")
     end
 end
 
