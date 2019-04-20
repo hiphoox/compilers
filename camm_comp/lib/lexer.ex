@@ -1,17 +1,24 @@
 defmodule Lexer do
+  def scan_words(words) do
+    Enum.flat_map(words, &lex_raw_tokens/1)
+  end
 
-    def scan_words(words) do
-      Enum.flat_map(words, &lex_raw_tokens/1)
-    end
+  def get_constant(program) do
+		valor=Regex.run(~r/^\d+/, program)
+		if valor != :nil do
+			case valor do
+				[value] ->
+				{{:constant, String.to_integer(value)}, String.trim_leading(program, value)}
+			end
+		else
+			{"ERROR",program}
+		end
+	end
 
-    def get_constant(program) do
-      case Regex.run(~r/^\d+/, program) do
-        [value] -> {{:constant, String.to_integer(value)}, String.trim_leading(program,value)}
-      end
-    end
 
-    def lex_raw_tokens(program) when program != "" do
-      {token, rest} =
+
+  def lex_raw_tokens(program) when program != "" do
+    {token, rest} =
       case program do
         "int" <> rest -> {:intkeyword, rest}
 
@@ -31,12 +38,18 @@ defmodule Lexer do
 
         rest -> get_constant(rest)
       end
-      remaining_tokens = lex_raw_tokens(rest)
-      [token | remaining_tokens]
-    end
+	if rest != "" do
+		auxiliar_token={rest}
+		remaining_tokens=lex_raw_tokens(auxiliar_token)
+		toke=[token | remaining_tokens]
+	else
+		remaining_tokens=lex_raw_tokens(rest)
+		toke=[token | remaining_tokens]
+	end
 
-    def lex_raw_tokens(_program) do
-      []
-    end
+  end
 
+  def lex_raw_tokens(_program) do
+    []
+  end
 end
