@@ -52,17 +52,12 @@ defmodule Nqcc do
     |> Lexer.scan_words()
     evaluar=Evaluator.evaluator_lexer(lista_tokens)
     if evaluar==[] do
-      arbolAST=File.read!(file_path)
-      |> Sanitizer.sanitize_source()
-      |> Lexer.scan_words()
+      arbolAST=lista_tokens
       |> Parser.parse_program()
       if is_map(arbolAST) do
-        File.read!(file_path)
-        |> Sanitizer.sanitize_source()
-        |> Lexer.scan_words()
-        |> Parser.parse_program()
+        arbolAST
         |> CodeGenerator.generate_code()
-        |> Linker.generate_binary(assembly_path <> ".s")
+        |> Linker.generate_binary(assembly_path)
         |> IO.inspect()
       else
         IO.puts("ERROR SINTACTICO")
@@ -86,15 +81,10 @@ lista_tokens=File.read!(file_path)
 |> Lexer.scan_words()
 evaluar=Evaluator.evaluator_lexer(lista_tokens)
 if evaluar==[] do
-  arbolAST=File.read!(file_path)
-  |> Sanitizer.sanitize_source()
-  |> Lexer.scan_words()
+  arbolAST=lista_tokens
   |> Parser.parse_program()
   if is_map(arbolAST) do
-    File.read!(file_path)
-    |> Sanitizer.sanitize_source()
-    |> Lexer.scan_words()
-    |> Parser.parse_program()
+    arbolAST
     |> CodeGenerator.generate_code()
     |> Linker.generate_binary(assembly_path <> ".s")
     |> IO.inspect()
@@ -133,9 +123,7 @@ end
     |> Lexer.scan_words()
     evaluar=Evaluator.evaluator_lexer(lista_tokens)
     if evaluar==[] do
-      File.read!(file_path)
-      |> Sanitizer.sanitize_source()
-      |> Lexer.scan_words()
+      lista_tokens
       |> Parser.parse_program()
       |> IO.inspect()
     else
@@ -152,15 +140,10 @@ end
     |> Lexer.scan_words()
     evaluar=Evaluator.evaluator_lexer(lista_tokens)
     if evaluar==[] do
-      arbolAST=File.read!(file_path)
-      |> Sanitizer.sanitize_source()
-      |> Lexer.scan_words()
+      arbolAST=lista_tokens
       |> Parser.parse_program()
       if is_map(arbolAST) do
-        File.read!(file_path)
-        |> Sanitizer.sanitize_source()
-        |> Lexer.scan_words()
-        |> Parser.parse_program()
+        arbolAST
         |> CodeGenerator.generate_code()
         |> IO.inspect()
       else
