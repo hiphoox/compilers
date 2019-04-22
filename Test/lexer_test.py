@@ -37,6 +37,8 @@ def lexer_return_2(listaEsperada):   #comparar lista fija con lista de tokens re
 	#print(plainText)
 	listaTokens = lexer(plainText)
 	#print("ret 2 ",listaTokens)
+	plainText = archivo.close()
+
 	for x in range(0,len(listaEsperada)):
 
 		if (listaEsperada[x] != listaTokens[x]):
@@ -54,6 +56,8 @@ def lexer_multi_digit(listaEsperada):
 	plainText  = archivo.read()
 	#print(plainText)
 	listaTokens = lexer(plainText)
+	plainText = archivo.close()
+
 	#print(listaTokens)
 	for x in range(0,len(listaEsperada)):
 
@@ -74,6 +78,8 @@ def lexer_spaces(listaEsperada):
 	plainText  = archivo.read()
 	#print(plainText)
 	listaTokens = lexer(plainText)
+	plainText = archivo.close()
+
 	for x in range(0,len(listaEsperada)):
 
 		if (listaEsperada[x] != listaTokens[x]):
@@ -91,6 +97,8 @@ def lexer_newlines(listaEsperada):
 	plainText  = archivo.read()
 	#print(plainText)
 	listaTokens = lexer(plainText)
+	plainText = archivo.close()
+
 	for x in range(0,len(listaEsperada)):
 
 		if (listaEsperada[x] != listaTokens[x]):
@@ -108,6 +116,8 @@ def lexer_no_newlines(listaEsperada):
 	plainText  = archivo.read()
 	#print(plainText)
 	listaTokens = lexer(plainText)
+	plainText = archivo.close()
+
 	for x in range(0,len(listaEsperada)):
 
 		if (listaEsperada[x] != listaTokens[x]):
@@ -125,6 +135,8 @@ def lexer_return_0(listaEsperada):
 	plainText  = archivo.read()
 	#print(plainText)
 	listaTokens = lexer(plainText)
+	plainText = archivo.close()
+
 	for x in range(0,len(listaEsperada)):
 
 		if (listaEsperada[x] != listaTokens[x]):
@@ -142,6 +154,8 @@ def lexer_no_space(listaEsperada):
 	plainText  = archivo.read()
 	#print(plainText)
 	listaTokens = lexer(plainText)
+	plainText = archivo.close()
+
 	#print(listaTokens)
 	for x in range(0,len(listaEsperada)):
 

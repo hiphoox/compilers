@@ -44,6 +44,7 @@ def assembler_spaces(ensambladorEsperado1, ensambladorEsperado2):
 	ensambladorGenerado= generator(arbolGenerado)
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado1,"")
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado2,"")
+	plainText = archivo.close()
 	#ensambladorGenerado = ensambladorGenerado + "ww"
 	keywords = re.compile('[\$]+|[0-9]+')
 
@@ -62,7 +63,7 @@ def assembler_return_2(ensambladorEsperado1,ensambladorEsperado2):
 	ensambladorGenerado= generator(arbolGenerado)
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado1,"")
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado2,"")
-
+	plainText = archivo.close()
 	#ensambladorGenerado = ensambladorGenerado + "ww"
 	keywords = re.compile('[\$]+|[0-9]+')
 
@@ -82,7 +83,7 @@ def assembler_multi_digit(ensambladorEsperado1,ensambladorEsperado2):
 	ensambladorGenerado= generator(arbolGenerado)
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado1,"")
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado2,"")
-
+	plainText = archivo.close()
 	#ensambladorGenerado = ensambladorGenerado + "ww"
 	keywords = re.compile('[\$]+|[0-9]+')
 
@@ -101,7 +102,7 @@ def assembler_no_newlines(ensambladorEsperado1,ensambladorEsperado2):
 	ensambladorGenerado= generator(arbolGenerado)
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado1,"")
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado2,"")
-
+	plainText = archivo.close()
 	#ensambladorGenerado = ensambladorGenerado + "ww"
 	keywords = re.compile('[\$]+|[0-9]+')
 
@@ -121,7 +122,7 @@ def assembler_newlines(ensambladorEsperado1,ensambladorEsperado2):
 	ensambladorGenerado= generator(arbolGenerado)
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado1,"")
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado2,"")
-
+	plainText = archivo.close()
 	#ensambladorGenerado = ensambladorGenerado + "ww"
 	keywords = re.compile('[\$]+|[0-9]+')
 
@@ -140,6 +141,7 @@ def assembler_return_0(ensambladorEsperado1,ensambladorEsperado2):
 	ensambladorGenerado= generator(arbolGenerado)
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado1,"")
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado2,"")
+	plainText = archivo.close()
 
 	#ensambladorGenerado = ensambladorGenerado + "ww"
 	keywords = re.compile('[\$]+|[0-9]+')
@@ -163,7 +165,7 @@ def assembler_no_space(ensambladorEsperado1,ensambladorEsperado2):
 	ensambladorGenerado= generator(arbolGenerado)
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado1,"")
 	ensambladorGenerado = ensambladorGenerado.replace(ensambladorEsperado2,"")
-
+	plainText = archivo.close()
 	#ensambladorGenerado = ensambladorGenerado + "ww"
 	keywords = re.compile('[\$]+|[0-9]+')
 
