@@ -57,7 +57,7 @@ defmodule Parser do
         {:error, "Error: funcion main no encontrada"}
       end
     else
-      {:error, "Error, tipo de retorno no definiso"}
+      {:error, "Error, tipo de retorno no definido"}
     end
   end
 
