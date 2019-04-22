@@ -38,7 +38,30 @@ defmodule CompilersTest do
   test "todo junto", state do
     assert Lexer.scan_words(["intmain(){return2;}"]) == state[:tokens]
   end
+
+  test "cuerpo_junto", state do
+    assert Compilers.parser_test(["test/cuerpo_junto.c"]) == state[:tokens]
+    IO.puts("cuerpo_junto.c OK!!!!\n")
+  end
+
+  test "muchos_espacios", state do
+    assert Compilers.parser_test(["test/muchos_espacios.c"]) == state[:tokens]
+    IO.puts("muchos_espacios.c OK!!!!\n")
+  end
   
+  test "muchos_renglones", state do
+    assert Compilers.parser_test(["test/muchos_renglones.c"]) == state[:tokens]
+    IO.puts("muchos_renglones.c OK!!!!\n")
+  end
+  
+  test "renglonesespacios", state do
+    assert Compilers.parser_test(["test/renglones_espacios.c"]) == state[:tokens]
+    IO.puts("renglones_espacios.c OK!!!!\n")
+  end
+  
+
+
+
   test "Nora_spaces", state do
     assert Compilers.parser_test(["test/Nora/valid/spaces.c"]) == state[:tokens]
     IO.puts("Spaces.c OK!!!!\n")
@@ -66,6 +89,7 @@ defmodule CompilersTest do
 
   test "Nora_missing_paren", state do
     assert Compilers.parser_test(["test/Nora/invalid/missing_paren.c"]) == state[:tokens]
+    IO.puts("missing_paren.c FAIL!!!\n, esta prueba no deberia pasar")
   end
 
   test "Nora_missing_retval", state do
