@@ -73,24 +73,34 @@ defmodule CammComp do
     IO.puts("Compiling file: " <> file_path)
     assembly = String.replace_trailing(file_path, ".c", ".s")
 
-    lista_tokens =
+    listaTokens =
       File.read!(file_path)
       |> Sanitizer.sanitize_source()
       |> IO.inspect(label: "\nSanitizer output")
       |> Lexer.scan_words()
       |> IO.inspect(label: "\nLexer output")
 
-    filtro = Filter.filter_lexer(lista_tokens)
+    filtro = Filter.filter_lexer(listaTokens)
 
     if filtro == [] do
-      arbol =
-        lista_tokens
+      tree =
+        listaTokens
         |> Parser.parse_program()
         |> IO.inspect(label: "\nParser output")
+
+      if is_map(tree) do
+        tree
+        |> Generator.generate_code()
+        |> IO.inspect(label: "\nGenertor output")
+        |> Linker.generate_binary(assembly)
+      else
+        IO.puts("Error Sintactico")
+      end
+    else
+      IO.puts("Error Lexico:")
+      IO.puts("Error: Elemento: posicion")
+      IO.inspect(filtro)
     end
-    |> Generator.generate_code()
-    |> IO.inspect(label: "\nGenertor output")
-    |> Linker.generate_binary(assembly)
   end
 
   defp print_token_list(file_path) do

@@ -12,7 +12,7 @@ defmodule Lexer do
           {{{:constant, String.to_integer(value)}, linea}, String.trim_leading(program, value)}
       end
     else
-      {["ERROR", program, linea], ""}
+      {["error", program, linea], ""}
     end
   end
 
@@ -34,12 +34,12 @@ defmodule Lexer do
       end
 
     if rest != "" do
-      auxiliar_token = {rest, linea}
-      remaining_tokens = lex_raw_tokens(auxiliar_token)
-      toke = [token | remaining_tokens]
+      token_aux = {rest, linea}
+      tokens_rest = lex_raw_tokens(token_aux)
+      toke = [token | tokens_rest]
     else
-      remaining_tokens = lex_raw_tokens(rest)
-      toke = [token | remaining_tokens]
+      tokens_rest = lex_raw_tokens(rest)
+      toke = [token | tokens_rest]
     end
   end
 
