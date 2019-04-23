@@ -4,11 +4,11 @@ defmodule Lpncc do
   """
 
   @commands %{
-    "help" => "Imprimi est ayuda",
-    "s"    => "Imprime el codigo en ensamblador del programa ",
+    "h o help" => "Imprimi est ayuda",
+    "asm o s"    => "Imprime el codigo en ensamblador del programa ",
     "o"    => "Cambia el nombre del archivo",
-    "t"    => "Imprime la lista de tokens",
-    "a"    => "Imprime el ensamblador"
+    "tree o t"    => "Imprime la lista de tokens",
+    "ast o a"    => "Imprime el arbol AST"
    }
 
   def main(args) do
@@ -25,12 +25,18 @@ defmodule Lpncc do
     print_help_message()
   end
 
+  defp process_args({[h: true], _, _}) do
+    print_help_message()
+  end
 
   defp process_args({_, [file_name], _}) do
     compile_file(file_name)
   end
 
   defp process_args({[t: file_name],_, _}) do
+    lista_tokens(file_name)
+  end
+  defp process_args({[tree: file_name],_, _}) do
     lista_tokens(file_name)
   end
 
@@ -42,22 +48,26 @@ defmodule Lpncc do
     parser(file_name)
   end
 
+  defp process_args({[ast: file_name],_, _}) do
+    parser(file_name)
+  end
+
   defp process_args({[s: file_name],_, _}) do
   ensamblador(file_name)
   end
 
-  
+  defp process_args({[asm: file_name],_, _}) do
+  ensamblador(file_name)
+  end
+
   defp compile_file(file_path) do
     IO.puts("Compilando archivo: " <> file_path)
     assembly_path = String.replace_trailing(file_path, ".c", ".s")
 
     File.read!(file_path)
     |> Sanitizer.sanitize_source()
-    |> IO.inspect(label: "\n Salida sanitizer: ")
     |> Lexer.scan_words() #{:error , valor}
-    |> IO.inspect(label: "\n Salida Lexer: ")
     |> Parser.parseo() #{:error ,falta main}
-    |> IO.inspect(label: "\n Salida Parser:")
     |> CodeGenerator.generate_code()
     |> Linker.generate_binary(assembly_path)
   end
@@ -78,7 +88,7 @@ defmodule Lpncc do
     |> Linker.generate_binary(assembly_path)
   end
 
-  defp  lista_tokens(file_path) do 
+  defp  lista_tokens(file_path) do
     File.read!(file_path)
     |> Sanitizer.sanitize_source()
     |> Lexer.scan_words()
@@ -101,6 +111,8 @@ defmodule Lpncc do
       |> Lexer.scan_words()
       |> Parser.parseo()
       |> CodeGenerator.generate_code()
+      |> Stream.into("asm_code.s")
+
   end
 
 
@@ -108,12 +120,11 @@ defmodule Lpncc do
     IO.puts("\nLpncc --help Archivo de Ayuda \n")
 
     IO.puts("\nEl compilador soporta las siguientes opciones:\n")
-    IO.puts("\n -s muestra el codigo ensamblador del programa ")
-    IO.puts("\n -a muestra el arbol AST \n")
-    IO.puts("\n -t muestra la lista de tokens")
-    IO.puts("\n -o archivo con otro nombre")
+    IO.puts("\n --s  o --asm muestra el codigo ensamblador del programa ")
+    IO.puts("\n --a o --ast muestra el arbol AST")
+    IO.puts("\n --t o --tree muestra la lista de tokens")
+    IO.puts("\n --o archivo con otro nombre")
     @commands
     |> Enum.map(fn {command, description} -> IO.puts("  #{command} - #{description}") end)
   end
 end
-
