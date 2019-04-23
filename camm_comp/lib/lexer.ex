@@ -21,14 +21,14 @@ defmodule Lexer do
 
     {token, rest} =
       case program do
-        "int" <> rest -> {:intkeyword, rest}
-        "return" <> rest -> {:returnkeyword, rest}
-        "main" <> rest -> {:mainkeyword, rest}
-        "{" <> rest -> {:open_brace, rest}
-        "}" <> rest -> {:close_brace, rest}
-        "(" <> rest -> {:open_parenthesis, rest}
-        ")" <> rest -> {:close_parenthesis, rest}
-        ";" <> rest -> {:semicolon, rest}
+        "int" <> rest -> {{:intkeyword, linea_keyword}, rest}
+        "return" <> rest -> {{:returnkeyword, linea_keyword}, rest}
+        "main" <> rest -> {{:mainkeyword, linea_keyword}, rest}
+        "{" <> rest -> {{:open_brace, linea_keyword}, rest}
+        "}" <> rest -> {{:close_brace, linea_keyword}, rest}
+        "(" <> rest -> {{:open_parenthesis, linea_keyword}, rest}
+        ")" <> rest -> {{:close_parenthesis, linea_keyword}, rest}
+        ";" <> rest -> {{:semicolon, linea_keyword}, rest}
         # "n when is_bitstring(n)" <> rest -> {:pepe, rest}
         rest -> get_constant(rest, linea)
       end
