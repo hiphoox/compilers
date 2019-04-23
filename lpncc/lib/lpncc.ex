@@ -40,7 +40,7 @@ defmodule Lpncc do
     lista_tokens(file_name)
   end
 
-  defp process_args({[o: file_name],[file_name, nuevo_nombre], _}) do
+  defp process_args({[o: true],[nuevo_nombre,file_name],_}) do
     compilar_con_nuevo_nombre(nuevo_nombre, file_name)
   end
 
@@ -68,7 +68,7 @@ defmodule Lpncc do
     |> Sanitizer.sanitize_source()
     |> Lexer.scan_words() #{:error , valor}
     |> Parser.parseo() #{:error ,falta main}
-    |> CodeGenerator.generate_code()
+    |> CodeGenerator.generate_code() 
     |> Linker.generate_binary(assembly_path)
   end
 
@@ -85,7 +85,7 @@ defmodule Lpncc do
     |> Parser.parseo()
     |> IO.inspect(label: "\nSalida Parser: ")
     |> CodeGenerator.generate_code()
-    |> Linker.generate_binary(assembly_path)
+    |> Linker.generate_binary(assembly_path <> ".s")
   end
 
   defp  lista_tokens(file_path) do
