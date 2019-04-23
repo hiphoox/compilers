@@ -1,3 +1,4 @@
+# encoding: utf-8
 from treelib import Node, Tree
 
 

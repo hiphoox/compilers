@@ -24,7 +24,7 @@ def lista():
 """si un token es distinto con el alguno de "lista esperada" pero dentro de ese token se 
 se encuentra la palabra "integer" entonces significa que es un entero y puede
 ser distinto, dado que acepta todos los enteros nuestro compilador. Si el token distinto y no tiene
-esa palabra entonces sí manda que hay un error. Esto es posible porque en el lexer 
+esa palabra entonces si manda que hay un error. Esto es posible porque en el lexer 
 si encuentra un numero lo etiqueta con la palabra integer. El elemento de la lista que 
 tiene que tener la etiqueta integer es una tupla """
 
