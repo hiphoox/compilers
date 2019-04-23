@@ -79,11 +79,8 @@ defmodule Lpncc do
 
     File.read!(file_name)
     |> Sanitizer.sanitize_source()
-    |> IO.inspect(label: "\nSalida sanitizer:")
     |> Lexer.scan_words()
-    |> IO.inspect(label: "\nSalida Lexer:")
     |> Parser.parseo()
-    |> IO.inspect(label: "\nSalida Parser: ")
     |> CodeGenerator.generate_code()
     |> Linker.generate_binary(assembly_path <> ".s")
   end
