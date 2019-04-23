@@ -33,6 +33,12 @@
 
 -> $ CammComp a examples/e1.c
 
+-> cd examples/
+
+-> ./e1
+
+-> echo $?
+
 ##EXTRA
 
  Para ver estas instrucciones de manera grafica puedo consultar la guia de usuario grafica en el siguiente enlace:
