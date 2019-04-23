@@ -111,9 +111,9 @@ defmodule Lpncc do
       |> Lexer.scan_words()
       |> Parser.parseo()
       |> CodeGenerator.generate_code()
-      |> Stream.into("asm_code.s")
-
+      |> IO.puts()
   end
+
 
 
   defp print_help_message do
