@@ -1,8 +1,6 @@
 defmodule CodeGenerator do
   def generate_code(ast) do
     code = post_order(ast)
-    IO.puts("\nSalida Generador de Código:")
-    IO.puts(code)
     code
   end
 
