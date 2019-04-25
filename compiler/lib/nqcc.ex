@@ -17,9 +17,8 @@ defmodule Nqcc do
   end
 
   def parse_args(args) do
-    OptionParser.parse(args, switches: [help: :boolean,t: :boolean,a: :boolean , s: :boolean ,o: :boolean])
+    OptionParser.parse(args, switches: [help: :boolean,t: :boolean,a: :boolean,s: :boolean,o: :boolean])
   end
-
   defp process_args({[help: true], _, _}) do
     print_help_message()
   end
@@ -59,15 +58,23 @@ defmodule Nqcc do
         |> CodeGenerator.generate_code()
         |> Linker.generate_binary(assembly_path)
         |> IO.inspect()
-      else
-        IO.puts("ERROR SINTACTICO")
-        IO.inspect(arbolAST)
       end
+      if is_tuple(arbolAST) do
+        IO.puts("ERROR SINTACTICO")
+        {_,mensaje,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero)
+        problema=to_string(problema_atomo)
+        mensaje_error=mensaje<>" in line:  "<>linea<>" and unexpected keyword: "<>problema
+        IO.inspect(mensaje_error)
+      end
+      IO.inspect(arbolAST)
 
     else
       IO.puts("Error lexico:")
-      IO.puts(" Error/palabra/linea")
-      IO.inspect(evaluar)
+      [error,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero)
+      mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
+      IO.inspect(mensaje_error)
     end
 end
 
@@ -90,13 +97,18 @@ if evaluar==[] do
     |> IO.inspect()
   else
     IO.puts("ERROR SINTACTICO")
-    IO.inspect(arbolAST)
+    {_,mensaje,linea_numero,problema_atomo}=arbolAST
+    linea=to_string(linea_numero)
+    problema=to_string(problema_atomo)
+    mensaje_error=mensaje<>" in line:  "<>linea<>" and unexpected keyword: "<>problema
+    IO.inspect(mensaje_error)
   end
-
 else
   IO.puts("Error lexico:")
-  IO.puts(" Error/palabra/linea")
-  IO.inspect(evaluar)
+  [error,palabra,linea_numero]=evaluar
+  linea=to_string(linea_numero)
+  mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
+  IO.inspect(mensaje_error)
 end
 end
 
@@ -111,8 +123,10 @@ end
       IO.inspect(lista_tokens)
     else
       IO.puts("Error lexico:")
-      IO.puts(" Error/palabra/linea")
-      IO.inspect(evaluar)
+      [error,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero)
+      mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
+      IO.inspect(mensaje_error)
     end
   end
 
@@ -123,13 +137,25 @@ end
     |> Lexer.scan_words()
     evaluar=Evaluator.evaluator_lexer(lista_tokens)
     if evaluar==[] do
-      lista_tokens
+      arbolAST=lista_tokens
       |> Parser.parse_program()
-      |> IO.inspect()
+      if is_map(arbolAST)do
+        IO.inspect(arbolAST)
+      end
+      if is_tuple(arbolAST)do
+        IO.puts("ERROR SINTACTICO")
+        {_,mensaje,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero)
+        problema=to_string(problema_atomo)
+        mensaje_error=mensaje<>" in line:  "<>linea<>" and unexpected keyword: "<>problema
+        IO.inspect(mensaje_error)
+      end
     else
       IO.puts("Error lexico:")
-      IO.puts(" Error/palabra/linea")
-      IO.inspect(evaluar)
+      [error,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero)
+      mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
+      IO.inspect(mensaje_error)
     end
   end
 
@@ -148,13 +174,19 @@ end
         |> IO.inspect()
       else
         IO.puts("ERROR SINTACTICO")
-        IO.inspect(arbolAST)
+        {_,mensaje,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero)
+        problema=to_string(problema_atomo)
+        mensaje_error=mensaje<>" in line:  "<>linea<>" and unexpected keyword: "<>problema
+        IO.inspect(mensaje_error)
       end
 
     else
       IO.puts("Error lexico:")
-      IO.puts(" Error/palabra/linea")
-      IO.inspect(evaluar)
+      [error,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero)
+      mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
+      IO.inspect(mensaje_error)
     end
 
   end

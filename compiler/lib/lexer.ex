@@ -51,10 +51,10 @@ defmodule Lexer do
 	if rest != "" do
 		auxiliar_token={rest,linea}
 		remaining_tokens=lex_raw_tokens(auxiliar_token)
-		toke=[token | remaining_tokens]
+		[token | remaining_tokens]
 	else
 		remaining_tokens=lex_raw_tokens(rest)
-		toke=[token | remaining_tokens]
+		[token | remaining_tokens]
 	end
 
   end

@@ -14,7 +14,7 @@ defmodule Sanitizer do
    		    otrostokens=hacer_lista(otras_lineas,linea)
    		    lista_token_con_num ++ otrostokens
      end
-     def hacer_lista(program,linea)  do
+     def hacer_lista(_program,_linea)  do
           []
      end
 
