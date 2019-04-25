@@ -110,6 +110,7 @@ defp assembly(file_path) do
     |> Lexer.scan_words()
     |> Parser.parse_program()
     |> CodeGenerator.generate_code()
+   
 
 end
 
@@ -118,11 +119,11 @@ end
     assembly_path = String.replace_trailing(file_path, ".c", ".s")
     File.read!(file_path)
     |> Saneador.limpiado()
-    |> IO.inspect(label: "\nSanitizer ouput")
+    ##|> IO.inspect(label: "\nSanitizer ouput")
     |> Lexer.scan_words()
-    |> IO.inspect(label: "\nLexer ouput")
+    ##|> IO.inspect(label: "\nLexer ouput")
     |> Parser.parse_program()
-    |> IO.inspect(label: "\nParser ouput")
+    ##|> IO.inspect(label: "\nParser ouput")
     |> CodeGenerator.generate_code()
     |> Linker.generate_binary(assembly_path)
   end
