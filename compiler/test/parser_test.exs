@@ -25,7 +25,8 @@ arbol0: Parser.parse_program([
 {{:constant, 2}, 0},
 {:semicolon, 0},
 {:close_brace, 0}
-])
+]),
+error1: {:error, "Error, close brace missed in line", 0, :return_keyword},
 
 }
   end
@@ -55,16 +56,9 @@ arbol0: Parser.parse_program([
       {{:constant, 2}, 0},
       {:semicolon, 0},
       {:close_brace, 0}
-    ]) == state[:arbol]
+    ]) == state[:error1]
   end
-  test "menos tokens", state do
-    assert Parser.parse_program([
-      {:int_keyword, 0},
-      {:main_keyword, 0},
-      {:open_paren, 0},
-      {:close_paren, 0}
-    ]) == state[:arbol]
-  end
+
 #---------------------------------------------------------------------------------
 test " Separdos", state do
     assert Lexer.scan_words([{"int",0}, {"main(){return",0}, {"2;}",0}])|> Parser.parse_program() ==

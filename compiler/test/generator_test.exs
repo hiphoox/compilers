@@ -33,18 +33,6 @@ defmodule GeneratorTest do
 }) == state[:codigo]
   end
 
-  test "ERROR de arbol1", state do
-      assert CodeGenerator.generate_code({:error, "Error: return keyword missed in line", 2}) == state[:codigo]
-    end
-    test "ERROR de arbol2", state do
-      assert CodeGenerator.generate_code({:error, "Error: there are more elements after function end", 2}) == state[:codigo]
-    end
-    test "ERROR de arbol3", state do
-      assert CodeGenerator.generate_code({:error, "Error: open brace missed in line", 2}) == state[:codigo]
-    end
-    test "ERROR de arbol4", state do
-      assert CodeGenerator.generate_code({:error, "EError: close parentesis missed in line", 2}) == state[:codigo]
-    end
     #---------------------------------------------------------------------------------
     test " Separdos", state do
         assert Lexer.scan_words([{"int",0}, {"main(){return",0}, {"2;}",0}])
