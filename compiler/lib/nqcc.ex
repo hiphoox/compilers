@@ -64,17 +64,17 @@ defmodule Nqcc do
         {_,mensaje,linea_numero,problema_atomo}=arbolAST
         linea=to_string(linea_numero)
         problema=to_string(problema_atomo)
-        mensaje_error=mensaje<>" in line:  "<>linea<>" and unexpected keyword: "<>problema
+        mensaje_error=mensaje<>" in line:  "<>linea<>" and expected: "<>problema
         IO.inspect(mensaje_error)
       end
       IO.inspect(arbolAST)
-
     else
       IO.puts("Error lexico:")
       [error,palabra,linea_numero]=evaluar
       linea=to_string(linea_numero)
       mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
       IO.inspect(mensaje_error)
+      IO.inspect(evaluar)
     end
 end
 
@@ -100,7 +100,7 @@ if evaluar==[] do
     {_,mensaje,linea_numero,problema_atomo}=arbolAST
     linea=to_string(linea_numero)
     problema=to_string(problema_atomo)
-    mensaje_error=mensaje<>" in line:  "<>linea<>" and unexpected keyword: "<>problema
+    mensaje_error=mensaje<>" in line:  "<>linea<>" and expected: "<>problema
     IO.inspect(mensaje_error)
   end
 else
@@ -147,7 +147,7 @@ end
         {_,mensaje,linea_numero,problema_atomo}=arbolAST
         linea=to_string(linea_numero)
         problema=to_string(problema_atomo)
-        mensaje_error=mensaje<>" in line:  "<>linea<>" and unexpected keyword: "<>problema
+        mensaje_error=mensaje<>" in line:  "<>linea<>" and expected: "<>problema
         IO.inspect(mensaje_error)
       end
     else
@@ -177,10 +177,9 @@ end
         {_,mensaje,linea_numero,problema_atomo}=arbolAST
         linea=to_string(linea_numero)
         problema=to_string(problema_atomo)
-        mensaje_error=mensaje<>" in line:  "<>linea<>" and unexpected keyword: "<>problema
+        mensaje_error=mensaje<>" in line:  "<>linea<>" and expected: "<>problema
         IO.inspect(mensaje_error)
       end
-
     else
       IO.puts("Error lexico:")
       [error,palabra,linea_numero]=evaluar
@@ -188,7 +187,6 @@ end
       mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
       IO.inspect(mensaje_error)
     end
-
   end
 
   defp print_help_message do
