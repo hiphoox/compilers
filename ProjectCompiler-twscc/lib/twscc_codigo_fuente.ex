@@ -19,7 +19,8 @@ defmodule Proyecto_compilador do #version 0.8,
   def compile(path, flag_or_name) do
     if path =~ ".c" and File.exists?(path) do
       #envío de la ruta y bandera al orquestador
-       Orquestador.manager(path, flag_or_name);
+
+       Orquestador.manager(File.read!(path), path, flag_or_name);
      else
        show_error(3) |> IO.puts;
        show_error(3);
