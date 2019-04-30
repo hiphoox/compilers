@@ -31,29 +31,26 @@
 
 
   def lex_raw_tokens(program) when program != "" do #Búsqueda de patrones en la cadena de código
-    {token, cadena_restante} =
-    case program do
-        "{" <> cadena_restante -> {:open_brace, cadena_restante}
-        "}" <> cadena_restante -> {:close_brace, cadena_restante}
-        "(" <> cadena_restante -> {:open_paren, cadena_restante}
-        ")" <> cadena_restante -> {:close_paren, cadena_restante}
-        ";" <> cadena_restante -> {:semicolon, cadena_restante}
-        "return" <> cadena_restante -> {:return_Keyword, cadena_restante}
-        "int" <> cadena_restante -> {:int_Keyword, cadena_restante}
-        "main" <> cadena_restante -> {:main_Keyword, cadena_restante}
+  {token, cadena_restante} =
+  case program do
+      "{" <> cadena_restante -> {:open_brace, cadena_restante}
+      "}" <> cadena_restante -> {:close_brace, cadena_restante}
+      "(" <> cadena_restante -> {:open_paren, cadena_restante}
+      ")" <> cadena_restante -> {:close_paren, cadena_restante}
+      ";" <> cadena_restante -> {:semicolon, cadena_restante}
+      "return" <> cadena_restante -> {:return_Keyword, cadena_restante}
+      "int" <> cadena_restante -> {:int_Keyword, cadena_restante}
+      "main" <> cadena_restante -> {:main_Keyword, cadena_restante}
 
+      :error -> {:error, nil}
+      #Si no hubo ninguna coincidencia, inserta la cadena error
+      #si se encontró un error, guarda en cadena restante {:error, motivo}
+      cadena_restante -> get_constant_chk_error(cadena_restante)
+      end
 
-        #Si no hubo ninguna coincidencia, inserta la cadena error
-        #si se encontró un error, guarda en cadena restante {:error, motivo}
-        cadena_restante -> get_constant_chk_error(cadena_restante)
-        end
+      tokens_restantes = lex_raw_tokens(cadena_restante)
+      [token | tokens_restantes]
 
-        #var es {tokens, cadena_restante}
-        tokens_restantes = lex_raw_tokens(cadena_restante)
-        [token | tokens_restantes]
-
-        #tokens_restantes = lex_raw_tokens(cadena_restante)
-        #[token | tokens_restantes]
   end
 
     def lex_raw_tokens(_program) do
