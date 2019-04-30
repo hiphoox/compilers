@@ -12,18 +12,16 @@
 
 
   def start_lexing(words, flag) do
-    #IO.inspect(words)
-    #token_list = lex_raw_tokens(List.first(words))
     token_list = Enum.flat_map(words, &lex_raw_tokens/1)
-    #IO.inspect(token_list)
     #s hubo error en la sintaxis, debe de haber un token llamado ":error".
     if Enum.member?(token_list, :error) do
       #Si dicho token no existe, entonces devuelve tupla de error
-      {:error, "LEXER ERROR"}
+      {:error, "Error léxico." }
     else
       #revisa la bandera para mostrar o no en pantalla la lista de tokens
        if flag == :show_token do
         IO.inspect(token_list)
+         #Solo mostrar lista de tokens y finalizar ejecución en el orquestador.
          {:only_tokens, token_list}
        else
          {:ok, token_list}
