@@ -4,7 +4,7 @@ defmodule SaneadorTest do
 
   setup_all do
      {:ok,
-      sanity_error: {:error, "Código fuente vacío, nada por procesar"} }
+      sanity_error: {:error, "Error. Archivo código fuente vacío."} }
   end
 
   test "Código fuente vacío", state do
