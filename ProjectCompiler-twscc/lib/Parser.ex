@@ -1,20 +1,9 @@
 defmodule Parser do
   def parse_tokens(token_list, flag) do
     output = parse_program(token_list)
-
     #si output fue una tupla error, regrésala. Sino parsea bandera y devuelve arbol
     if elem(output, 0) == :error , do: output, else: parsing_flag(output, flag)
   end
-
-  def parsing_flag(ast, :show_ast) do
-     IO.inspect(ast)
-     {:only_ast, ast}
-  end
-
-  def parsing_flag(ast, _) do
-     {:ok, ast}
-  end
-
 
   def parse_program(tokens) do
     [tokens, func_node] = parse_function(tokens)
