@@ -1,25 +1,19 @@
 defmodule Linker do
   def binary_output(asm, flag, path) do
-    #case asm do
-      #la variable ASM traerá el error acarreado o bien, el string del ensamblador generado
-      #imprime en pantalla el motivo del error
-      #{:error, _} -> IO.inspect(elem(asm, 1), label: "ERROR ")
-      {:ok, generate_exe_or_asm(asm, flag, path)}
+      {:ok, generate_exe(asm, flag, path)}
     #end
   end
 
-  def generate_exe_or_asm(asm, flag, path) do
+  def generate_exe(asm, flag, path) do
     case flag do
-      :gen_asm    -> nil
-      :show_token -> nil
-      :show_ast   -> nil
       :no_output  -> File.write!(String.replace_trailing(path, ".c", ".s"), asm)
                      write_program(path); #conserva el nombre del codigo fuente
                _  -> File.write!(String.replace_trailing(path, ".c", ".s"), asm)
                      write_program(path, flag); #cambia el nombre del ejecutable
     end
   end
-  #escribe en disco el programa con el mismo nombre que el código fuente
+
+  #Escribe en disco el programa con el mismo nombre que el código fuente
   def write_program(path) do
     program_name = Path.basename(path, ".c")
     dir_name = Path.dirname(path)
@@ -30,7 +24,7 @@ defmodule Linker do
     IO.puts ("Ejecutable generado, para ver la salida del programa: ./#{program_name}; echo $?")
   end
 
-  #escribe en disco el programa con un nuevo nombre almacenado en flag
+  #Escribe en disco el programa con un nuevo nombre almacenado en flag
   def write_program(path, flag) do
     dir_name = Path.dirname(path)
     asm_file_path = Path.basename(path, ".c")

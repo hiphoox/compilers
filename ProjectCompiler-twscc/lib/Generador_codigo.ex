@@ -2,11 +2,14 @@ defmodule Generador_codigo do
 
   def assembly(ast, flag, path) do
     asm_string = postorden(ast, "")
+    #Según la bandera, escribe ensamblador en disco o continua hacia el linker para generar ejecutable
     if flag == :gen_asm, do: genera_archivo(asm_string, path), else: {:ok, asm_string}
   end
   #sin hijos el nodo
   defp postorden({}, code), do: code;
   #nodo con hijos
+
+  #Búsqueda en postorden (izquierda, derecha y arriba)
   defp postorden({atomo, value, izquierda ,derecha }, code) do
     code = postorden(izquierda, code)
     code = postorden(derecha, code)
@@ -40,9 +43,11 @@ defmodule Generador_codigo do
         ret
     """
   end
+
   def genera_archivo(code,path) do
-    File.write!(String.replace_trailing(path, ".c", ".s"), code)
-    {:only_asm,"Archivo ensamblador generado correctamente"}
+    asm_path = String.replace_trailing(path, ".c", ".s")
+    File.write!((asm_path), code)
+    {:only_asm, "Archivo ensamblador generado correctamente en la ruta: " <> asm_path}
   end
 
 end

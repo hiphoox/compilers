@@ -4,7 +4,7 @@ defmodule LexerTest do
 
   setup_all do
     {:ok,
-     tokens: [
+     tokens: {:ok, [
        :int_Keyword,
        :main_Keyword,
        :open_paren,
@@ -14,7 +14,7 @@ defmodule LexerTest do
        {:constant, 2},
        :semicolon,
        :close_brace
-     ]}
+     ]}}
   end
 
   test "Elementos separados unicamente por espacios", state do
@@ -34,7 +34,7 @@ defmodule LexerTest do
   end
 
   test "Prueba 1 de Nora Sandler: código fuente sin espacios" do
-    assert Lexer.scan_word(File.read!("test/spaces.c"), :no_output) == [
+    assert Lexer.scan_word(File.read!("test/spaces.c"), :no_output) == {:ok, [
       :int_Keyword,
       :main_Keyword,
       :open_paren,
@@ -43,7 +43,7 @@ defmodule LexerTest do
       :return_Keyword,
       {:constant, 0},
       :semicolon,
-      :close_brace]
+      :close_brace]}
   end
 
   test "Prueba 2 de Nora Sandler: valor de retorno 2", state do
@@ -51,7 +51,7 @@ defmodule LexerTest do
   end
 
   test "Prueba 3 de Nora Sandler: valor de retorno 0" do
-    assert Lexer.scan_word(File.read!("test/return_0.c"), :no_output) == [
+    assert Lexer.scan_word(File.read!("test/return_0.c"), :no_output) == {:ok,[
       :int_Keyword,
       :main_Keyword,
       :open_paren,
@@ -60,11 +60,11 @@ defmodule LexerTest do
       :return_Keyword,
       {:constant, 0},
       :semicolon,
-      :close_brace]
+      :close_brace]}
   end
 
   test "Prueba 4 de Nora Sandler: Sin saltos de línea" do
-    assert Lexer.scan_word(File.read!("test/no_newlines.c"), :no_output) == [
+    assert Lexer.scan_word(File.read!("test/no_newlines.c"), :no_output) == {:ok, [
       :int_Keyword,
       :main_Keyword,
       :open_paren,
@@ -73,11 +73,11 @@ defmodule LexerTest do
       :return_Keyword,
       {:constant, 0},
       :semicolon,
-      :close_brace]
+      :close_brace]}
   end
 
   test "Prueba 5 de Nora Sandler: Valor de retorno 100 (múltiples dígitos) " do
-    assert Lexer.scan_word(File.read!("test/multi_digit.c"), :no_output) == [
+    assert Lexer.scan_word(File.read!("test/multi_digit.c"), :no_output) == {:ok, [
       :int_Keyword,
       :main_Keyword,
       :open_paren,
@@ -86,11 +86,11 @@ defmodule LexerTest do
       :return_Keyword,
       {:constant, 100},
       :semicolon,
-      :close_brace]
+      :close_brace]}
   end
 
   test "Prueba 6 de Nora Sandler: Con saltos de línea" do
-    assert Lexer.scan_word(File.read!("test/new_line.c"), :no_output) == [
+    assert Lexer.scan_word(File.read!("test/new_line.c"), :no_output) == {:ok, [
       :int_Keyword,
       :main_Keyword,
       :open_paren,
@@ -99,11 +99,11 @@ defmodule LexerTest do
       :return_Keyword,
       {:constant, 0},
       :semicolon,
-      :close_brace]
+      :close_brace]}
   end
 
   test "Prueba 7 de Nora Sandler: return en mayúsculas" do
-    assert Lexer.scan_word(File.read!("test/wrong_case.c"), :no_output) == {:error, "Error lexico, se encontró una expresión inválida en el código"}
+    assert Lexer.scan_word(File.read!("test/wrong_case.c"), :no_output) == {:error, "Error léxico."}
   end
 
 end
