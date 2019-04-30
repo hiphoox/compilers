@@ -4,11 +4,10 @@
     #Realiza limpieza del código
     words = Saneador.fix_format(string)
     case words do
-      [""] -> {:error, "Código fuente vacío, nada por procesar"}
-        _ ->  start_lexing(words, flag) #sino, comienza a generar tokens
-        #IO.inspect(a)
-    end
+      [""] -> {:error, "Error. Archivo código fuente vacío."}
+        _ ->  start_lexing(words, flag) #Comienza a generar lista de Tokens
     #deberá devolver la lista de tokens
+    end
   end
 
 
