@@ -34,7 +34,7 @@ defmodule Generador_codigo do
 
   def codigo_gen(:constant, value, _) do
     """
-        movl    $#{value}, %eax
+        movl     $#{value}, %eax
     """
   end
 
@@ -48,6 +48,20 @@ defmodule Generador_codigo do
   def codigo_gen(:negation_Keyword, _, codigo) do
     codigo <> """
         neg     %eax
+    """
+  end
+
+  def codigo_gen(:bitewise_Keyword, _, codigo) do
+    codigo <> """
+        not     %eax
+    """
+  end
+
+  def codigo_gen(:logicalNeg_Keyword, _, codigo) do
+    codigo <> """
+        cmpl     $0, %eax
+        movl     $0, %eax
+        sete     %al
     """
   end
 
