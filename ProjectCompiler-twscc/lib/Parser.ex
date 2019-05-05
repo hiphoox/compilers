@@ -48,35 +48,54 @@ defmodule Parser do
   end
 
   def parse_expression(tokens) do
+    #IO.inspect(List.first(tokens), label: "K TRAE TOKENS")
     #Si tokens trae error, devuelve ese mismo error sin crear un nodo de árbol
     case tokens do
       {:error, _} -> [tokens, nil]
-      _-> {atom, value, tokens} =
+      _-> [tokens, node_exp_parsed]=
 
           case List.first(tokens) do
             #Parsea una constante.
             {:constant, _} -> parse_constant(tokens, :constant)
+            :bitewise_Keyword -> parse_unary_ops(tokens, :bitewise_Keyword); #detecta operador unario
+            :logicalNeg_Keyword -> parse_unary_ops(tokens,:logicalNeg_Keyword);
+            :negation_Keyword -> parse_unary_ops(tokens,:negation_Keyword);
             #Expresión futura
             #Expresión futura
             #Expresión futura
             _-> {"", "", {:error, "Error de sintaxis. Falta un valor en la expresión."}}
           end
 
+
           case tokens do
             {:error, _} -> [tokens, ""]
             #Si no hubo error al parsear la expresión, crea nodo de la expresión y devuélvelo.
-            _ -> [tokens, {atom, value, {}, {}}]
+            _ -> [tokens, node_exp_parsed]
           end
     end
 
   end
+#funcion que extrae y parsea el operador unario
+  def parse_unary_ops(token, atom) do
+    case token do
+      {:error, _} -> {"", "", token}; #envia null porque solo te interesa propagar tokens
+      _ -> if List.first(token) == atom do
+              remain=Enum.drop(token, 1) #extraer el elemento de la lista de tokens y borrarlo
+              [token, inner_exp] = parse_expression(remain)#RECURSIVIDAD, inner_exp contiene los elementos restantes de de la expresión, llama a parser_exp para volver a parsear hasta que terminemos de evaluar todos los elementos
+              [token, {atom, diccionario(atom), inner_exp,{}}]
+           else
+              {"", "", {:error, "Error de sintáxis. Constante inválida."}}
+          end
+    end
+  end
+
 
   def parse_constant(token, atom) do
     #¿Token trae tupla error en vez de la lista? devuelvela tal como está.
     case token do
       {:error, _} -> {"", "", token}; #envia null porque solo te interesa propagar tokens
       _ -> if elem(List.first(token), 0) == atom do
-              {atom, elem(List.first(token), 1), Enum.drop(token, 1)}
+              [Enum.drop(token, 1), {elem(List.first(token),0), elem(List.first(token),1),{},{}}]
            else
               {"", "", {:error, "Error de sintáxis. Constante inválida."}}
           end
@@ -117,6 +136,9 @@ defmodule Parser do
           :close_brace->"}"
           :return_Keyword->"return"
           :semicolon->";"
+          :logicalNeg_Keyword->"!"
+          :negation_Keyword->"-"
+          :bitewise_Keyword -> "~"
           _ -> "(vacío)"
       end
   end

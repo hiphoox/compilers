@@ -33,14 +33,21 @@ defmodule Generador_codigo do
   end
 
   def codigo_gen(:constant, value, _) do
-    "$#{value}"
+    """
+        movl    $#{value}, %eax
+    """
   end
 
   ##pega el valor de la constante y añade una instruccion return
   def codigo_gen(:return_Keyword, _, codigo) do
-    """
-        movl    #{codigo}, %eax
+    codigo <> """
         ret
+    """
+  end
+
+  def codigo_gen(:negation_Keyword, _, codigo) do
+    codigo <> """
+        neg     %eax
     """
   end
 
