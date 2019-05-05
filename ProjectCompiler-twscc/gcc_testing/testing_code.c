@@ -1,3 +1,5 @@
+#include<stdio.h>
 int main (){
-  return !3;
+  printf("Op. logic: %i\n", ~2);
+  return ~2;
 }
