@@ -1,6 +1,15 @@
-# ProyectoCompilador 2019-1 FI
+# Compilador twscc
 
-Compilador del equipo "The Well Stressed Coders Company" Integrado por Brenda, Marian, Charlie y Eric
+Compilador de un subconjunto de funciones de C 
+
+##### "The Well Stressed Coders Company" Facultad de Ingeniería, UNAM.
+
+#### Integrantes del proyecto
+
+*Ortiz Martinez Brenda*
+*Barrón Pérez Marian*
+*Valdez Mondragón Erik*
+*Monterrubio Lopez Charlie Brian*
 
 ## Instalación
 
