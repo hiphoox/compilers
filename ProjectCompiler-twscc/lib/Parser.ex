@@ -63,7 +63,7 @@ defmodule Parser do
             #Expresión futura
             #Expresión futura
             #Expresión futura
-            _-> {"", "", {:error, "Error de sintaxis. Falta un valor en la expresión."}}
+            _-> [{:error, "Error de sintaxis. Falta algún valor en la expresión."}, ""]
           end
 
 
@@ -84,7 +84,7 @@ defmodule Parser do
               [token, inner_exp] = parse_expression(remain)#RECURSIVIDAD, inner_exp contiene los elementos restantes de de la expresión, llama a parser_exp para volver a parsear hasta que terminemos de evaluar todos los elementos
               [token, {atom, diccionario(atom), inner_exp,{}}]
            else
-              {"", "", {:error, "Error de sintáxis. Constante inválida."}}
+              [{:error, ""}, ""]
           end
     end
   end

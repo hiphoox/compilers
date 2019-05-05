@@ -30,7 +30,7 @@ defmodule ParserTest do
 
   test "Prueba 4 de Nora Sandler: Sin valor de retorno" do
     token_list = Lexer.scan_word(File.read!("test/missing_retval.c"), :no_output);
-    assert  Parser.parse_tokens(elem(token_list, 1), :no_output) == {:error, "Error de sintaxis. Falta un valor en la expresión."}
+    assert  Parser.parse_tokens(elem(token_list, 1), :no_output) == {:error, "Error de sintaxis. Falta algún valor en la expresión."}
   end
 
   test "Código al cual le falta la expresión return" do
