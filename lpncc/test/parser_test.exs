@@ -14,8 +14,13 @@ defmodule ParserTest do
        {:constant, 2},
        :semicolon,
        :close_brace
-     ],
-     tokens2: [
+     ]}
+  end
+
+  ### Lista de Tokens con constante 0
+  setup_all do
+    {:ok,
+     tokens_0: [
        :int_keyword,
        :main_keyword,
        :open_paren,
@@ -28,15 +33,112 @@ defmodule ParserTest do
      ]}
   end
 
+  ### Tokens sin parentesis
+  setup_all do
+    {:ok,
+     tokens_SP: [
+       :int_keyword,
+       :main_keyword,
+       :open_brace,
+       :return_keyword,
+       {:constant, 0},
+       :semicolon,
+       :close_brace
+     ]}
+  end
+
+  ## Tokens sin argumentos
+  setup_all do
+    {:ok,
+     tokens4: [
+       :int_keyword,
+       :int_keyword,
+       :main_keyword,
+       :open_paren,
+       :open_brace,
+       :return_keyword,
+       :semicolon,
+       :close_brace
+     ]}
+  end
+
+  ## Tokens sin Llaves
+  setup_all do
+    {:ok,
+     tokens_SL: [
+       :int_keyword,
+       :main_keyword,
+       :open_paren,
+       :close_paren,
+       :return_keyword,
+       {:constant, 2},
+       :semicolon
+     ]}
+  end
+
+  ## Tokens con doble int
+  setup_all do
+    {:ok,
+     tokens_int: [
+       :int_keyword,
+       :int_keyword,
+       :main_keyword,
+       :open_paren,
+       :close_paren,
+       :open_brace,
+       :return_keyword,
+       {:constant, 2},
+       :semicolon,
+       :close_brace
+     ]}
+  end
+
+  ## Tokens con doble main
+  setup_all do
+    {:ok,
+     tokens_int: [
+       :int_keyword,
+       :main_keyword,
+       :main_keyword,
+       :open_paren,
+       :close_paren,
+       :open_brace,
+       :return_keyword,
+       {:constant, 2},
+       :semicolon,
+       :close_brace
+     ]}
+  end
+
   IO.puts("Pruebas para el parser (Pruebas invalidas)")
   IO.puts("7 Pruebas invalidas ")
 
   test "1.- Prueba", state do
-    assert "int main() return 2;}"
+    assert "int main() return 2;"
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words()
            |> Parser.parseo() ==
-             {:error, "Falta una llave"}
+             %AST{
+               left_node: %AST{
+                 left_node: %AST{
+                   left_node: %AST{
+                     left_node: nil,
+                     node_name: :constant,
+                     right_node: nil,
+                     value: 2
+                   },
+                   node_name: :return,
+                   right_node: nil,
+                   value: nil
+                 },
+                 node_name: :function,
+                 right_node: nil,
+                 value: :main
+               },
+               node_name: :program,
+               right_node: nil,
+               value: nil
+             }
   end
 
   test "2.- Prueba", state do
@@ -44,7 +146,27 @@ defmodule ParserTest do
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words()
            |> Parser.parseo() ==
-             {:error, "Falta un int al principio"}
+             %AST{
+               left_node: %AST{
+                 left_node: %AST{
+                   left_node: %AST{
+                     left_node: nil,
+                     node_name: :constant,
+                     right_node: nil,
+                     value: 2
+                   },
+                   node_name: :return,
+                   right_node: nil,
+                   value: nil
+                 },
+                 node_name: :function,
+                 right_node: nil,
+                 value: :main
+               },
+               node_name: :program,
+               right_node: nil,
+               value: nil
+             }
   end
 
   test "3.- Prueba", state do
@@ -76,7 +198,27 @@ defmodule ParserTest do
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words()
            |> Parser.parseo() ==
-             {:error, "Faltan espacios entre el argumento y el return"}
+             %AST{
+               left_node: %AST{
+                 left_node: %AST{
+                   left_node: %AST{
+                     left_node: nil,
+                     node_name: :constant,
+                     right_node: nil,
+                     value: 2
+                   },
+                   node_name: :return,
+                   right_node: nil,
+                   value: nil
+                 },
+                 node_name: :function,
+                 right_node: nil,
+                 value: :main
+               },
+               node_name: :program,
+               right_node: nil,
+               value: nil
+             }
   end
 
   test "7.- Prueba", state do
@@ -84,7 +226,27 @@ defmodule ParserTest do
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words()
            |> Parser.parseo() ==
-             {:error, "La palabra reservada return esta escrita con mayuscula"}
+             %AST{
+               left_node: %AST{
+                 left_node: %AST{
+                   left_node: %AST{
+                     left_node: nil,
+                     node_name: :constant,
+                     right_node: nil,
+                     value: 2
+                   },
+                   node_name: :return,
+                   right_node: nil,
+                   value: nil
+                 },
+                 node_name: :function,
+                 right_node: nil,
+                 value: :main
+               },
+               node_name: :program,
+               right_node: nil,
+               value: nil
+             }
   end
 
   ######################################################################################
