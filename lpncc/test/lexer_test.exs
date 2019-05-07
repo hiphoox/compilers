@@ -190,5 +190,47 @@ defmodule LexerTest do
              state[:tokens] or state[:tokens_int]
   end
 
-  #################################################################################################
+  ################################################################################################################
+######################3##Pruebas Validas para la segunda etapa del compilador#####################################
+#  test "1.- bitwise", state do
+#    assert "int main()\n {\n  return !12;\n}"
+#           |> Sanitizer.sanitize_source()
+#           |> Lexer.scan_words() ==
+#             state[:tokens] or state[:tokens_0]
+
+#  test "2.- bitwise_zero", state do
+#    assert "int main()\n {\n  return ~0;\n}"
+#           |> Sanitizer.sanitize_source()
+#           |> Lexer.scan_words() ==
+#             state[:tokens] or state[:tokens_0]
+
+#  test "3.- neg", state do
+#    assert "int main()\n {\n  return -5;\n}"
+#           |> Sanitizer.sanitize_source()
+#           |> Lexer.scan_words() ==
+#             state[:tokens] or state[:tokens_0]
+
+#  test "4.- nested_ops", state do
+#    assert "int main()\n {\n  return !-3;\n}"
+#           |> Sanitizer.sanitize_source()
+#           |> Lexer.scan_words() ==
+#             state[:tokens] or state[:tokens_0]
+
+#  test "5.- nested_ops", state do
+#    assert "int main()\n {\n  return -~0;\n}"
+#           |> Sanitizer.sanitize_source()
+#           |> Lexer.scan_words() ==
+#             state[:tokens] or state[:tokens_0]
+
+#  test "6.- not_five", state do
+#    assert "int main()\n {\n  return !5;\n}"
+#           |> Sanitizer.sanitize_source()
+#           |> Lexer.scan_words() ==
+#             state[:tokens] or state[:tokens_0]
+#  test "7.- not_zero", state do
+#    assert "int main()\n {\n  return !0;\n}"
+#           |> Sanitizer.sanitize_source()
+#           |> Lexer.scan_words() ==
+#             state[:tokens] or state[:tokens_0]
+###################################################################################################################
 end
