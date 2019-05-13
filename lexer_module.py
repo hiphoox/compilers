@@ -2,7 +2,7 @@ import re
 
 
 def lexer(plaintext):
-    keywords = re.compile('[a-zA-Z]+|[\{,\},\(,\),\;]|[0-9]+')
+    keywords = re.compile('[a-zA-Z]+|[\{,\},\(,\),\;,\-,\~,\!,\+,\*,\-,\*,\/,)]|[0-9]+')
 
     unknown_inputs = re.sub(keywords, '', plaintext)
     raw_tokens = re.findall(keywords, plaintext)
@@ -26,6 +26,18 @@ def lexer(plaintext):
             token_list.append('semicolon')
         elif (re.match(r'[0-9]+', token) is not None):  # to detect integers
             token_list.append(tuple(['integer', int(token)]))
+        elif token == '-':
+        	token_list.append('negation')
+        elif token == '~':
+        	token_list.append('bitwise_complement')
+        elif token == '!':
+        	token_list.append('logical_negation')
+        elif token == '+':
+        	token_list.append('addition')
+        elif token == '*':
+        	token_list.append('multiplication')
+        elif token == '/':
+        	token_list.append('division')
         else:  # the unknown tokens would enter here
             unknown_inputs += " " + token
 

@@ -22,6 +22,7 @@ class test_compiler(unittest.TestCase):
 		
 		print( "7 pruebas del generator ejecutadas correctamente")
 
+		#Stage 1
 		self.assertEqual (lexer_test.lexer_no_space(lista()), 1, "Prueba lexer_no_space fallida")
 		self.assertEqual (lexer_test.lexer_return_2(lista()), 1, "Prueba lexer_return_2 fallida")
 		self.assertEqual (lexer_test.lexer_multi_digit(lista()), 1, "Prueba lexer_multi_digit fallida")
@@ -29,7 +30,28 @@ class test_compiler(unittest.TestCase):
 		self.assertEqual (lexer_test.lexer_newlines(lista()), 1, "Prueba lexer_newlines fallida")
 		self.assertEqual (lexer_test.lexer_no_newlines(lista()), 1, "Prueba lexer_no_newlines fallida")
 		self.assertEqual (lexer_test.lexer_return_0(lista()), 1, "Prueba lexer_return_0 fallida")
-		print("7 pruebas del Lexer ejecutadas correctamente")
+		##Stage 2
+		self.assertEqual (lexer_test.lexer_bitwise(lista()), 1, "Prueba lexer_bitwise fallida")
+		self.assertEqual (lexer_test.lexer_bitwise_zero(lista()), 1, "Prueba lexer_bitwise_zero fallida")
+		self.assertEqual (lexer_test.lexer_neg(lista()), 1, "Prueba lexer_neg fallida")
+		self.assertEqual (lexer_test.lexer_nested_ops(lista()), 1, "Prueba lexer_nested_ops fallida")
+		self.assertEqual (lexer_test.lexer_nested_ops_2(lista()), 1, "Prueba lexer_nested_ops_2 fallida")
+		self.assertEqual (lexer_test.lexer_not_five(lista()), 1, "Prueba lexer_note_five fallida")
+		self.assertEqual (lexer_test.lexer_not_zero(lista()), 1, "Prueba lexer_note_zero fallida")
+		##Stage 3
+		#self.assertEqual (lexer_test.lexer_add(lista()), 1, "Prueba lexer_add fallida")
+		#self.assertEqual (lexer_test.lexer_associativity(lista()), 1, "Prueba lexer_associativity fallida")
+		#self.assertEqual (lexer_test.lexer_associativity_2(lista()), 1, "Prueba lexer_associativity_2 fallida")
+		#self.assertEqual (lexer_test.lexer_div(lista()), 1, "Prueba lexer_div fallida")
+		#self.assertEqual (lexer_test.lexer_mult(lista()), 1, "Prueba lexer_mult fallida")
+		#self.assertEqual (lexer_test.lexer_parens(lista()), 1, "Prueba lexer_parens fallida")
+		#self.assertEqual (lexer_test.lexer_precedence(lista()), 1, "Prueba lexer_precedence fallida")
+		#self.assertEqual (lexer_test.lexer_sub(lista()), 1, "Prueba lexer_sub fallida")
+		#self.assertEqual (lexer_test.lexer_sub_neg(lista()), 1, "Prueba lexer_sub_neg fallida")
+		#self.assertEqual (lexer_test.lexer_unop_add(lista()), 1, "Prueba lexer_unop_add fallida")
+		#self.assertEqual (lexer_test.lexer_unop_parens(lista()), 1, "Prueba lexer_unop_parens fallida")
+		##
+		print("14 pruebas del Lexer ejecutadas correctamente")
 
 
 		self.assertEqual (parser_test.arbol_return_2(arbolEsperado()), 1, "Prueba parser_return_2 fallida")
