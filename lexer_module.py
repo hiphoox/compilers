@@ -2,7 +2,7 @@ import re
 
 
 def lexer(plaintext):
-    keywords = re.compile('[a-zA-Z]+|[\{,\},\(,\),\;,\-,\~,\!,\+,\*,\-,\*,\/,)]|[0-9]+')
+    keywords = re.compile('[a-zA-Z]+|[\{,\},\(,\),\;,\-,\~,\!,\*,\-,\*,\/,\+)]|[0-9]+')
 
     unknown_inputs = re.sub(keywords, '', plaintext)
     raw_tokens = re.findall(keywords, plaintext)

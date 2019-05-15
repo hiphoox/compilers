@@ -73,6 +73,21 @@ def arbol_wrong_case():
 	lista esperada, por lo que esa prueba es invalida. Si se regresa un 1 quiere decir que la prueba invalida generó una lista
 	igual a la esperada lo cual no es correcto"""
 
+def lista1():
+	lista = ['keyword_int',
+			 'keyword_main',
+			 'parentheses_open',
+			 'parentheses_close',
+			 'bracket_open',
+			 'keyword_return',
+			 ('integer',2),
+			 'semicolon',
+			 'bracket_close'
+			]
+
+
+	return lista
+
 def lexer_missing_paren(listaEsperada):   #comparar lista fija con lista de tokens recibida con la gramatica original
 	
 	archivo = open("stage_1/invalid/missing_paren.c", "r")

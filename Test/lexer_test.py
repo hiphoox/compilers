@@ -13,7 +13,7 @@ def lista():
 			 'parentheses_close',
 			 'bracket_open',
 			 'keyword_return',
-			 ('integer',2),
+			 #('integer',2),
 			 'semicolon',
 			 'bracket_close'
 			]
@@ -51,8 +51,8 @@ def compara(listaGenerada,listaEsperada):
 				if not elemento:	#tras recorrer la lista de posibles operadores, si la cadena elemento esta vacia significa que no hubo match con un posible operador y manda error
 					#print("fallas")
 					return 0 
-			else:
-				y=y+1#si es un entero entonces sigue iterando la lista esperada, solo no itera si es un operador
+			#else:
+				#y=y+1#si es un entero entonces sigue iterando la lista esperada, solo no itera si es un operador
 		else:
 			y=y+1 #si son iguales sigue iterando la lista esperada
 	#print("exito")	
@@ -155,6 +155,8 @@ def lexer_nested_ops_2(listaEsperada):   #comparar lista fija con lista de token
 	else:
 		return 0
 
+	
+
 
 def lexer_bitwise_zero(listaEsperada):   #comparar lista fija con lista de tokens recibida con la gramatica original
 	
@@ -229,7 +231,6 @@ def lexer_not_five(listaEsperada):   #comparar lista fija con lista de tokens re
 		return 0
 
 ###############################   STAGE 3   ############################### 
-"""
 def lexer_add(listaEsperada):   #comparar lista fija con lista de tokens recibida con la gramatica original
 	
 	archivo = open("stage_3/valid/add.c", "r")
@@ -362,11 +363,11 @@ def lexer_unop_parens(listaEsperada):   #comparar lista fija con lista de tokens
 	else:
 		return 0
 #las pruebas devuelven cero si fallan y 1 si pasan
-lexer_add(lista())
+lexer_mult(lista())
 #stage 1
 
 
-lexer_multi_digit(lista())
+"""lexer_multi_digit(lista())
 lexer_spaces(lista())		
 lexer_newlines(lista())
 lexer_no_newlines(lista())	
