@@ -1,9 +1,6 @@
 defmodule CodeGenerator do
   def generate_code(ast) do
-    code = post_order(ast)
-    IO.puts("\nCode Generator output:")
-    IO.puts(code)
-    code
+    post_order(ast)
   end
 
   def post_order(node) do
@@ -21,7 +18,7 @@ defmodule CodeGenerator do
 
   def emit_code(:program, code_snippet, _) do
     """
-    
+
     """ <>
       code_snippet
   end

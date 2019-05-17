@@ -61,20 +61,18 @@ defmodule Nqcc do
       end
       if is_tuple(arbolAST) do
         IO.puts("ERROR SINTACTICO")
-        {_,mensaje,linea_numero,problema_atomo}=arbolAST
-        linea=to_string(linea_numero)
+        {_,_,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero+1)
         problema=to_string(problema_atomo)
-        mensaje_error=mensaje<>" in line:  "<>linea<>" and expected: "<>problema
+        mensaje_error="Errror en linea:  "<>linea<>" cerca de: "<>problema
         IO.inspect(mensaje_error)
       end
-      IO.inspect(arbolAST)
     else
       IO.puts("Error lexico:")
-      [error,palabra,linea_numero]=evaluar
-      linea=to_string(linea_numero)
-      mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
+      [_,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero+1)
+      mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
       IO.inspect(mensaje_error)
-      IO.inspect(evaluar)
     end
 end
 
@@ -90,26 +88,26 @@ evaluar=Evaluator.evaluator_lexer(lista_tokens)
 if evaluar==[] do
   arbolAST=lista_tokens
   |> Parser.parse_program()
-  if is_map(arbolAST) do
-    arbolAST
-    |> CodeGenerator.generate_code()
-    |> Linker.generate_binary(assembly_path <> ".s")
-    |> IO.inspect()
-  else
-    IO.puts("ERROR SINTACTICO")
-    {_,mensaje,linea_numero,problema_atomo}=arbolAST
-    linea=to_string(linea_numero)
-    problema=to_string(problema_atomo)
-    mensaje_error=mensaje<>" in line:  "<>linea<>" and expected: "<>problema
+      if is_map(arbolAST) do
+        arbolAST
+        |> CodeGenerator.generate_code()
+        |> Linker.generate_binary(assembly_path <> ".s")
+        |> IO.inspect()
+      else
+        IO.puts("ERROR SINTACTICO")
+        {_,_,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero+1)
+        problema=to_string(problema_atomo)
+        mensaje_error="Errror en linea:  "<>linea<>" cerca de: "<>problema
+        IO.inspect(mensaje_error)
+      end
+else
+    IO.puts("Error lexico:")
+    [_,palabra,linea_numero]=evaluar
+    linea=to_string(linea_numero+1)
+    mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
     IO.inspect(mensaje_error)
   end
-else
-  IO.puts("Error lexico:")
-  [error,palabra,linea_numero]=evaluar
-  linea=to_string(linea_numero)
-  mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
-  IO.inspect(mensaje_error)
-end
 end
 
 
@@ -120,12 +118,12 @@ end
     |> Lexer.scan_words()
     evaluar=Evaluator.evaluator_lexer(lista_tokens)
     if evaluar==[] do
-      IO.inspect(lista_tokens)
+      IO.inspect(lista_tokens+1)
     else
       IO.puts("Error lexico:")
-      [error,palabra,linea_numero]=evaluar
-      linea=to_string(linea_numero)
-      mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
+      [_,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero+1)
+      mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
       IO.inspect(mensaje_error)
     end
   end
@@ -144,20 +142,20 @@ end
       end
       if is_tuple(arbolAST)do
         IO.puts("ERROR SINTACTICO")
-        {_,mensaje,linea_numero,problema_atomo}=arbolAST
-        linea=to_string(linea_numero)
+        {_,_,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero+1)
         problema=to_string(problema_atomo)
-        mensaje_error=mensaje<>" in line:  "<>linea<>" and expected: "<>problema
+        mensaje_error="Errror en linea:  "<>linea<>" cerca de: "<>problema
         IO.inspect(mensaje_error)
       end
     else
       IO.puts("Error lexico:")
-      [error,palabra,linea_numero]=evaluar
-      linea=to_string(linea_numero)
-      mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
+      [_,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero+1)
+      mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
       IO.inspect(mensaje_error)
     end
-  end
+end
 
   defp print_Assembly(file_path) do
     IO.puts("\n  Assembly  \n")
@@ -174,20 +172,20 @@ end
         |> IO.inspect()
       else
         IO.puts("ERROR SINTACTICO")
-        {_,mensaje,linea_numero,problema_atomo}=arbolAST
-        linea=to_string(linea_numero)
+        {_,_,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero+1)
         problema=to_string(problema_atomo)
-        mensaje_error=mensaje<>" in line:  "<>linea<>" and expected: "<>problema
+        mensaje_error="Errror en linea:  "<>linea<>" cerca de: "<>problema
         IO.inspect(mensaje_error)
       end
     else
       IO.puts("Error lexico:")
-      [error,palabra,linea_numero]=evaluar
-      linea=to_string(linea_numero)
-      mensaje_error=error<>", the word "<>palabra<>" is not expected  in line: "<>linea
+      [_,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero+1)
+      mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
       IO.inspect(mensaje_error)
     end
-  end
+end
 
   defp print_help_message do
     IO.puts("\nnqcc --help file_name \n")

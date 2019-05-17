@@ -1,6 +1,6 @@
 defmodule Parser do
   def parse_program(token_list) do
-    function = parse_function(token_list)
+    function = parse_function(token_list,0)
     case function do
       {{:error,error_message,linea,problema}, _rest} ->
         {:error, error_message, linea,problema}
@@ -14,47 +14,57 @@ defmodule Parser do
     end
   end
 
-  def parse_function([{next_token,numline} | rest]) do
-    if next_token == :int_keyword do
-      [{next_token,numline} | rest] = rest
-      if next_token == :main_keyword do
-        [{next_token,numline} | rest] = rest
-
-        if next_token == :open_paren do
-          [{next_token,numline} | rest] = rest
-
-          if next_token == :close_paren do
-            [{next_token,numline} | rest] = rest
-
-            if next_token == :open_brace do
-              statement = parse_statement(rest)
-
-              case statement do
-                {{:error, error_message,numline}, rest} ->
-                  {{:error, error_message,numline}, rest}
-
-                {statement_node, [{next_token,numline} | rest]} ->
-                  if next_token == :close_brace do
-                    {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
-                  else
-                    {{:error, "Error, close brace missed in line",numline,next_token}, rest}
-                  end
-              end
-            else
-              {{:error, "Error: open brace missed in line",numline,next_token},rest}
-            end
+  def parse_function([{next_token,numline} | rest],contador) do
+    if rest != [] do
+      case contador do
+        0->
+          if next_token == :int_keyword do
+            contador=contador+1
+            parse_function(rest,contador)
           else
-            {{:error, "Error: close parentesis missed in line",numline,next_token},rest}
+            {{:error, "Error 1",numline,next_token},rest}
           end
-        else
-          {{:error, "Error: open parentesis missed  in line",numline,next_token},rest}
+        1->
+          if next_token == :main_keyword do
+            contador=contador+1
+            parse_function(rest,contador)
+          else
+            {{:error, "Error, 2",numline,next_token},rest}
+          end
+        2->
+          if next_token == :open_paren do
+            contador=contador+1
+            parse_function(rest,contador)
+          else
+            {{:error, "Error, 3",numline,next_token},rest}
+          end
+        3->
+          if next_token == :close_paren do
+            contador=contador+1
+            parse_function(rest,contador)
+          else
+            {{:error, "Error, 4",numline,next_token},rest}
+          end
+        4->
+          if next_token == :open_brace do
+            statement = parse_statement(rest)
+
+            case statement do
+              {{:error, error_message,numline,next_token}, rest} ->
+                {{:error, error_message,numline,next_token}, rest}
+
+              {statement_node, [{next_token,numline} | rest]} ->
+                if next_token == :close_brace do
+                  {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
+                else
+                  {{:error, "Error, close brace missed in line",numline,next_token}, rest}
+                end
+            end
+          end
         end
       else
-        {{:error, "Error: main functionb missed in line",numline,next_token},rest}
+        {{:error, "Error, close brace missed in line",numline,next_token}, []}
       end
-    else
-      {{:error, "Error, return type value missed in line",numline,next_token},rest}
-    end
   end
 
   def parse_statement([{next_token,numline} | rest]) do
@@ -62,8 +72,8 @@ defmodule Parser do
       expression = parse_expression(rest)
 
       case expression do
-        {{:error, error_message}, rest} ->
-          {{:error, error_message}, rest}
+        {{:error, error_message,numline,next_token}, rest} ->
+          {{:error, error_message,numline,next_token}, rest}
 
         {exp_node, [{next_token,numline} | rest]} ->
           if next_token == :semicolon do
