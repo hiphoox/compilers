@@ -27,9 +27,8 @@ except IOError as e:  # excepción en caso de que el archivo no exista
 ##Lexical analysis segment##
 token_list = lexer(raw_text)
 if args.tokens:
-    #print(token_list)
     for i in range(0,len(token_list)):
-        print(str(i+1) + ") "+ token_list[i])
+        print(str(i+1) + ") "+ str(token_list[i]))
     sys.exit("Token list succesfully generated")
 ###-----###
 ##Syntax analysys segment##
