@@ -32,8 +32,7 @@ def function_parser(token_list, ast_list):
         raise SystemExit("Syntax error, open parentheses missing.")
     if token_list.pop(0) != 'parentheses_close':
         raise SystemExit("Syntax error, close parentheses missing.")
-    statement_parser(token_list, ast_list) if token_list.pop(
-        0) == 'bracket_open' else raiser(SystemExit("Syntax error, open bracket missing."))
+    statement_parser(token_list, ast_list) if token_list.pop(0) == 'bracket_open' else raiser(SystemExit("Syntax error, open bracket missing."))
     temporal_token = token_list.pop(0)
     ast_list.append(['Function:main', 'func', temporal_token]) if temporal_token == 'bracket_close' else raiser(
         SystemExit("Syntax error, close bracket missing."))
@@ -41,8 +40,7 @@ def function_parser(token_list, ast_list):
 
 
 def statement_parser(token_list, ast_list):
-    expression_parser(token_list, ast_list) if token_list.pop(
-        0) == 'keyword_return' else raiser(SystemExit("Syntax error, return keyword missing."))
+    expression_parser(token_list, ast_list) if token_list.pop(0) == 'keyword_return' else raiser(SystemExit("Syntax error, return keyword missing."))
     temporal_token = token_list.pop(0)
     ast_list.append(['Expression:return', 'expr', temporal_token]) if temporal_token == 'semicolon' else raiser(
         SystemExit("Syntax error, semicolon missing after constant to finish return statment."))
@@ -50,10 +48,47 @@ def statement_parser(token_list, ast_list):
 
 
 def expression_parser(token_list, ast_list):
-    temporal_token = token_list.pop(0)
-    ast_list.append(['Constant:'+str(temporal_token[1]), 'const', temporal_token]) if tuple == type(
-        temporal_token) else raiser(SystemExit("Syntax error, constant value missing."))
-    # Añadir a AST (nombre -> constant, value: el valor del int, por el momento print será un placeholder
+    #temporal_token = token_list.pop(0)
+    #if tuple == type(temporal_token):
+    #    ast_list.append(['Constant:'+str(temporal_token[1]), 'const', temporal_token]) 
+    #else:
+    #    raiser(SystemExit("Syntax error, constant value missing."))
+    term_parser(token_list, ast_list)
+    t = token_list[0] if token_list else SystemExit("Parser ran out of tokens")
+    if (t == "addition" or t == "negation"):
+        ast_list.append([t, t, t])
+        token_list.pop(0)
+        term_parser(token_list, ast_list)
+    else:
+        return
+
+
+def term_parser(token_list, ast_list):
+    factor_parser(token_list, ast_list)
+    t = token_list[0] if token_list else SystemExit("Parser ran out of tokens")
+    if (t == "multiplication" or t == "division"):
+        ast_list.append([t, t, t])
+        token_list.pop(0)
+        factor_parser(token_list, ast_list)
+    else:
+        return
+
+
+def factor_parser(token_list, ast_list):
+    t = token_list[0] if token_list else SystemExit("Parser ran out of tokens")
+    if t == "(":
+        expression_parser(token_list, ast_list)
+        t = token_list[0] if token_list else SystemExit("Parser ran out of tokens")
+        if t == ")"
+            return
+    if (t == "negation" or t == 'bitwise_complement' or t == 'logical_negation'):
+        token_list.pop(0)
+        ast_list.append([t, t, t])
+        factor_parser(token_list, ast_list)
+        return
+    if tuple == type(t):
+        ast_list.append(['Constant:'+str(temporal_token[1]), 'const', temporal_token])
+        return
 
 
 # to raise exceptions as a single expression
