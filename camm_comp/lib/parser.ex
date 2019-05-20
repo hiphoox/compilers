@@ -39,23 +39,23 @@ defmodule Parser do
                   if next_token == :close_brace do
                     {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
                   else
-                    {{:error, "Error, close brace missed", line}, rest}
+                    {{:error, "Error: it was found -> <- when expecting  ->close brace<- ",line}, rest}
                   end
               end
             else
-              {:error, "Error: open brace missed", line}
+              {{:error, "Error: it was found ->#{next_token}<- when expecting  ->open brace<- ",line},rest}
             end
           else
-            {:error, "Error: close parentesis missed", line}
+            {{:error, "Error: it was found ->#{next_token}<- when expecting  ->close parenthesis<- ",line},rest}
           end
         else
-          {:error, "Error: open parentesis missed", line}
+          {{:error, "Error: it was found ->#{next_token}<- when expecting  ->open parenthesis<-",line},rest}
         end
       else
-        {:error, "Error: main functionb missed", line}
+        {{:error, "Error: it was found ->#{next_token}<- when expecting  ->main<-",line},rest}
       end
     else
-      {:error, "Error, return type value missed", line}
+      {{:error, "Error: it was found ->#{next_token}<- when expecting  ->return type<-",line},rest}
     end
   end
 
@@ -71,19 +71,19 @@ defmodule Parser do
           if next_token == :semicolon do
             {%AST{node_name: :return, left_node: exp_node}, rest}
           else
-            {{:error, "Error: semicolon missed after constant to finish return statement", line},
+            {{:error, "Error: it was found ->#{next_token}<- when expecting  ->semicolon<- ",line},
              rest}
           end
       end
     else
-      {{:error, "Error: return keyword missed", line}, rest}
+      {{:error, "Error: it was found ->#{next_token}<- when expecting  ->return keyword<- ",line}, rest}
     end
   end
 
   def parse_expression([{next_token, line} | rest]) do
     case next_token do
       {:constant, value} -> {%AST{node_name: :constant, value: value}, rest}
-      _ -> {{:error, "Error: constant value missed", line}, rest}
+      _ -> {{:error, "Error: it was found ->#{next_token}<- when expecting  ->constant<- ",line}, rest}
     end
   end
 end
