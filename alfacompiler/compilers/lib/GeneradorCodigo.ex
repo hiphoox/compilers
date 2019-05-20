@@ -1,13 +1,15 @@
 defmodule CodeGenerator do
   def generate_code(ast) do
     code = post_order(ast)
-  ##  IO.puts("\nCode Generator output:")
-   IO.puts(code)
+    IO.puts("\nCode Generator output:")
+    IO.puts(code)
     code
   end
 
   def post_order(node) do
-    case node do
+    case node do     
+
+    
       nil ->
         nil
 
@@ -21,8 +23,8 @@ defmodule CodeGenerator do
 
   def emit_code(:program, code_snippet, _) do
     """
-        .section        
-        .p2align        
+        .section       
+        .p2align        4, 0x90
     """ <>
       code_snippet
   end
