@@ -36,61 +36,80 @@ defmodule Parser do
             contador=contador+1
             parse_function(rest,contador)
           else
-            {{:error, "Error, 3",numline,next_token},rest}
+            {{:error, "Error, 3 ",numline,next_token},rest}
           end
         3->
           if next_token == :close_paren do
             contador=contador+1
             parse_function(rest,contador)
           else
-            {{:error, "Error, 4",numline,next_token},rest}
+            {{:error, "Error, 4 ",numline,next_token},rest}
           end
         4->
           if next_token == :open_brace do
             statement = parse_statement(rest)
-
             case statement do
               {{:error, error_message,numline,next_token}, rest} ->
                 {{:error, error_message,numline,next_token}, rest}
 
-              {statement_node, [{next_token,numline} | rest]} ->
+              {statement_node,lista_rest} ->
+                [{next_token,numline}|rest]=lista_rest
                 if next_token == :close_brace do
                   {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
                 else
-                  {{:error, "Error, close brace missed in line",numline,next_token}, rest}
+                  {{:error, "Error 5",numline,next_token}, rest}
                 end
             end
           end
         end
       else
-        {{:error, "Error, close brace missed in line",numline,next_token}, []}
+        {{:error, "Error, 6",numline,next_token}, []}
       end
   end
 
   def parse_statement([{next_token,numline} | rest]) do
-    if next_token == :return_keyword do
-      expression = parse_expression(rest)
+      if next_token == :return_keyword do
+        expression = parse_expression(rest)
+        case expression do
+          {{:error, error_message,numline,next_token}, rest} ->
+            {{:error, error_message,numline,next_token}, rest}
 
-      case expression do
-        {{:error, error_message,numline,next_token}, rest} ->
-          {{:error, error_message,numline,next_token}, rest}
-
-        {exp_node, [{next_token,numline} | rest]} ->
-          if next_token == :semicolon do
-            {%AST{node_name: :return, left_node: exp_node}, rest}
-          else
-            {{:error, "Error: semicolon missed after constant to finish return statement in line",numline,next_token}, rest}
-          end
+          {exp_node,lista_rest} ->
+            [{next_token,numline}|rest]=lista_rest
+            if next_token == :semicolon do
+              {%AST{node_name: :return, left_node: exp_node}, rest}
+            else
+              {{:error, "Error: semicolon missed after constant to finish return statement in line",numline,next_token}, rest}
+            end
+        end
+      else
+        {{:error, "Error: return keyword missed in line",numline,next_token}, rest}
       end
-    else
-      {{:error, "Error: return keyword missed in line",numline,next_token}, rest}
     end
-  end
 
   def parse_expression([{next_token,numline} | rest]) do
     case next_token do
-      {:constant, value} -> {%AST{node_name: :constant, value: value}, rest}
-      _ -> {{:error, "Error: constant value missed in line",numline,next_token}, rest}
+      {:constant, value} ->
+        {%AST{node_name: :constant, value: value}, rest}
+    :complement_keyword->
+      unary_op([{next_token,numline} | rest])
+    :negative_keyword->
+      unary_op([{next_token,numline} | rest])
+    _->
+    {{:error, "Error, arbol",numline,:constant}, rest}
+    end
+  end
+  def unary_op([{next_token,numline} | rest]) do
+    case next_token do
+      :negative_keyword ->
+        parexpres=parse_expression(rest)
+        {nodo,rest_necesario}=parexpres
+        {%AST{node_name: :unary_negative, left_node: nodo}, rest_necesario}
+      :complement_keyword ->
+        parexpres=parse_expression(rest)
+        {_,rest_necesario}=parexpres
+        {%AST{node_name: :unary_complement, left_node: parexpres}, rest_necesario}
+      _ -> {{:error, "Error, arbol",numline,next_token}, rest}
     end
   end
 end

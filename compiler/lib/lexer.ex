@@ -44,7 +44,10 @@ defmodule Lexer do
 
         "main" <> rest ->
           {{:main_keyword, linea_keyword}, rest}
-
+        "-" <> rest ->
+          {{:negative_keyword, linea_keyword}, rest}
+        "~" <> rest ->
+          {{:complement_keyword, linea_keyword}, rest}
         rest ->
           get_constant(rest,linea)
       end

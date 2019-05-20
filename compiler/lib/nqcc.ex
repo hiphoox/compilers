@@ -61,10 +61,10 @@ defmodule Nqcc do
       end
       if is_tuple(arbolAST) do
         IO.puts("ERROR SINTACTICO")
-        {_,_,linea_numero,problema_atomo}=arbolAST
+        {_,msg,linea_numero,problema_atomo}=arbolAST
         linea=to_string(linea_numero+1)
         problema=to_string(problema_atomo)
-        mensaje_error="Errror en linea:  "<>linea<>" cerca de: "<>problema
+        mensaje_error=msg<>" Errror en linea:  "<>linea<>", Cerca de: "<>problema
         IO.inspect(mensaje_error)
       end
     else
@@ -98,7 +98,7 @@ if evaluar==[] do
         {_,_,linea_numero,problema_atomo}=arbolAST
         linea=to_string(linea_numero+1)
         problema=to_string(problema_atomo)
-        mensaje_error="Errror en linea:  "<>linea<>" cerca de: "<>problema
+        mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
         IO.inspect(mensaje_error)
       end
 else
@@ -118,7 +118,7 @@ end
     |> Lexer.scan_words()
     evaluar=Evaluator.evaluator_lexer(lista_tokens)
     if evaluar==[] do
-      IO.inspect(lista_tokens+1)
+      IO.inspect(lista_tokens)
     else
       IO.puts("Error lexico:")
       [_,palabra,linea_numero]=evaluar
@@ -142,10 +142,12 @@ end
       end
       if is_tuple(arbolAST)do
         IO.puts("ERROR SINTACTICO")
-        {_,_,linea_numero,problema_atomo}=arbolAST
+        {_,prob,linea_numero,_}=arbolAST
         linea=to_string(linea_numero+1)
-        problema=to_string(problema_atomo)
-        mensaje_error="Errror en linea:  "<>linea<>" cerca de: "<>problema
+        #IO.puts("grenlenter")
+        #IO.inspect(problema_atomo)
+        problema=to_string(prob)
+        mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
         IO.inspect(mensaje_error)
       end
     else
@@ -175,7 +177,7 @@ end
         {_,_,linea_numero,problema_atomo}=arbolAST
         linea=to_string(linea_numero+1)
         problema=to_string(problema_atomo)
-        mensaje_error="Errror en linea:  "<>linea<>" cerca de: "<>problema
+        mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
         IO.inspect(mensaje_error)
       end
     else
