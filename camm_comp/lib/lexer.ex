@@ -29,6 +29,9 @@ defmodule Lexer do
         "(" <> rest -> {{:open_parenthesis, linea_keyword}, rest}
         ")" <> rest -> {{:close_parenthesis, linea_keyword}, rest}
         ";" <> rest -> {{:semicolon, linea_keyword}, rest}
+        "-" <> rest -> {{:negation, linea_keyword}, rest}
+        "~" <> rest -> {{:complement, linea_keyword}, rest}
+        "!" <> rest -> {{:logical_negation, linea_keyword}, rest}
         # "n when is_bitstring(n)" <> rest -> {:pepe, rest}
         rest -> get_constant(rest, linea)
       end
@@ -36,10 +39,10 @@ defmodule Lexer do
     if rest != "" do
       token_aux = {rest, linea}
       tokens_rest = lex_raw_tokens(token_aux)
-      toke = [token | tokens_rest]
+      [token | tokens_rest]
     else
       tokens_rest = lex_raw_tokens(rest)
-      toke = [token | tokens_rest]
+      [token | tokens_rest]
     end
   end
 

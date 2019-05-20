@@ -86,4 +86,18 @@ defmodule Parser do
       _ -> {{:error, "Error: it was found ->#{next_token}<- when expecting  ->constant<- ",line}, rest}
     end
   end
+
+  def parse_unary_op([{next_token,numline} | rest]) do
+    case next_token do
+      :negative_keyword ->
+        parexpres=parse_expression(rest)
+        {nodo,rest_necesario}=parexpres
+        {%AST{node_name: :unary_negative, left_node: nodo}, rest_necesario}
+      :complement_keyword ->
+        parexpres=parse_expression(rest)
+        {_,rest_necesario}=parexpres
+        {%AST{node_name: :unary_complement, left_node: parexpres}, rest_necesario}
+      _ -> {{:error, "Error, arbol",numline,next_token}, rest}
+    end
+end
 end
