@@ -27,9 +27,11 @@ defmodule Lexer do
         "{" <> rest -> {{:open_brace, linea_keyword}, rest}
         "}" <> rest -> {{:close_brace, linea_keyword}, rest}
         "(" <> rest -> {{:open_parenthesis, linea_keyword}, rest}
+        "-" <> rest -> {{:operator_negation, linea_keyword}, rest}
+        "~" <> rest -> {{:operator_bitwise_complement, linea_keyword}, rest}
+        "!" <> rest -> {{:operator_logical_negation, linea_keyword}, rest}
         ")" <> rest -> {{:close_parenthesis, linea_keyword}, rest}
         ";" <> rest -> {{:semicolon, linea_keyword}, rest}
-        # "n when is_bitstring(n)" <> rest -> {:pepe, rest}
         rest -> get_constant(rest, linea)
       end
 
