@@ -68,7 +68,49 @@ def arbol_wrong_case():
 		return 0
 	return 1
 
+def arbol_missing_const():
+	archivo = open("stage_2/invalid/missing_const.c", "r")
 
+	plainText  = archivo.read()
+	archivo.close()
+	try:
+		token_list = lexer(plainText)
+	except:
+		return 1
+	return 0
+
+def arbol_missing_semicolon():
+	archivo = open("stage_2/invalid/missing_semicolon.c", "r")
+
+	plainText  = archivo.read()
+	archivo.close()
+	try:
+		token_list = lexer(plainText)
+	except:
+		return 1
+	return 0
+
+def arbol_nested_missing_const():
+	archivo = open("stage_2/invalid/nested_missing_const.c", "r")
+
+	plainText  = archivo.read()
+	archivo.close()
+	try:
+		token_list = lexer(plainText)
+	except:
+		return 1
+	return 0
+
+def arbol_wrong_order():
+	archivo = open("stage_2/invalid/missing_const.c", "r")
+
+	plainText  = archivo.read()
+	archivo.close()
+	try:
+		token_list = lexer(plainText)
+	except:
+		return 1
+	return 0
 """Desde aqui empiezan las invalidas para el Lexer, si se regresa un cero quiere decir que la lista generada es distinta a la 
 	lista esperada, por lo que esa prueba es invalida. Si se regresa un 1 quiere decir que la prueba invalida generó una lista
 	igual a la esperada lo cual no es correcto"""
