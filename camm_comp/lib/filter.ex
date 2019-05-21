@@ -10,7 +10,7 @@ defmodule Filter do
     end
   end
 
-  def filter_lexer(tokens) do
+  def filter_lexer(_tokens) do
     []
   end
 end

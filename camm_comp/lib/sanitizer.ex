@@ -16,7 +16,7 @@ defmodule Sanitizer do
     tokensNumerados ++ otrostokens
   end
 
-  def lista_sanitizer(program, linea) do
+  def lista_sanitizer(_program,_linea) do
     []
   end
 end

@@ -38,10 +38,10 @@ defmodule Lexer do
     if rest != "" do
       token_aux = {rest, linea}
       tokens_rest = lex_raw_tokens(token_aux)
-      toke = [token | tokens_rest]
+      [token | tokens_rest]
     else
       tokens_rest = lex_raw_tokens(rest)
-      toke = [token | tokens_rest]
+      [token | tokens_rest]
     end
   end
 
