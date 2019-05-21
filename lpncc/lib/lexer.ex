@@ -29,6 +29,15 @@ defmodule Lexer do
         ";" <> rest ->
           {:puntoycoma, rest}
 
+        "-" <> rest -> 
+          {:substractor, rest}
+
+        "~" <> rest -> 
+          {:complemento, rest}
+
+        "!" <> rest -> 
+          {:negacion_logica, rest}
+
         "return" <> rest ->
           {:return_keyword, rest}
 
@@ -42,8 +51,14 @@ defmodule Lexer do
           get_constant(rest)
       end
 
-    remaining_tokens = lex_raw_tokens(rest)
-    [token | remaining_tokens]
+    if rest != "" do
+      token_aux = {rest, linea}
+      tokens_rest = lex_raw_tokens(token_aux)
+      [token | tokens_rest]
+    else
+      tokens_rest = lex_raw_tokens(rest)
+      [token | tokens_rest]
+    end
   end
 
   def lex_raw_tokens(_program) do
