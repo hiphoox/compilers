@@ -45,6 +45,20 @@ defmodule CodeGenerator do
         neg	%eax
     """
   end
+  def emit_code(:unary_complement, code_snippet, _) do
+    code_snippet<>
+    """
+        not	%eax
+    """
+  end
+  def emit_code(:negative_logical, code_snippet, _) do
+    code_snippet<>
+    """
+    cmpl     $0, %eax
+    movl     $0, %eax
+    sete     %al
+    """
+  end
 
   def emit_code(:constant, _code_snippet, value) do
     """

@@ -95,8 +95,10 @@ defmodule Parser do
       unary_op([{next_token,numline} | rest])
     :negative_keyword->
       unary_op([{next_token,numline} | rest])
+    :negative_logical ->
+      unary_op([{next_token,numline} | rest])
     _->
-    {{:error, "Error, arbol",numline,:constant}, rest}
+    {{:error, "Error, arbol 2",numline,:constant}, rest}
     end
   end
   def unary_op([{next_token,numline} | rest]) do
@@ -107,9 +109,13 @@ defmodule Parser do
         {%AST{node_name: :unary_negative, left_node: nodo}, rest_necesario}
       :complement_keyword ->
         parexpres=parse_expression(rest)
-        {_,rest_necesario}=parexpres
-        {%AST{node_name: :unary_complement, left_node: parexpres}, rest_necesario}
-      _ -> {{:error, "Error, arbol",numline,next_token}, rest}
+        {nodo,rest_necesario}=parexpres
+        {%AST{node_name: :unary_complement, left_node: nodo}, rest_necesario}
+      :negative_logical ->
+        parexpres=parse_expression(rest)
+        {nodo,rest_necesario}=parexpres
+        {%AST{node_name: :negative_logical, left_node: nodo}, rest_necesario}
+      _ -> {{:error, "Error, arbol 1",numline,next_token}, rest}
     end
   end
 end
