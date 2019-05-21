@@ -2,122 +2,128 @@ defmodule Parser do
   @moduledoc """
   <program> ::= <function>
   <function> ::= "int" <id> "(" ")" "{" <statement> "}"
-  <statement> ::= "return" <exp> ";"
-  <exp> ::= <int>
+  <statement> ::= "return" <parsea_expresion> ";"
+  <parsea_expresion> ::= <int>
   """
 
-  def parseo(tokens) do
-    if tokens != [] do
-      program(tokens)
-    else
-      IO.puts("Error : Falta de Tokens")
-    end
-  end
-
-  def program(tokens) do
-    function = funcion(tokens)
-
+  def program(token_list) do
+    function = funcion(token_list,0)
     case function do
-      {function_node, tokens} ->
-        if tokens == [] do
+      {{:error,error_message,linea,problema}, _rest} ->
+        {:error, error_message, linea,problema}
+
+      {function_node, rest} ->
+        if rest == [] do
           %AST{node_name: :program, left_node: function_node}
         else
-          IO.puts("Error: Hay mas elementos al finalizar la funcion.")
+          {:error, "Error: Hay mas elementos después de finalizar la función",0,"más elementos"}
         end
     end
   end
 
-  def funcion([elemento | tokens]) do
-    if elemento == :int_keyword do
-      [elemento | tokens] = tokens
-
-      if elemento == :main_keyword do
-        [elemento | tokens] = tokens
-
-        if elemento == :open_paren do
-          [elemento | tokens] = tokens
-
-          if elemento == :close_paren do
-            [elemento | tokens] = tokens
-
-            if elemento == :open_brace do
-              statements = statement(tokens)
-
-              case statements do
-                {{:error, error_message}, tokens} ->
-                  {{:error, error_message}, tokens}
-
-                {statement_node, [elemento | tokens]} ->
-                  if elemento == :close_brace do
-                    {%AST{node_name: :function, value: :main, left_node: statement_node}, tokens}
-                  else
-                    IO.puts("Error, falta '{'")
-                  end
-              end
-            else
-              IO.puts("Error, falta '}'")
-            end
+  def funcion([{token_sig,numline} | rest],counter) do
+    if rest != [] do
+      case counter do
+        0->
+          if token_sig == :int_keyword do
+            counter=counter+1
+            funcion(rest,counter)
           else
-            IO.puts("Error, falta ')'")
+            {{:error, "Error 1",numline,token_sig},rest}
           end
-        else
-          IO.puts("Error, falta '('")
+        1->
+          if token_sig == :main_keyword do
+            counter=counter+1
+            funcion(rest,counter)
+          else
+            {{:error, "Error, 2",numline,token_sig},rest}
+          end
+        2->
+          if token_sig == :open_paren do
+            counter=counter+1
+            funcion(rest,counter)
+          else
+            {{:error, "Error, 3 ",numline,token_sig},rest}
+          end
+        3->
+          if token_sig == :close_paren do
+            counter=counter+1
+            funcion(rest,counter)
+          else
+            {{:error, "Error, 4 ",numline,token_sig},rest}
+          end
+        4->
+          if token_sig == :open_brace do
+            statement = statement_func(rest)
+            case statement do
+              {{:error, error_message,numline,token_sig}, rest} ->
+                {{:error, error_message,numline,token_sig}, rest}
+
+              {statement_node,lista_rest} ->
+                [{token_sig,numline}|rest]=lista_rest
+                if token_sig == :close_brace do
+                  {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
+                else
+                  {{:error, "Error 5",numline,token_sig}, rest}
+                end
+            end
+          end
         end
       else
-        IO.puts("Error, no hay main.")
+        {{:error, "Error, 6",numline,token_sig}, []}
       end
-    else
-      IO.puts("Error, error de sintaxis 'return not found'")
+  end
+
+  def statement_func([{token_sig,numline} | rest]) do
+      if token_sig == :return_keyword do
+        expression = parsea_expresion(rest)
+        case expression do
+          {{:error, error_message,numline,token_sig}, rest} ->
+            {{:error, error_message,numline,token_sig}, rest}
+
+          {exp_node,lista_rest} ->
+            [{token_sig,numline}|rest]=lista_rest
+            if token_sig == :semicolon do
+              {%AST{node_name: :return, left_node: exp_node}, rest}
+            else
+              {{:error, "Error: 7",numline,token_sig}, rest}
+            end
+        end
+      else
+        {{:error, "Error: 8",numline,token_sig}, rest}
+      end
     end
+
+  def parsea_expresion([{token_sig,numline} | rest]) do
+    case token_sig do
+      {:constant, value} ->
+        {%AST{node_name: :constant, value: value}, rest}
+    :complemento->
+      operador_unario([{token_sig,numline} | rest])
+    :substractor->
+      operador_unario([{token_sig,numline} | rest])
+    :negacion_logica ->
+      operador_unario([{token_sig,numline} | rest])
+    _->
+    {{:error, "Error, arbol 2",numline,:constant}, rest}
+    end
+  end
+
+  def operador_unario([{token_sig,numline} | rest]) do
+    case token_sig do
+      :substractor ->
+        expression = parsea_expresion(rest)
+        {nodo,rest_necesario} = expression
+        {%AST{node_name: :negacion_logica, left_node: nodo}, rest_necesario}
+      :complemento ->
+        expression = parsea_expresion(rest)
+        {nodo,rest_necesario} = expression
+        {%AST{node_name: :complemento, left_node: nodo}, rest_necesario}
+      :negacion_logica ->
+        expression=parsea_expresion(rest)
+        {nodo,rest_necesario}=expression
+        {%AST{node_name: :negacion_logica, left_node: nodo}, rest_necesario}
+      _ -> {{:error, "Error, arbol 1",numline,token_sig}, rest}
+    end
+  end
 end
-
-  def statement([elemento | tokens]) do
-    if elemento == :return_keyword do
-      exp = expresion(tokens)
-      case exp do
-        {exp_node, [elemento | tokens]} ->
-          if elemento == :puntoycoma do
-            {%AST{node_name: :return, left_node: exp_node}, tokens}
-          end
-      end
-    end
-  end
-
-  def parse_expression([{elemento, line} | rest]) do
-    case elemento do
-      {:constant, value} -> {%AST{node_name: :constant, value: value}, rest}
-
-      :operator_negation -> 
-        parse_unary_op([{elemento, line} | rest])
-
-      :operator_bitwise_complement ->
-        parse_unary_op([{elemento, line} | rest])
-
-      :operator_logical_negation ->  
-        parse_unary_op([{elemento, line} | rest])
-
-      _ -> {{:error, "Error: it was found ->#{elemento}<- when expecting  ->constant<- ",line}, rest}
-    end
-  end
-  
-  def parse_unary_op ([{elemento, line} | rest]) do
-    case elemento do 
-
-      :operator_negation -> 
-        parse_unary=parse_expression(rest)
-        {nodo,rest2}=parse_unary
-        {%AST{node_name: :negation, left_node: nodo}, rest2}
-
-      :operator_bitwise_complement ->
-        parse_unary=parse_expression(rest)
-        {nodo,rest2}=parse_unary
-        {%AST{node_name: :complement, left_node: nodo}, rest2}
-
-      :operator_logical_negation ->
-        parse_unary=parse_expression(rest)
-        {nodo,rest2}=parse_unary
-        {%AST{node_name: :logical, left_node: nodo}, rest2}
-
-      _ -> {{:error, "Error: not found unary op",line,elemento}, rest}
-    end
-  end

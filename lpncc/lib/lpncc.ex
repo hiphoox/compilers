@@ -66,8 +66,8 @@ defmodule Lpncc do
 
     File.read!(file_path)
     |> Sanitizer.sanitize_source()
-    |> Lexer.scan_words() #{:error , valor}
-    |> Parser.parseo() #{:error ,falta main}
+    |> Lexer.scan_words()
+    |> Parser.program()
     |> CodeGenerator.generate_code() 
     |> Linker.generate_binary(assembly_path)
   end
@@ -80,7 +80,7 @@ defmodule Lpncc do
     File.read!(file_name)
     |> Sanitizer.sanitize_source()
     |> Lexer.scan_words()
-    |> Parser.parseo()
+    |> Parser.program()
     |> CodeGenerator.generate_code()
     |> Linker.generate_binary(assembly_path <> ".s")
   end
@@ -97,7 +97,7 @@ defmodule Lpncc do
     File.read!(file_path)
     |> Sanitizer.sanitize_source()
     |> Lexer.scan_words()
-    |> Parser.parseo()
+    |> Parser.program()
     |> IO.inspect(label: "\nSalida del Parser (AST)\n")
   end
 
@@ -106,7 +106,7 @@ defmodule Lpncc do
       File.read!(file_path)
       |> Sanitizer.sanitize_source()
       |> Lexer.scan_words()
-      |> Parser.parseo()
+      |> Parser.program()
       |> CodeGenerator.generate_code()
       |> IO.puts()
   end

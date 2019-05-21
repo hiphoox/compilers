@@ -22,7 +22,6 @@ defmodule CodeGenerator do
     """ <>
       code_snippet
   end
-  #segun yo aqui va lo que te voy a dejar comentado, lo checas
   def emit_code(:return, code_snippet, _) do
      code_snippet<>
      """
@@ -55,5 +54,5 @@ defmodule CodeGenerator do
          movl	$#{value}, %eax
      """
  end
-#En lugar de lo de abajo
+end
 
