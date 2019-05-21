@@ -57,9 +57,15 @@ defmodule Parser do
           case List.first(tokens) do
             #Parsea una constante.
             {:constant, _} -> parse_constant(tokens, :constant)
+
+            #unary_ops
             :bitewise_Keyword -> parse_unary_ops(tokens, :bitewise_Keyword); #detecta operador unario
             :logicalNeg_Keyword -> parse_unary_ops(tokens,:logicalNeg_Keyword);
             :negation_Keyword -> parse_unary_ops(tokens,:negation_Keyword);
+
+            :addition_Keyword -> parse_binary_ops(tokens, :addition_Keyword)
+            :multiplication_Keyword -> parse_binary_ops(tokens, :multiplication_Keyword)
+            :division_Keyword -> parse_binary_ops(tokens, :division_Keyword)
             #Expresión futura
             #Expresión futura
             #Expresión futura
@@ -89,6 +95,24 @@ defmodule Parser do
     end
   end
 
+  #funcion que extrae y parsea el operador unario
+    def parse_binary_ops(token, atom) do
+      #IO.inspect(List.first(token))
+      case token do
+        {:error, _} -> {"", "", token}; #envia null porque solo te interesa propagar tokens
+        _ -> if List.first(token) == atom do
+                remain=Enum.drop(token, 1) #extraer el elemento de la lista de tokens y borrarlo
+                #exp1
+                [remain, inner_exp1] = parse_expression(remain)#RECURSIVIDAD, inner_exp contiene los elementos restantes de de la expresión, llama a parser_exp para volver a parsear hasta que terminemos de evaluar todos los elementos
+                #exp2
+                [remain, inner_exp2] = parse_expression(remain)
+                [remain, {atom, diccionario(atom), inner_exp1, inner_exp2}]
+             else
+                [{:error, ""}, ""]
+            end
+      end
+    end
+
 
   def parse_constant(token, atom) do
     #¿Token trae tupla error en vez de la lista? devuelvela tal como está.
@@ -97,7 +121,7 @@ defmodule Parser do
       _ -> if elem(List.first(token), 0) == atom do
               [Enum.drop(token, 1), {elem(List.first(token),0), elem(List.first(token),1),{},{}}]
            else
-              {"", "", {:error, "Error de sintáxis. Constante inválida."}}
+              #{"", "", {:error, "Error de sintáxis. Constante inválida."}}
           end
     end
   end
@@ -139,6 +163,9 @@ defmodule Parser do
           :logicalNeg_Keyword->"!"
           :negation_Keyword->"-"
           :bitewise_Keyword -> "~"
+          :addition_Keyword -> "+"
+          :division_Keyword -> "/"
+          :multiplication_Keyword -> "*"
           _ -> "(vacío)"
       end
   end

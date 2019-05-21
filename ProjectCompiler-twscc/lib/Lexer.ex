@@ -44,6 +44,9 @@
         "-" <> cadena_restante -> {:negation_Keyword, cadena_restante}
         "!" <> cadena_restante -> {:logicalNeg_Keyword, cadena_restante}
         "~" <> cadena_restante -> {:bitewise_Keyword, cadena_restante}
+        "+" <> cadena_restante -> {:addition_Keyword, cadena_restante}
+        "*" <> cadena_restante -> {:multiplication_Keyword, cadena_restante}
+        "/" <> cadena_restante -> {:division_Keyword, cadena_restante}
 
         :error -> {:error, nil}
         #Si no hubo ninguna coincidencia, inserta la cadena error
