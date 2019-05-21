@@ -61,10 +61,10 @@ defmodule Nqcc do
       end
       if is_tuple(arbolAST) do
         IO.puts("ERROR SINTACTICO")
-        {_,msg,linea_numero,problema_atomo}=arbolAST
+        {_,_,linea_numero,problema_atomo}=arbolAST
         linea=to_string(linea_numero+1)
         problema=to_string(problema_atomo)
-        mensaje_error=msg<>" Errror en linea:  "<>linea<>", Cerca de: "<>problema
+        mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
         IO.inspect(mensaje_error)
       end
     else
@@ -142,11 +142,9 @@ end
       end
       if is_tuple(arbolAST)do
         IO.puts("ERROR SINTACTICO")
-        {_,prob,linea_numero,_}=arbolAST
+        {_,_,linea_numero,problema_atomo}=arbolAST
         linea=to_string(linea_numero+1)
-        #IO.puts("grenlenter")
-        #IO.inspect(problema_atomo)
-        problema=to_string(prob)
+        problema=to_string(problema_atomo)
         mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
         IO.inspect(mensaje_error)
       end
