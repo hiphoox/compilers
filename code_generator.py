@@ -27,10 +27,9 @@ def assembler_generator(ast):
             assembler += negation_code()
         if 'Constant' in node:
             assembler += expression_code(constant_code(node.split(":")[1]))
-    print(assembler_list)
+    #print(assembler_list)
     assembler = program_code() + function_code() + assembler + return_code()
-    print(assembler)
-
+    #print(assembler)
     return assembler
 
 
