@@ -83,10 +83,41 @@ end
     end
   end
 
-  def expresion([elemento | tokens]) do
+  def parse_expression([{elemento, line} | rest]) do
     case elemento do
-      {:constant, valor} -> {%AST{node_name: :constant, value: valor}, tokens}
-      _ -> IO.puts("Error: Constante no encontrada")
+      {:constant, value} -> {%AST{node_name: :constant, value: value}, rest}
+
+      :operator_negation -> 
+        parse_unary_op([{elemento, line} | rest])
+
+      :operator_bitwise_complement ->
+        parse_unary_op([{elemento, line} | rest])
+
+      :operator_logical_negation ->  
+        parse_unary_op([{elemento, line} | rest])
+
+      _ -> {{:error, "Error: it was found ->#{elemento}<- when expecting  ->constant<- ",line}, rest}
     end
   end
-end
+  
+  def parse_unary_op ([{elemento, line} | rest]) do
+    case elemento do 
+
+      :operator_negation -> 
+        parse_unary=parse_expression(rest)
+        {nodo,rest2}=parse_unary
+        {%AST{node_name: :negation, left_node: nodo}, rest2}
+
+      :operator_bitwise_complement ->
+        parse_unary=parse_expression(rest)
+        {nodo,rest2}=parse_unary
+        {%AST{node_name: :complement, left_node: nodo}, rest2}
+
+      :operator_logical_negation ->
+        parse_unary=parse_expression(rest)
+        {nodo,rest2}=parse_unary
+        {%AST{node_name: :logical, left_node: nodo}, rest2}
+
+      _ -> {{:error, "Error: not found unary op",line,elemento}, rest}
+    end
+  end

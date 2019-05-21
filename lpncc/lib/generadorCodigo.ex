@@ -23,57 +23,37 @@ defmodule CodeGenerator do
       code_snippet
   end
   #segun yo aqui va lo que te voy a dejar comentado, lo checas
-#   def emit_code(:return, code_snippet, _) do
-#     code_snippet<>
-#     """
-#         ret
-#     """
-#   end
-#   def emit_code(:negation, code_snippet, _) do
-#     code_snippet<>
-#     """
-#         neg	%eax
-#     """
-#   end
-#   def emit_code(:complement, code_snippet, _) do
-#     code_snippet<>
-#     """
-#         not	%eax
-#     """
-#   end
-#   def emit_code(:logical, code_snippet, _) do
-#     code_snippet<>
-#     """
-#     cmpl     $0, %eax
-#     movl     $0, %eax
-#     sete     %al
-#     """
-#   end
-
-#   def emit_code(:constant, _code_snippet, value) do
-#     """
-#         movl	$#{value}, %eax
-#     """
-# end
-
-#En lugar de lo de abajo
-  
-  def emit_code(:function, code_snippet, :main) do
-    """
-        .globl  main
-    main:
-    """ <>
-      code_snippet
-  end
-
-  def emit_code(:constant, _, value) do
-    "$#{value}"
-  end
-
   def emit_code(:return, code_snippet, _) do
-    """
-        movl    #{code_snippet}, %eax
-        ret
-    """
-  end
-end
+     code_snippet<>
+     """
+         ret
+     """
+   end
+   def emit_code(:negation, code_snippet, _) do
+     code_snippet<>
+     """
+         neg	%eax
+     """
+   end
+   def emit_code(:complement, code_snippet, _) do
+     code_snippet<>
+     """
+         not	%eax
+     """
+   end
+   def emit_code(:logical, code_snippet, _) do
+     code_snippet<>
+     """
+     cmpl     $0, %eax
+     movl     $0, %eax
+     sete     %al
+     """
+   end
+
+   def emit_code(:constant, _code_snippet, value) do
+     """
+         movl	$#{value}, %eax
+     """
+ end
+#En lugar de lo de abajo
+
