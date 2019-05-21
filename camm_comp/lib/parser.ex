@@ -83,7 +83,40 @@ defmodule Parser do
   def parse_expression([{next_token, line} | rest]) do
     case next_token do
       {:constant, value} -> {%AST{node_name: :constant, value: value}, rest}
+
+      :operator_negation -> 
+        parse_unary_op([{next_token, line} | rest])
+
+      :operator_bitwise_complement ->
+        parse_unary_op([{next_token, line} | rest])
+
+      :operator_logical_negation ->  
+        parse_unary_op([{next_token, line} | rest])
+
       _ -> {{:error, "Error: it was found ->#{next_token}<- when expecting  ->constant<- ",line}, rest}
     end
   end
+  
+  def parse_unary_op ([{next_token, line} | rest]) do
+    case next_token do 
+
+      :operator_negation -> 
+        parse_unary=parse_expression(rest)
+        {nodo,rest2}=parse_unary
+        {%AST{node_name: :negation, left_node: nodo}, rest2}
+
+      :operator_bitwise_complement ->
+        parse_unary=parse_expression(rest)
+        {nodo,rest2}=parse_unary
+        {%AST{node_name: :complement, left_node: nodo}, rest2}
+
+      :operator_logical_negation ->
+        parse_unary=parse_expression(rest)
+        {nodo,rest2}=parse_unary
+        {%AST{node_name: :logical, left_node: nodo}, rest2}
+
+      _ -> {{:error, "Error: not found unary op",line,next_token}, rest}
+    end
+  end
+
 end
