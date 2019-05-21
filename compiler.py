@@ -58,5 +58,6 @@ if args.output:
     linker(assembly_dir, os.path.dirname(args.file)+"/"+args.output)
 else:
     linker(assembly_dir, args.file.replace(".c", ".o"))
-print("Program succesfully generated")
+print("Program succesfully generated!")
+print("Your output file is at: "+ args.file.replace(".c", ".o"))
 ###------###
