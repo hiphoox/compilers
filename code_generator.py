@@ -19,11 +19,11 @@ def assembler_generator(ast):
         assembler_list.append(ast.get_node(nodeid).tag)
     assembler_list.pop(0)
     for node in reversed(assembler_list):
-        if 'logical_negation' in node:
+        if 'logical_negation' == node:
             assembler += logic_neg()
         if 'bitwise_complement' in node:
             assembler += bitewise_code()
-        if 'negation' in node:
+        if 'negation' == node:
             assembler += negation_code()
         if 'Constant' in node:
             assembler += expression_code(constant_code(node.split(":")[1]))
@@ -43,8 +43,7 @@ def program_code():
 def function_code():
     code_snip = """
     .globl  _main         ## -- Begin function main
-_main:                    ## @main
-    """
+_main:                    ## @main"""
     return code_snip
 
 
