@@ -26,7 +26,21 @@ arbol0: Parser.parse_program([
 {:semicolon, 0},
 {:close_brace, 0}
 ]),
-error1: {:error, "Error, close brace missed in line", 0, :return_keyword},
+error1: {:error, "Error: 8", 0, :complement_keyword},
+error2: {:error, "Error: 8", 0, :main_keyword},
+arbol_unitary: Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:complement_keyword, 0},
+  {:negative_logical, 0},
+  {{:constant, 4}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+])
 
 }
   end
@@ -56,7 +70,7 @@ error1: {:error, "Error, close brace missed in line", 0, :return_keyword},
       {{:constant, 2}, 0},
       {:semicolon, 0},
       {:close_brace, 0}
-    ]) == state[:error1]
+    ]) == state[:error2]
   end
 
 #---------------------------------------------------------------------------------
@@ -99,6 +113,39 @@ test " Espacios entre caracteres", state do
           |> Lexer.scan_words()
           |> Parser.parse_program() ==
           state[:arbol] or state[:arbol0]
+end
+
+
+
+test "sin return", state do
+  assert Parser.parse_program([
+    {:int_keyword, 0},
+    {:main_keyword, 0},
+    {:open_paren, 0},
+    {:close_paren, 0},
+    {:open_brace, 0},
+    {:complement_keyword, 0},
+    {:negative_logical, 0},
+    {{:constant, 4}, 0},
+    {:semicolon, 0},
+    {:close_brace, 0}
+  ]) == state[:error1]
+end
+
+test "Arbol con operaciones unitarias", state do
+  assert Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:complement_keyword, 0},
+  {:negative_logical, 0},
+  {{:constant, 4}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+]) == state[:arbol_unitary]
 end
 
 end

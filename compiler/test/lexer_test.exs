@@ -37,8 +37,20 @@ tokens2: [
 {:main_keyword, 0},
 {:open_paren, 0},
 {:close_paren, 0},
+],
+tokens3: [
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:complement_keyword, 0},
+  {:negative_logical, 0},
+  {{:constant, 4}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
 ]
-
 }
   end
 
@@ -119,5 +131,7 @@ tokens2: [
             |> Lexer.scan_words() ==
               state[:tokens] or state[:tokens0]
 end
-
+test "con operaciones unitarias", state do
+  assert Lexer.scan_words([{"int", 0}, {"main", 0}, {"(){return", 0}, {"~!4;}", 0}]) == state[:tokens3]
+end
 end

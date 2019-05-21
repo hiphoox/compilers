@@ -4,9 +4,9 @@ defmodule GeneratorTest do
 
   setup_all do
     {:ok,
-    codigo:  "\n    .globl  main         ## -- Begin function main\nmain:                    ## @main\n    movl    $2, %eax\n    ret\n",
-    codigo0:  "\n    .globl  main         ## -- Begin function main\nmain:                    ## @main\n    movl    $2, %eax\n    ret\n"
-
+    codigo:      "    .globl\tmain\nmain:\n    movl\t$2, %eax\n    ret\n",
+    codigo0:  "\n    .globl  main         ## -- Begin function main\nmain:                    ## @main\n    movl    $2, %eax\n    ret\n",
+    codigo_unitary: "    .globl\tmain\nmain:\n    movl\t$4, %eax\ncmpl     $0, %eax\nmovl     $0, %eax\nsete     %al\n    not\t%eax\n    ret\n"
 }
   end
   test "arbol correcto", state do
@@ -86,7 +86,12 @@ defmodule GeneratorTest do
               state[:codigo] or state[:codigo0]
     end
 
-
-
-
+    test " con operaciones unitarias ", state do
+       assert "int  main (){return ~!4;}"
+              |> Sanitizer.sanitize_source()
+              |> Lexer.scan_words()
+              |> Parser.parse_program()
+              |> CodeGenerator.generate_code() ==
+              state[:codigo_unitary]
+    end
 end
