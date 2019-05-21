@@ -26,19 +26,24 @@ def parser_f(token_list):
 
 
 def function_parser(token_list, ast_list):
-    if token_list.pop(0) != 'keyword_int':
-        raise SystemExit("Syntax error, return type value missing.")
+    i = token_list.pop(0)
+    if i != 'keyword_int':
+        raise SystemExit("Syntax error, return type value missing. " +i+ " found instead of int")
     temporal_token = token_list.pop(0)
-    ast_list.append(['Function:main', str(random.randint(1,10000)), temporal_token]) if temporal_token == 'keyword_main' else raiser( SystemExit("Syntax error, main function missing."))
-    if token_list.pop(0) != 'parentheses_open':
-        raise SystemExit("Syntax error, open parentheses missing.")
-    if token_list.pop(0) != 'parentheses_close':
-        raise SystemExit("Syntax error, close parentheses missing.")
-    if token_list.pop(0) != 'bracket_open':
-        raiser(SystemExit("Syntax error, open bracket missing."))
+    ast_list.append(['Function:main', str(random.randint(1,10000)), temporal_token]) if temporal_token == 'keyword_main' else raiser( SystemExit("Syntax error, main function missing. "+ temporal_token+" found instead of 'main'"))
+    i = token_list.pop(0)
+    if i != 'parentheses_open':
+        raise SystemExit("Syntax error, open parentheses missing. "+i+" found instead of '(' ")
+    i = token_list.pop(0)
+    if i != 'parentheses_close':
+        raise SystemExit("Syntax error, close parentheses missing. "+i+ " found instead of ')' ")
+    i = token_list.pop(0)
+    if i != 'bracket_open':
+        raiser(SystemExit("Syntax error, open bracket missing. "+i+ " found instead of '{'"))
     statement_parser(token_list, ast_list)
-    if token_list.pop(0) != 'bracket_close':
-        raiser(SystemExit("Syntax error, close bracket missing."))
+    i = token_list.pop(0)
+    if i != 'bracket_close':
+        raiser(SystemExit("Syntax error, close bracket missing. " + i + " found instead of '}'"))
     # añadir a AST (nombre -> function ; value -> main ; hijo-> statement), por el momento print será un placeholder
 
 
@@ -48,9 +53,10 @@ def statement_parser(token_list, ast_list):
         ast_list.append(['Expression:return', str(random.randint(1,10000)), temporal_token])
         expression_parser(token_list, ast_list) 
     else:
-        raiser(SystemExit("Syntax error, return keyword missing."))
-    if token_list.pop(0) != 'semicolon':
-        raiser(SystemExit("Syntax error, semicolon missing after constant to finish return statment."))
+        raiser(SystemExit("Syntax error, return keyword missing. "+i+ " found instead of 'return'"))
+    i = token_list.pop(0)
+    if i != 'semicolon':
+        raiser(SystemExit("Syntax error, semicolon missing after constant to finish return statment. " +i+ " found instead of ';'"))
     # añadir a AST (nombre -> return, hijo -> expresion), por el momento print será un placeholder
 
 
