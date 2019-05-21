@@ -98,7 +98,19 @@ class test_compiler(unittest.TestCase):
 		self.assertEqual (invalid_test.arbol_nested_missing_const(), 0, "Prueba arbol_nested_missing_const fallida")
 		self.assertEqual (invalid_test.arbol_wrong_order(), 0, "Prueba arbol_wrong_order fallida")
 
-		print("11 pruebas invalidas ejecutadas correctamente") 
+		#stage 2
+		self.assertEqual (lexer_stage2_missing_const(lista2()), 0, "Prueba lexer_stage2_missing_const fallida")
+		self.assertEqual (lexer_wrong_order(lista2()), 0, "Prueba lexer_wrong_order fallida")
+		self.assertEqual (lexer_stage2_missing_semicolon(lista2()), 0, "Prueba lexer_stage2_missing_semicolon fallida")
+		self.assertEqual (lexer_nested_missing_const(lista2()), 0, "Prueba lexer_nested_missing_const fallida")
+
+		#stage 3
+		#self.assertEqual (lexer_stage3_no_semicolon(lista3()), 0, "Prueba lexer_stage3_no_semicolon fallida")
+		#self.assertEqual (lexer_missing_second_op(lista3()), 0, "Prueba lexer_missing_second_op fallida")
+		#self.assertEqual (lexer_malformed_paren(lista3()), 0, "Prueba lexer_malformed_paren fallida")
+		#self.assertEqual (lexer_missing_first_op(lista3()), 0, "Prueba lexer_missing_first_op fallida")
+
+		print("15 pruebas invalidas ejecutadas correctamente") 
 
 if __name__ == '__main__':
 	unittest.main()
