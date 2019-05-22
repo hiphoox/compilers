@@ -60,7 +60,7 @@ defmodule Parser do
                       {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
                     else
                       IO.puts("Falta llave de cierre")
-                      {{:error, "Error: llave de apertura no encontrada"}, rest}
+
                     end
                 end
             else
