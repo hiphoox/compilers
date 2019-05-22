@@ -20,10 +20,7 @@ defmodule Parser do
   function = parse_function(token_list)
 
   case function do
-<<<<<<< HEAD
 
-=======
->>>>>>> bd67264b7d0db0346ce3f2a8e5d9ba9cb2d459d1
     {{:error, error_message}, _rest} ->
       {:error, error_message}
 
@@ -64,11 +61,7 @@ defmodule Parser do
                       {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
                     else
                       IO.puts("Falta llave de cierre")
-<<<<<<< HEAD
                       {{:error, "Error: llave de cierre no encontrada"}, rest}
-=======
-
->>>>>>> bd67264b7d0db0346ce3f2a8e5d9ba9cb2d459d1
                     end
                 end
             else
