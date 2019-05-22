@@ -1,15 +1,13 @@
 defmodule CodeGenerator do
   def generate_code(ast) do
     code = post_order(ast)
-    IO.puts("\nCode Generator output:")
-    IO.puts(code)
     code
   end
 
   def post_order(node) do
-    case node do     
+    case node do
 
-    
+
       nil ->
         nil
 
@@ -23,7 +21,7 @@ defmodule CodeGenerator do
 
   def emit_code(:program, code_snippet, _) do
     """
-        .section       
+        .section
         .p2align        4, 0x90
     """ <>
       code_snippet
@@ -41,6 +39,29 @@ defmodule CodeGenerator do
     """
         movl    #{code_snippet}, %eax
         ret
+    """
+  end
+
+  def emit_code(:unary_negative, code_snippet, _) do
+    code_snippet<>
+    """
+        neg	%eax
+    """
+  end
+
+  def emit_code(:unary_complement, code_snippet, _) do
+    code_snippet<>
+    """
+        not	%eax
+    """
+  end
+
+  def emit_code(:negative_logical, code_snippet, _) do
+    code_snippet<>
+    """
+    cmpl     $0, %eax
+    movl     $0, %eax
+    sete     %al
     """
   end
 

@@ -1,28 +1,35 @@
 defmodule Lexer do
-
   def scan_words(words) do
-    try do
-    Enum.flat_map(words, &lex_raw_tokens/1) #Se itera la lista
-    rescue
-    e in RuntimeError  -> IO.puts("Error: " <> e.message <> "Sintaxis invalida")
-    end
+    Enum.flat_map(words, &lex_raw_tokens/1)
   end
 
 def get_constant(program) do
   #se leen enteros
-  try do
-    case Regex.run(~r/^\d+/, program) do
-      [value] ->
-        {{:constant, String.to_integer(value)}, String.trim_leading(program, value)}
+  auxiliar = Regex.run(~r/^\d+/, program)
+    if auxiliar != nil do
+        case auxiliar do
+          [value] ->
+            {{:constant, String.to_integer(value)}, String.trim_leading(program, value)}
+          end
+        else
+          {["ERROR: Sintaxis invalida", program], ""}
+        end
     end
-  rescue
-    CaseClauseError -> nil
-  end
-  end
-def lex_raw_tokens(program) when program != "" do
-  try do
+
+
+  def lex_raw_tokens(program) when program != "" do
+
     {token, rest} =
       case program do
+        "int" <> rest ->
+          {:int_keyword, rest}
+
+        "return" <> rest ->
+            {:return_keyword, rest}
+
+        "main" <> rest ->
+            {:main_keyword, rest}
+
         "{" <> rest ->
           {:a_llave, rest}
 
@@ -38,28 +45,32 @@ def lex_raw_tokens(program) when program != "" do
         ";" <> rest ->
           {:semicolon, rest}
 
-        "return" <> rest ->
-          {:return_keyword, rest}
+         "-" <> rest -> {
+          {:negacion}, rest}
 
-        "int" <> rest ->
-          {:int_keyword, rest}
 
-        "main" <> rest ->
-          {:main_keyword, rest}
+      "~" <> rest -> {
+          {:complemento}, rest}
 
-        rest ->
-          get_constant(rest)
-      end
+         "!" <> rest -> {
+        {:logical_negation}, rest}
 
-    remaining_tokens = lex_raw_tokens(rest)
-    [token | remaining_tokens]
+        rest ->  get_constant(rest)
 
-    rescue
-      MatchError -> IO.inspect(program, label: "Sintaxis invalida")
-    end
+        end
+
+if rest != "" do
+  auxiliar2 = rest
+  resto = lex_raw_tokens(auxiliar2)
+  [token | resto]
+else
+  resto = lex_raw_tokens(rest)
+   [token | resto]
+
   end
-
+end
   def lex_raw_tokens(_program) do
     []
   end
+
 end

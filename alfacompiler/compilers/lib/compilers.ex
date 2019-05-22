@@ -116,16 +116,33 @@ end
   defp compile_file(file_path) do
     IO.puts("Compiling file: " <> file_path)
     assembly_path = String.replace_trailing(file_path, ".c", ".s")
+
     File.read!(file_path)
     |> Saneador.limpiado()
-    |> IO.inspect(label: "\nSanitizer ouput")
     |> Lexer.scan_words()
-    |> IO.inspect(label: "\nLexer ouput")
-    |> Parser.parse_program()
-    |> IO.inspect(label: "\nParser ouput")
-    |> CodeGenerator.generate_code()
-    |> Linker.generate_binary(assembly_path)
-  end
+
+  ##  analyzer = Reorganizer.alister(token_list_auxiliar)
+  ##  if token_list_auxiliar  == [] do
+  ##    newAST = token_list_auxiliar
+      |> Parser.parse_program()
+
+  ##    if is_map(newAST) do
+  ##      newAST
+       |> CodeGenerator.generate_code()
+       |> Linker.generate_binary(assembly_path)
+  ##    else
+  ##      IO.puts("ERROR en la sintaxis")
+  ##    end
+  ##  else
+  ##    IO.puts("ERROR lexico ")
+  ##    IO.inspect(analyzer)
+  ##  end
+
+    end
+
+
+
+
 
 
    def parser_test(file_path) do
