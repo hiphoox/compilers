@@ -4,7 +4,7 @@ defmodule Lpncc do
   """
 
   @commands %{
-    "h o help" => "Imprimi est ayuda",
+    "h o help" => "Imprimi esta ayuda",
     "asm o s"    => "Imprime el codigo en ensamblador del programa ",
     "o"    => "Cambia el nombre del archivo",
     "tree o t"    => "Imprime la lista de tokens",
@@ -34,83 +34,176 @@ defmodule Lpncc do
   end
 
   defp process_args({[t: file_name],_, _}) do
-    lista_tokens(file_name)
+    print_lista_tokens(file_name)
   end
   defp process_args({[tree: file_name],_, _}) do
-    lista_tokens(file_name)
+    print_lista_tokens(file_name)
   end
 
   defp process_args({[o: true],[nuevo_nombre,file_name],_}) do
-    compilar_con_nuevo_nombre(nuevo_nombre, file_name)
+    compile_file_with_new_name(nuevo_nombre, file_name)
   end
 
   defp process_args({[a: file_name],_, _}) do
-    parser(file_name)
+    print_AST(file_name)
   end
 
   defp process_args({[ast: file_name],_, _}) do
-    parser(file_name)
+    print_AST(file_name)
   end
 
   defp process_args({[s: file_name],_, _}) do
-  ensamblador(file_name)
+  print_Assembly(file_name)
   end
 
   defp process_args({[asm: file_name],_, _}) do
-  ensamblador(file_name)
+  compile_file(file_name)
   end
+
 
   defp compile_file(file_path) do
-    IO.puts("Compilando archivo: " <> file_path)
+    IO.puts("Compiling file: " <> file_path)
     assembly_path = String.replace_trailing(file_path, ".c", ".s")
-
-    File.read!(file_path)
+    lista_tokens=File.read!(file_path)
     |> Sanitizer.sanitize_source()
     |> Lexer.scan_words()
-    |> Parser.program()
-    |> CodeGenerator.generate_code() 
-    |> Linker.generate_binary(assembly_path)
+    evaluar=Evaluator.evaluator_lexer(lista_tokens)
+    if evaluar==[] do
+      arbolAST=lista_tokens
+      |> Parser.parse_program()
+      if is_map(arbolAST) do
+        arbolAST
+        |> CodeGenerator.generate_code()
+        |> Linker.generate_binary(assembly_path)
+        |> IO.inspect()
+      end
+      if is_tuple(arbolAST) do
+        IO.puts("ERROR SINTACTICO")
+        {_,_,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero+1)
+        problema=to_string(problema_atomo)
+        mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
+        IO.inspect(mensaje_error)
+      end
+    else
+      IO.puts("Error lexico:")
+      [_,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero+1)
+      mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
+      IO.inspect(mensaje_error)
+    end
+end
+
+defp compile_file_with_new_name(newName,file_path) do
+IO.puts("Compiling file: " <> file_path)
+basename = Path.basename(file_path)
+assembly_path = String.replace(file_path,basename,newName)
+
+lista_tokens=File.read!(file_path)
+|> Sanitizer.sanitize_source()
+|> Lexer.scan_words()
+evaluar=Evaluator.evaluator_lexer(lista_tokens)
+if evaluar==[] do
+  arbolAST=lista_tokens
+  |> Parser.parse_program()
+      if is_map(arbolAST) do
+        arbolAST
+        |> CodeGenerator.generate_code()
+        |> Linker.generate_binary(assembly_path <> ".s")
+        |> IO.inspect()
+      else
+        IO.puts("ERROR SINTACTICO")
+        {_,_,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero+1)
+        problema=to_string(problema_atomo)
+        mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
+        IO.inspect(mensaje_error)
+      end
+else
+    IO.puts("Error lexico:")
+    [_,palabra,linea_numero]=evaluar
+    linea=to_string(linea_numero+1)
+    mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
+    IO.inspect(mensaje_error)
   end
+end
 
-  defp compilar_con_nuevo_nombre(nuevo_nombre, file_name) do
-    IO.puts("Compilando Archivo: " <> file_name)
-    nombre_actual = Path.basename(file_name)
-    assembly_path = String.replace(file_name,nombre_actual,nuevo_nombre)
 
-    File.read!(file_name)
+  defp print_token_list(file_path) do
+    IO.puts("\n TOKEN LIST \n")
+    lista_tokens=File.read!(file_path)
     |> Sanitizer.sanitize_source()
     |> Lexer.scan_words()
-    |> Parser.program()
-    |> CodeGenerator.generate_code()
-    |> Linker.generate_binary(assembly_path <> ".s")
+    evaluar=Evaluator.evaluator_lexer(lista_tokens)
+    if evaluar==[] do
+      IO.inspect(lista_tokens)
+    else
+      IO.puts("Error lexico:")
+      [_,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero+1)
+      mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
+      IO.inspect(mensaje_error)
+    end
   end
 
-  defp  lista_tokens(file_path) do
-    File.read!(file_path)
+  defp print_AST(file_path) do
+    IO.puts("\n  AST TREE \n")
+    lista_tokens=File.read!(file_path)
     |> Sanitizer.sanitize_source()
     |> Lexer.scan_words()
-    |> IO.inspect(label: "\nLista de Tokens")
-  end
+    evaluar=Evaluator.evaluator_lexer(lista_tokens)
+    if evaluar==[] do
+      arbolAST=lista_tokens
+      |> Parser.parse_program()
+      if is_map(arbolAST)do
+        IO.inspect(arbolAST)
+      end
+      if is_tuple(arbolAST)do
+        IO.puts("ERROR SINTACTICO")
+        {_,_,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero+1)
+        problema=to_string(problema_atomo)
+        mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
+        IO.inspect(mensaje_error)
+      end
+    else
+      IO.puts("Error lexico:")
+      [_,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero+1)
+      mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
+      IO.inspect(mensaje_error)
+    end
+end
 
-
-  defp parser(file_path) do
-    File.read!(file_path)
+  defp print_Assembly(file_path) do
+    IO.puts("\n  Assembly  \n")
+    lista_tokens=File.read!(file_path)
     |> Sanitizer.sanitize_source()
     |> Lexer.scan_words()
-    |> Parser.program()
-    |> IO.inspect(label: "\nSalida del Parser (AST)\n")
-  end
-
-
-  defp ensamblador(file_path) do
-      File.read!(file_path)
-      |> Sanitizer.sanitize_source()
-      |> Lexer.scan_words()
-      |> Parser.program()
-      |> CodeGenerator.generate_code()
-      |> IO.puts()
-  end
-
+    evaluar=Evaluator.evaluator_lexer(lista_tokens)
+    if evaluar==[] do
+      arbolAST=lista_tokens
+      |> Parser.parse_program()
+      if is_map(arbolAST) do
+        arbolAST
+        |> CodeGenerator.generate_code()
+        |> IO.inspect()
+      else
+        IO.puts("ERROR SINTACTICO")
+        {_,_,linea_numero,problema_atomo}=arbolAST
+        linea=to_string(linea_numero+1)
+        problema=to_string(problema_atomo)
+        mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
+        IO.inspect(mensaje_error)
+      end
+    else
+      IO.puts("Error lexico:")
+      [_,palabra,linea_numero]=evaluar
+      linea=to_string(linea_numero+1)
+      mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
+      IO.inspect(mensaje_error)
+    end
+end
 
 
   defp print_help_message do

@@ -1,4 +1,3 @@
-
 defmodule Lexer do
   def scan_words(words) do
     Enum.flat_map(words, &lex_raw_tokens/1)
@@ -53,15 +52,15 @@ defmodule Lexer do
         rest ->
           get_constant(rest,linea)
       end
+	if rest != "" do
+		auxiliar_token={rest,linea}
+		remaining_tokens=lex_raw_tokens(auxiliar_token)
+		[token | remaining_tokens]
+	else
+		remaining_tokens=lex_raw_tokens(rest)
+		[token | remaining_tokens]
+	end
 
-    if rest != "" do
-      token_aux = {rest, linea}
-      tokens_rest = lex_raw_tokens(token_aux)
-      [token | tokens_rest]
-    else
-      tokens_rest = lex_raw_tokens(rest)
-      [token | tokens_rest]
-    end
   end
 
   def lex_raw_tokens(_program) do
