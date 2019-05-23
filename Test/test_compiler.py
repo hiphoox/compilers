@@ -12,15 +12,23 @@ import invalid_test
 class test_compiler(unittest.TestCase):
 
 	def testValidas(self):
-		#self.assertEqual (generator_test.assembler_no_space(ensambladorEsperado1(),ensambladorEsperado2()), 1,"Prueba assembler_no_space fallida")
-		#self.assertEqual (generator_test.assembler_return_2(ensambladorEsperado1(),ensambladorEsperado2()), 1 , "Prueba assembler_return_2 fallida")
-		#self.assertEqual (generator_test.assembler_return_0(ensambladorEsperado1(),ensambladorEsperado2()), 1, "Prueba assembler_return_0 fallida")
-		#self.assertEqual (generator_test.assembler_spaces(ensambladorEsperado1(), ensambladorEsperado2()), 1, "Prueba assembler_spaces fallida")
-		#self.assertEqual (generator_test.assembler_multi_digit(ensambladorEsperado1(), ensambladorEsperado2()), 1, "Prueba assembler_multi_digit fallida")
-		#self.assertEqual (generator_test.assembler_no_newlines(ensambladorEsperado1(), ensambladorEsperado2()), 1, "Prueba assembler_no_newlines fallida")
-		#self.assertEqual (generator_test.assembler_newlines(ensambladorEsperado1(), ensambladorEsperado2()), 1, "Prueba assembler_newlines fallida")
+		self.assertEqual (generator_test.assembler_no_space(ensambladorEsperado1(),ensambladorEsperado2()), 1,"Prueba assembler_no_space fallida")
+		self.assertEqual (generator_test.assembler_return_2(ensambladorEsperado1(),ensambladorEsperado2()), 1 , "Prueba assembler_return_2 fallida")
+		self.assertEqual (generator_test.assembler_return_0(ensambladorEsperado1(),ensambladorEsperado2()), 1, "Prueba assembler_return_0 fallida")
+		self.assertEqual (generator_test.assembler_spaces(ensambladorEsperado1(), ensambladorEsperado2()), 1, "Prueba assembler_spaces fallida")
+		self.assertEqual (generator_test.assembler_multi_digit(ensambladorEsperado1(), ensambladorEsperado2()), 1, "Prueba assembler_multi_digit fallida")
+		self.assertEqual (generator_test.assembler_no_newlines(ensambladorEsperado1(), ensambladorEsperado2()), 1, "Prueba assembler_no_newlines fallida")
+		self.assertEqual (generator_test.assembler_newlines(ensambladorEsperado1(), ensambladorEsperado2()), 1, "Prueba assembler_newlines fallida")
 		
-		#print( "7 pruebas del generator ejecutadas correctamente")
+		#stage 2
+		self.assertEqual (assembler_bitwise(), 1,"Prueba assembler_bitwise fallida")
+		self.assertEqual (assembler_nested_ops(), 1,"Prueba assembler_nested_ops fallida")
+		self.assertEqual (assembler_nested_ops_2(), 1,"Prueba assembler_nested_ops_2 fallida")
+		self.assertEqual (assembler_not_zero(), 1,"Prueba assembler_not_zero fallida")
+		self.assertEqual (assembler_not_five(), 1,"Prueba assembler_not_five fallida")
+		self.assertEqual (assembler_bitwise_zero(), 1,"Prueba assembler_bitwise_zero fallida")
+		self.assertEqual (assembler_neg(), 1,"Prueba assembler_neg fallida")
+		print( "14 pruebas del generator ejecutadas correctamente")
 
 		#Stage 1
 		self.assertEqual (lexer_test.lexer_no_space(lista()), 1, "Prueba lexer_no_space fallida")

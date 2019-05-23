@@ -152,6 +152,154 @@ def assembler_return_0(ensambladorEsperado1,ensambladorEsperado2):
 		return 0
 	return 1
 
+########################### STAGE 2 ########################### 
+########################### ########################### ########################### 
+########################### ########################### ########################### 
+########################### ########################### ########################### 
+
+#funcion que obtiene el ensamblador esperado que ya se encuentra escrito en un archivo en la carpeta assembler_test
+def ensamblador_esperado_stage2(direccion):
+	f=open(direccion)
+	archivo=f.read()
+	#print(archivo)
+	f.close()
+	return archivo
+
+def assembler_bitwise():
+	archivo = open("stage_2/valid/bitwise.c", "r")
+
+	plainText  = archivo.read()
+	token_list = lexer(plainText)
+	ast=parser_f(token_list)
+	plainText = archivo.close()
+
+	assem=assembler_generator(ast)
+
+	esperado = ensamblador_esperado_stage2("assembler_test/bitwise.txt")
+
+	#print(">>>>",assem)
+	#print(">>>>",esperado)
+
+	if(assem==esperado):
+		return 1
+	else:
+		return 0
+def assembler_nested_ops():
+	archivo = open("stage_2/valid/nested_ops.c", "r")
+
+	plainText  = archivo.read()
+	token_list = lexer(plainText)
+	ast=parser_f(token_list)
+	plainText = archivo.close()
+
+	assem=assembler_generator(ast)
+
+	esperado = ensamblador_esperado_stage2("assembler_test/nested_ops.txt")
+
+	#print(">>>>",assem)
+	#print(">>>>",esperado)
+
+	if(assem==esperado):
+		return 1
+	else:
+		return 0
+def assembler_not_zero():
+	archivo = open("stage_2/valid/not_zero.c", "r")
+
+	plainText  = archivo.read()
+	token_list = lexer(plainText)
+	ast=parser_f(token_list)
+	plainText = archivo.close()
+
+	assem=assembler_generator(ast)
+
+	esperado = ensamblador_esperado_stage2("assembler_test/not_zero.txt")
+
+	#print(">>>>",assem)
+	#print(">>>>",esperado)
+
+	if(assem==esperado):
+		return 1
+	else:
+		return 0
+def assembler_not_five():
+	archivo = open("stage_2/valid/not_five.c", "r")
+
+	plainText  = archivo.read()
+	token_list = lexer(plainText)
+	ast=parser_f(token_list)
+	plainText = archivo.close()
+
+	assem=assembler_generator(ast)
+
+	esperado = ensamblador_esperado_stage2("assembler_test/not_five.txt")
+
+	#print(">>>>",assem)
+	#print(">>>>",esperado)
+
+	if(assem==esperado):
+		return 1
+	else:
+		return 0
+def assembler_bitwise_zero():
+	archivo = open("stage_2/valid/bitwise_zero.c", "r")
+
+	plainText  = archivo.read()
+	token_list = lexer(plainText)
+	ast=parser_f(token_list)
+	plainText = archivo.close()
+
+	assem=assembler_generator(ast)
+
+	esperado = ensamblador_esperado_stage2("assembler_test/bitwise_zero.txt")
+
+	#print(">>>>",assem)
+	#print(">>>>",esperado)
+
+	if(assem==esperado):
+		return 1
+	else:
+		return 0
+def assembler_neg():
+	archivo = open("stage_2/valid/neg.c", "r")
+
+	plainText  = archivo.read()
+	token_list = lexer(plainText)
+	ast=parser_f(token_list)
+	plainText = archivo.close()
+
+	assem=assembler_generator(ast)
+
+	esperado = ensamblador_esperado_stage2("assembler_test/neg.txt")
+
+	#print(">>>>",assem)
+	#print(">>>>",esperado)
+
+	if(assem==esperado):
+		return 1
+	else:
+		return 0
+def assembler_nested_ops_2():
+	archivo = open("stage_2/valid/nested_ops_2.c", "r")
+
+	plainText  = archivo.read()
+	token_list = lexer(plainText)
+	ast=parser_f(token_list)
+	plainText = archivo.close()
+
+	assem=assembler_generator(ast)
+
+	esperado = ensamblador_esperado_stage2("assembler_test/nested_ops_2.txt")
+
+	#print(">>>>",assem)
+	#print(">>>>",esperado)
+
+	if(assem==esperado):
+		return 1
+	else:
+		return 0
+
+
 
 
 ########################### INVALIDAS ########################### 
