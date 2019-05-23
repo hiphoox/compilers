@@ -50,6 +50,44 @@ tokens3: [
   {{:constant, 4}, 0},
   {:semicolon, 0},
   {:close_brace, 0}
+],
+tokens4: [
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:negative_logical, 0},
+  {{:constant, 2}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+],
+tokens5: [
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:negative_keyword, 0},
+  {:complement_keyword, 0},
+  {:negative_logical, 0},
+  {:negative_keyword, 0},
+  {{:constant, 2}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+],
+tokens6: [
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:negative_keyword, 0},
+  {:complement_keyword, 0},
+  {:negative_logical, 0},
+  {:negative_keyword, 0},
+  {{:constant, 2}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
 ]
 }
   end
@@ -131,7 +169,25 @@ tokens3: [
             |> Lexer.scan_words() ==
               state[:tokens] or state[:tokens0]
 end
-test "con operaciones unitarias", state do
+test "con 2 operaciones unitarias", state do
   assert Lexer.scan_words([{"int", 0}, {"main", 0}, {"(){return", 0}, {"~!4;}", 0}]) == state[:tokens3]
 end
+test "con negacion logica", state do
+   assert "int  main (){return !2;}"
+          |> Sanitizer.sanitize_source()
+          |> Lexer.scan_words() ==
+            state[:tokens4]
+end
+test "con varios operadores unitarios", state do
+   assert "int  main (){return -~!-2;}"
+   |> Sanitizer.sanitize_source()
+   |> Lexer.scan_words() ==
+   state[:tokens5]
+ end
+ test "con operadores y sin algunos tokens", state do
+    assert "int  main-~!-2;}"
+    |> Sanitizer.sanitize_source()
+    |> Lexer.scan_words() ==
+    state[:tokens6]
+  end
 end

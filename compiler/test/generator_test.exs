@@ -6,7 +6,9 @@ defmodule GeneratorTest do
     {:ok,
     codigo:      "    .globl\tmain\nmain:\n    movl\t$2, %eax\n    ret\n",
     codigo0:  "\n    .globl  main         ## -- Begin function main\nmain:                    ## @main\n    movl    $2, %eax\n    ret\n",
-    codigo_unitary: "    .globl\tmain\nmain:\n    movl\t$4, %eax\ncmpl     $0, %eax\nmovl     $0, %eax\nsete     %al\n    not\t%eax\n    ret\n"
+    codigo_unitary: "    .globl\tmain\nmain:\n    movl\t$4, %eax\ncmpl     $0, %eax\nmovl     $0, %eax\nsete     %al\n    not\t%eax\n    ret\n",
+    codigo_unitary1: "    .globl\tmain\nmain:\n    movl\t$2, %eax\ncmpl     $0, %eax\nmovl     $0, %eax\nsete     %al\n    ret\n",
+    codigo_unitary2: "    .globl\tmain\nmain:\n    movl\t$2, %eax\n    neg\t%eax\ncmpl     $0, %eax\nmovl     $0, %eax\nsete     %al\n    not\t%eax\n    neg\t%eax\n    ret\n",
 }
   end
   test "arbol correcto", state do
@@ -94,4 +96,20 @@ defmodule GeneratorTest do
               |> CodeGenerator.generate_code() ==
               state[:codigo_unitary]
     end
+    test "con negacion logica", state do
+       assert "int  main (){return !2;}"
+              |> Sanitizer.sanitize_source()
+              |> Lexer.scan_words()
+              |> Parser.parse_program()
+              |> CodeGenerator.generate_code() ==
+                state[:codigo_unitary1]
+    end
+    test "con varios operadores unitarios", state do
+       assert "int  main (){return -~!-2;}"
+       |> Sanitizer.sanitize_source()
+       |> Lexer.scan_words()
+       |> Parser.parse_program()
+       |> CodeGenerator.generate_code() ==
+       state[:codigo_unitary2]
+     end
 end

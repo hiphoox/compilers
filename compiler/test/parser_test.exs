@@ -40,6 +40,44 @@ arbol_unitary: Parser.parse_program([
   {{:constant, 4}, 0},
   {:semicolon, 0},
   {:close_brace, 0}
+]),
+arbol_unitary1: Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:negative_logical, 0},
+  {{:constant, 2}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+]),
+arbol_unitary2: Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:negative_keyword, 0},
+  {:complement_keyword, 0},
+  {:negative_logical, 0},
+  {:negative_keyword, 0},
+  {{:constant, 2}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+]),
+arbol_unitary3: Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:negative_keyword, 0},
+  {:complement_keyword, 0},
+  {:negative_logical, 0},
+  {:negative_keyword, 0},
+  {{:constant, 2}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
 ])
 
 }
@@ -147,5 +185,26 @@ test "Arbol con operaciones unitarias", state do
   {:close_brace, 0}
 ]) == state[:arbol_unitary]
 end
+test "con negacion logica", state do
+   assert "int  main (){return !2;}"
+          |> Sanitizer.sanitize_source()
+          |> Lexer.scan_words()
+          |> Parser.parse_program() ==
+            state[:arbol_unitary1]
+end
+test "con varios operadores unitarios", state do
+   assert "int  main (){return -~!-2;}"
+   |> Sanitizer.sanitize_source()
+   |> Lexer.scan_words()
+   |> Parser.parse_program() ==
+   state[:arbol_unitary2]
+ end
+ test "con operadores y sin algunos tokens", state do
+    assert "int  main-~!-2;}"
+    |> Sanitizer.sanitize_source()
+    |> Lexer.scan_words()
+    |> Parser.parse_program() ==
+    state[:arbol_unitary3]
+  end
 
 end
