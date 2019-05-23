@@ -45,15 +45,15 @@ def get_constant(program) do
         ";" <> rest ->
           {:semicolon, rest}
 
-         "-" <> rest -> {
-          {:negacion}, rest}
+         "-" <> rest -> 
+          {:negacion, rest}
 
 
-      "~" <> rest -> {
-          {:complemento}, rest}
+      "~" <> rest -> 
+          {:complemento, rest}
 
-         "!" <> rest -> {
-        {:logical_negation}, rest}
+         "!" <> rest -> 
+        {:logical_negation, rest}
 
         rest ->  get_constant(rest)
 
