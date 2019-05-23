@@ -64,8 +64,8 @@ defmodule Parser do
       expression = parse_expression(rest)
 
       case expression do
-        {{:error, error_message}, rest} ->
-          {{:error, error_message}, rest}
+        {{:error, error_message,line}, rest} ->
+          {{:error, error_message,line}, rest}
 
         {exp_node, [{next_token, line} | rest]} ->
           if next_token == :semicolon do
@@ -93,7 +93,7 @@ defmodule Parser do
       :operator_logical_negation ->  
         parse_unary_op([{next_token, line} | rest])
 
-      _ -> {{:error, "Error: it was found ->#{next_token}<- when expecting  ->constant<- ",line}, rest}
+      _-> {{:error, "Error: it was found ->#{next_token}<- when expecting  ->constant<-",line},rest}
     end
   end
   
@@ -103,19 +103,29 @@ defmodule Parser do
       :operator_negation -> 
         parse_unary=parse_expression(rest)
         {nodo,rest2}=parse_unary
-        {%AST{node_name: :negation, left_node: nodo}, rest2}
+        case parse_unary do 
+        {{:error, error_message,line}, rest} -> {{:error, error_message,line}, rest}
+        _-> {%AST{node_name: :negation, left_node: nodo}, rest2}
+        end   
 
       :operator_bitwise_complement ->
         parse_unary=parse_expression(rest)
         {nodo,rest2}=parse_unary
-        {%AST{node_name: :complement, left_node: nodo}, rest2}
+        case parse_unary do 
+        {{:error, error_message,line}, rest} -> {{:error, error_message,line}, rest}
+        _-> {%AST{node_name: :complement, left_node: nodo}, rest2}
+        end
 
       :operator_logical_negation ->
         parse_unary=parse_expression(rest)
         {nodo,rest2}=parse_unary
-        {%AST{node_name: :logical, left_node: nodo}, rest2}
+        case parse_unary do 
+        {{:error, error_message,line}, rest} -> {{:error, error_message,line}, rest}
+        _-> {%AST{node_name: :logical, left_node: nodo}, rest2}
+        end
 
       _ -> {{:error, "Error: not found unary op",line,next_token}, rest}
+
     end
   end
 
