@@ -34,10 +34,10 @@ defmodule Lpncc do
   end
 
   defp process_args({[t: file_name],_, _}) do
-    print_lista_tokens(file_name)
+    print_token_list(file_name)
   end
   defp process_args({[tree: file_name],_, _}) do
-    print_lista_tokens(file_name)
+    print_token_list(file_name)
   end
 
   defp process_args({[o: true],[nuevo_nombre,file_name],_}) do
