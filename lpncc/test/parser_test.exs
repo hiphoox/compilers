@@ -2,6 +2,204 @@ defmodule ParserTest do
   use ExUnit.Case
   doctest Parser
   ### Documentacion}
+
+  setup_all do
+    {:ok,
+     tokens: [
+       :int_keyword,
+       :main_keyword,
+       :a_parentesis,
+       :c_parentesis,
+       :a_llave,
+       :return_keyword,
+       {:constant, 2},
+       :semicolon,
+       :c_llave
+     ]}
+  end
+
+  setup_all do
+    {:ok,
+    tokens_multi_digit: [
+      :int_keyword,
+      :main_keyword,
+      :a_parentesis,
+      :c_parentesis,
+      :a_llave,
+      :return_keyword,
+      {:constant, 100},
+      :semicolon,
+      :c_llave
+    ]}
+  end
+
+  setup_all do
+    {:ok,
+    tokens_missing_paren: [
+      :int_keyword,
+      :main_keyword,
+      :a_parentesis,
+      :a_llave,
+      :return_keyword,
+      {:constant, 2},
+      :semicolon,
+      :c_llave
+    ]}
+  end
+    
+  setup_all do
+      {:ok,
+      tokens_missing_retval: [
+        :int_keyword,
+        :main_keyword,
+        :a_parentesis,
+        :c_parentesis,
+        :a_llave,
+        :return_keyword,
+        :semicolon,
+        :c_llave
+      ]}
+  end
+
+    setup_all do
+      {:ok,
+      tokens_no_brace: [
+        :int_keyword,
+        :main_keyword,
+        :a_llave,
+        :return_keyword,
+        {:constant, 2},
+        :semicolon,
+      ]}
+    end
+
+    setup_all do
+      {:ok,
+       tokens_no_semicolon: [
+         :int_keyword,
+         :main_keyword,
+         :a_llave,
+         :return_keyword,
+         {:constant, 2},
+         :c_llave
+       ]}
+    end
+
+
+    setup_all do
+      {:ok,
+       tokens_bitwise: [
+         :int_keyword,
+         :main_keyword,
+         :a_parentesis,
+         :c_parentesis,
+         :a_llave,
+         :return_keyword,
+         :logical_negation,
+         {:constant, 12},
+         :semicolon,
+         :c_llave
+       ]}
+    end
+
+    setup_all do
+      {:ok,
+       tokens_bitwise_zero: [
+         :int_keyword,
+         :main_keyword,
+         :a_parentesis,
+         :c_parentesis,
+         :a_llave,
+         :return_keyword,
+         :complemento,
+         {:constant, 0},
+         :semicolon,
+         :c_llave
+       ]}
+    end
+
+    setup_all do
+      {:ok,
+       tokens_neg: [
+         :int_keyword,
+         :main_keyword,
+         :a_parentesis,
+         :c_parentesis,
+         :a_llave,
+         :return_keyword,
+         :negacion,
+         {:constant, 5},
+         :semicolon,
+         :c_llave
+       ]}
+    end
+
+    setup_all do
+      {:ok,
+       tokens_nested_ops: [
+         :int_keyword,
+         :main_keyword,
+         :a_parentesis,
+         :c_parentesis,
+         :a_llave,
+         :return_keyword,
+         :logical_negation,
+         :negacion,
+         {:constant, 3},
+         :semicolon,
+         :c_llave
+       ]}
+    end
+
+    setup_all do
+      {:ok,
+       tokens_nested_ops2: [
+         :int_keyword,
+         :main_keyword,
+         :a_parentesis,
+         :c_parentesis,
+         :a_llave,
+         :return_keyword,
+         :negacion,
+         :complemento,
+         {:constant, 0},
+         :semicolon,
+         :c_llave
+       ]}
+    end
+
+    setup_all do
+      {:ok,
+       tokens_not_five: [
+         :int_keyword,
+         :main_keyword,
+         :a_parentesis,
+         :c_parentesis,
+         :a_llave,
+         :return_keyword,
+         :logical_negation,
+         {:constant, 5},
+         :semicolon,
+         :c_llave
+       ]}
+    end
+
+    setup_all do
+      {:ok,
+       tokens_not_zero: [
+         :int_keyword,
+         :main_keyword,
+         :a_parentesis,
+         :c_parentesis,
+         :a_llave,
+         :return_keyword,
+         :logical_negation,
+         {:constant, 0},
+         :semicolon,
+         :c_llave
+       ]}
+    end
+
   setup_all do
     {:ok,
      tokens: [
@@ -109,369 +307,141 @@ defmodule ParserTest do
        :close_brace
      ]}
   end
+  ## Tokens sin int
+  setup_all do
+    {:ok,
+     tokens_int: [
+       :main_keyword,
+       :open_paren,
+       :close_paren,
+       :open_brace,
+       :return_keyword,
+       {:constant, 2},
+       :semicolon,
+       :close_brace
+     ]}
+  end
 
   IO.puts("Pruebas para el parser (Pruebas invalidas)")
   IO.puts("7 Pruebas invalidas ")
-
-  test "1.- Prueba", state do
-    assert "int main() return 2;"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+test "1.- Elementos separadas espacios ", state do
+    assert Lexer.scan_words(["int", "main(){return", "2;}"]) == state[:tokens_0] or state[:tokens]
   end
 
-  test "2.- Prueba", state do
-    assert "main() return 2;}"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+  test "2.- Funcion separada del main y el cuerpo del programa", state do
+    assert Lexer.scan_words(["int", "main()", "{return", "2;}"]) == state[:tokens] or
+             state[:tokens_0]
   end
 
-  test "3.- Prueba", state do
-    assert "int () return 2;}"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             {:error, "Falta la palabra main"}
+  test "3.- Todo separado ", state do
+    assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", "2", ";", "}"]) ==
+             state[:tokens] or state[:tokens_0]
   end
 
-  test "4.- Prueba", state do
-    assert "int return 2;}"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             {:error, "Falta un parentesis"}
+  test "4.- Retornando un 0", state do
+    assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", "0", ";", "}"]) ==
+             state[:tokens_0] or state[:tokens]
   end
 
-  test "5.- Prueba", state do
-    assert "int main return ;}"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             {:error, "Falta argumento en el return"}
+  test "5.- Con saltos de linea en int y main usando sanitizer", state do
+    assert "int\nmain\n()\n{return 0;}" |> Sanitizer.sanitize_source() |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
   end
 
-  test "6.- Prueba", state do
-    assert "int main {return0;}"
+  test "6.- Con saltos de linea en todo usando sanitizer", state do
+    assert "int\nmain\n(\n)\n{\nreturn\n0\n;\n}\n"
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
   end
 
-  test "7.- Prueba", state do
-    assert "int main() {RETURN 0;}"
+  test "7.- Con espacios entre los caracteres en todo usando sanitizer", state do
+    assert "int    main    (   )   {   return    0   ;   }   "
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
   end
 
   ######################################################################################
-  IO.puts("Pruebas para el Parser (pruebas validas)")
-  IO.puts("Pruebas Validas")
+  IO.puts("Pruebas no validas")
 
-  test "8.- Prueba" do
-    assert "int main(){return 2;}"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+  test "8.-Faltan los parentesis ", state do
+    assert Lexer.scan_words(["int", "main", "{", "return", "0", ";", "}"]) == state[:tokens_SP] or
+             state[:tokens]
   end
 
-  test "9.- Prueba Saltos de linea" do
-    assert "int\nmain()\n{ return 2; }"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+  test "9.-Falta argumento en el return ", state do
+    assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", ";}"]) == state[:tokens4] or
+             state[:tokens]
   end
 
-  test "10.- Prueba Saltos de linea en toda la funcion" do
-    assert "int\nmain\n(\n)\n{\nreturn\n2\n;\n}"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+  test "10.-Faltan llaves ", state do
+    assert Lexer.scan_words(["int", "main", "(", ")", "return", "0", ";"]) == state[:tokens_0] or
+             state[:tokens_SL]
   end
 
-  test "11.- Prueba Todo separado" do
-    assert "int main( ) { return 2; }"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+  test "12.-Faltan espacios en el return  y el argumento ", state do
+    assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", "0", ";", "}"]) ==
+             state[:tokens_0] or state[:tokens]
   end
 
-  test "12.- Prueba" do
-    assert "int\n main( )\n { return 2; }"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+  #################################################################################################
+  ############ Pruebas propias
+  ########### Pruebas Validas
+
+  test "13.- 2 veces el main", state do
+    assert Lexer.scan_words(["int", "main", "main", "(", ")", "{", "return", "0;}"]) ==
+             state[:tokens] or state[:tokens_int]
   end
 
-  test "13.- Prueba" do
-    assert "int\n main( )\n {\n return 2;}"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+  test "14.- 2 veces el int", state do
+    assert Lexer.scan_words(["int", "int", "main", "(", ")", "{", "return", "0;}"]) ==
+             state[:tokens] or state[:tokens_int]
   end
-  test "14.- Prueba" do
-    assert "int\n main( )\n {\n return\n 2;}"
+
+  ################################################################################################################
+######################3##Pruebas Validas para la segunda etapa del compilador#####################################
+  test "1.- bitwise", state do
+    assert "int main()\n {\n  return !12;\n}"
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
   end
-  test "15.- Prueba" do
-    assert "int\n main( )\n {\n return\n 2;\n}"
+  test "2.- bitwise_zero", state do
+    assert "int main()\n {\n  return ~0;\n}"
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words()
-           |> Parser.parseo() ==
-             %AST{
-               left_node: %AST{
-                 left_node: %AST{
-                   left_node: %AST{
-                     left_node: nil,
-                     node_name: :constant,
-                     right_node: nil,
-                     value: 2
-                   },
-                   node_name: :return,
-                   right_node: nil,
-                   value: nil
-                 },
-                 node_name: :function,
-                 right_node: nil,
-                 value: :main
-               },
-               node_name: :program,
-               right_node: nil,
-               value: nil
-             }
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
   end
+  test "3.- neg", state do
+    assert "int main()\n {\n  return -5;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+  test "4.- nested_ops", state do
+    assert "int main()\n {\n  return !-3;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+  test "5.- nested_ops", state do
+    assert "int main()\n {\n  return -~0;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+  test "6.- not_five", state do
+    assert "int main()\n {\n  return !5;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+  test "7.- not_zero", state do
+    assert "int main()\n {\n  return !0;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+###################################################################################################################
 end
