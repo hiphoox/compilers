@@ -44,6 +44,7 @@ def lexer(plaintext):
     if unknown_inputs.strip():  # to displaye the error in case of a failed lexical analysis
         print("Lexical error, invalid input detected at file. List of unknown tokens: ")
         print(unknown_inputs.split())
-        raise SystemExit()
+        #raise SystemExit()
+        return 'failed'
 
     return (token_list)

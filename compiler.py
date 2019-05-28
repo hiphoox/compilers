@@ -26,6 +26,8 @@ except IOError as e:  # excepción en caso de que el archivo no exista
     raise SystemExit(e)
 ##Lexical analysis segment##
 token_list = lexer(raw_text)
+if token_list == 'failed':
+    raise SystemExit()
 if args.tokens:
     for i in range(0,len(token_list)):
         print(str(i+1) + ") "+ str(token_list[i]))
