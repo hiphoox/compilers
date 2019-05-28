@@ -4,62 +4,62 @@ defmodule Lexer do
   end
 
   def get_constant(program,linea) do
-    val = Regex.run(~r/^\d+/, program)
-    if val != :nil do
-      case val do
-        [value] ->
-          {{:constant, String.to_integer(value),linea}, String.trim_leading(program, value)}
-      end
-    else
-      {["Error",program,linea],""}
-    end
+		valor=Regex.run(~r/^\d+/, program)
+		if valor != :nil do
+			case valor do
+				[value] ->
+				{{{:constant, String.to_integer(value)},linea}, String.trim_leading(program, value)}
+			end
+		else
+			{["ERROR",program,linea],""}
+		end
   end
-
+  
   def lex_raw_tokens({program,linea}) when program != "" do
-    kwLine = linea
+    linea_keyword=linea
     {token, rest} =
       case program do
         "{" <> rest ->
-          {{:open_brace,kwLine}, rest}
+          {{:open_brace,linea_keyword}, rest}
 
         "}" <> rest ->
-          {{:close_brace,kwLine}, rest}
+          {{:close_brace,linea_keyword}, rest}
 
         "(" <> rest ->
-          {{:open_paren,kwLine}, rest}
+          {{:open_paren,linea_keyword}, rest}
 
         ")" <> rest ->
-          {{:close_paren,kwLine}, rest}
+          {{:close_paren,linea_keyword}, rest}
 
         ";" <> rest ->
-          {{:semicolon, kwLine}, rest}
+          {{:semicolon, linea_keyword}, rest}
 
         "return" <> rest ->
-          {{:return_keyword, kwLine}, rest}
+          {{:return_keyword, linea_keyword}, rest}
 
         "int" <> rest ->
-          {{:int_keyword, kwLine}, rest}
+          {{:int_keyword, linea_keyword}, rest}
 
         "main" <> rest ->
-          {{:main_keyword, kwLine}, rest}
+          {{:main_keyword, linea_keyword}, rest}
         "-" <> rest ->
-          {{:negative_keyword, kwLine}, rest}
+          {{:negative_keyword, linea_keyword}, rest}
         "~" <> rest ->
-          {{:complement_keyword, kwLine}, rest}
+          {{:complement_keyword, linea_keyword}, rest}
         "!" <> rest ->
-          {{:negative_logical, kwLine}, rest}
+          {{:negative_logical, linea_keyword}, rest}
 
         rest ->
           get_constant(rest,linea)
       end
-	        if rest != "" do
-	              	auxiliar_token={rest,linea}
-		              remaining_tokens=lex_raw_tokens(auxiliar_token)
-		              [token | remaining_tokens]
-	        else
-	                	remaining_tokens=lex_raw_tokens(rest)
-		                [token | remaining_tokens]
-	        end
+	if rest != "" do
+		auxiliar_token={rest,linea}
+		remaining_tokens=lex_raw_tokens(auxiliar_token)
+		[token | remaining_tokens]
+	else
+		remaining_tokens=lex_raw_tokens(rest)
+		[token | remaining_tokens]
+	end
 
   end
 
