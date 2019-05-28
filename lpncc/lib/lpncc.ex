@@ -3,7 +3,7 @@ defmodule Lpncc do
    Documentation for Lpncc.
    """
    @commands %{
-     "h o help" => "Imprimi esta ayuda",
+     "h o help" => "Imprime los comandos de ayuda",
      "asm o s"    => "Imprime el codigo en ensamblador del programa ",
      "o"    => "Cambia el nombre del archivo",
      "tree o t"    => "Imprime la lista de tokens",
@@ -61,7 +61,7 @@ defmodule Lpncc do
  
  
   defp compile_file(file_path) do
-     IO.puts("Compiling file: " <> file_path)
+     IO.puts("Compilando archivo... " <> file_path)
      assembly_path = String.replace_trailing(file_path, ".c", ".s")
      lista_tokens=File.read!(file_path)
      |> Sanitizer.sanitize_source()
@@ -77,24 +77,24 @@ defmodule Lpncc do
          |> IO.inspect()
        end
        if is_tuple(arbolAST) do
-         IO.puts("ERROR SINTACTICO")
+         IO.puts("Syntax Error")
          {_,_,linea_numero,problema_atomo}=arbolAST
          linea=to_string(linea_numero+1)
          problema=to_string(problema_atomo)
-         mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
+         mensaje_error="Error en la linea:  "<>linea<>", cerca de: "<>problema
          IO.inspect(mensaje_error)
        end
      else
-       IO.puts("Error lexico:")
+       IO.puts("Lexical Error")
        [_,palabra,linea_numero]=evaluar
        linea=to_string(linea_numero+1)
-       mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
+       mensaje_error="La "<>palabra<>" es inesperada en la linea: "<>linea
        IO.inspect(mensaje_error)
      end
  end
  
  defp compile_file_with_new_name(newName,file_path) do
- IO.puts("Compiling file: " <> file_path)
+ IO.puts("Compilando archivo... " <> file_path)
  basename = Path.basename(file_path)
  assembly_path = String.replace(file_path,basename,newName)
  
@@ -111,25 +111,25 @@ defmodule Lpncc do
          |> Linker.generate_binary(assembly_path <> ".s")
          |> IO.inspect()
        else
-         IO.puts("ERROR SINTACTICO")
+         IO.puts("Syntax Error")
          {_,_,linea_numero,problema_atomo}=arbolAST
          linea=to_string(linea_numero+1)
          problema=to_string(problema_atomo)
-         mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
+         mensaje_error="Error en la linea:  "<>linea<>", cerca de: "<>problema
          IO.inspect(mensaje_error)
        end
  else
-     IO.puts("Error lexico:")
+     IO.puts("Lexical Error")
      [_,palabra,linea_numero]=evaluar
      linea=to_string(linea_numero+1)
-     mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
+     mensaje_error="La "<>palabra<>" es inesperada en la linea: "<>linea
      IO.inspect(mensaje_error)
    end
  end
  
  
    defp print_token_list(file_path) do
-     IO.puts("\n TOKEN LIST \n")
+     IO.puts("\n LISTA DE TOKENS \n")
      lista_tokens=File.read!(file_path)
      |> Sanitizer.sanitize_source()
      |> Lexer.scan_words()
@@ -137,16 +137,16 @@ defmodule Lpncc do
      if evaluar==[] do
        IO.inspect(lista_tokens)
      else
-       IO.puts("Error lexico:")
+       IO.puts("Lexical Error")
        [_,palabra,linea_numero]=evaluar
        linea=to_string(linea_numero+1)
-       mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
+       mensaje_error="La "<>palabra<>" es inesperada en linea: "<>linea
        IO.inspect(mensaje_error)
      end
    end
  
    defp print_AST(file_path) do
-     IO.puts("\n  AST TREE \n")
+     IO.puts("\n  ARBOL AST \n")
      lista_tokens=File.read!(file_path)
      |> Sanitizer.sanitize_source()
      |> Lexer.scan_words()
@@ -158,18 +158,18 @@ defmodule Lpncc do
          IO.inspect(arbolAST)
        end
        if is_tuple(arbolAST)do
-         IO.puts("ERROR SINTACTICO")
+         IO.puts("Syntax Error")
          {_,_,linea_numero,problema_atomo}=arbolAST
          linea=to_string(linea_numero+1)
          problema=to_string(problema_atomo)
-         mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
+         mensaje_error="Error en la linea:  "<>linea<>", cerca de: "<>problema
          IO.inspect(mensaje_error)
        end
      else
-       IO.puts("Error lexico:")
+       IO.puts("Lexical Error")
        [_,palabra,linea_numero]=evaluar
        linea=to_string(linea_numero+1)
-       mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
+       mensaje_error="La "<>palabra<>" es inesperada en la linea: "<>linea
        IO.inspect(mensaje_error)
      end
  end
@@ -188,26 +188,26 @@ defmodule Lpncc do
          |> CodeGenerator.generate_code()
          |> IO.inspect()
        else
-         IO.puts("ERROR SINTACTICO")
+         IO.puts("Syntax Error")
          {_,_,linea_numero,problema_atomo}=arbolAST
          linea=to_string(linea_numero+1)
          problema=to_string(problema_atomo)
-         mensaje_error="Errror en linea:  "<>linea<>", Cerca de: "<>problema
+         mensaje_error="Error en linea:  "<>linea<>", cerca de: "<>problema
          IO.inspect(mensaje_error)
        end
      else
-       IO.puts("Error lexico:")
+       IO.puts("Lexical Error")
        [_,palabra,linea_numero]=evaluar
        linea=to_string(linea_numero+1)
-       mensaje_error="La  "<>palabra<>" es no esperada  en linea: "<>linea
+       mensaje_error="La "<>palabra<>" es inesperada en la linea: "<>linea
        IO.inspect(mensaje_error)
      end
  end
  
    defp print_help_message do
-     IO.puts("\nnqcc --help file_name \n")
+     IO.puts("\lpncc --help file_name \n")
  
-     IO.puts("\nThe compiler supports following options:\n")
+     IO.puts("\nEl compilador soporta las siguientes opciones:\n")
  
      @commands
      |> Enum.map(fn {command, description} -> IO.puts("  #{command} - #{description}") end)

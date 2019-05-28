@@ -4,8 +4,6 @@ defmodule CodeGenerator do
   end
 
   def post_order(node) do
-  #  IO.puts("batman")
-  #  IO.inspect(node)
     case node do
       nil ->
         nil

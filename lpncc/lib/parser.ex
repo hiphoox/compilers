@@ -9,7 +9,7 @@ defmodule Parser do
         if rest == [] do
           %AST{node_name: :program, left_node: function_node}
         else
-          {:error, "Error: there are more elements after function end",0,"more elements"}
+          {:error, "Error: hay mas elementos al final de la funcion",0,"mas elementos"}
         end
     end
   end
@@ -22,28 +22,28 @@ defmodule Parser do
             contador=contador+1
             parse_function(rest,contador)
           else
-            {{:error, "Error 1",numline,next_token},rest}
+            {{:error, "Error #1",numline,next_token},rest}
           end
         1->
           if next_token == :main_keyword do
             contador=contador+1
             parse_function(rest,contador)
           else
-            {{:error, "Error, 2",numline,next_token},rest}
+            {{:error, "Error, #2",numline,next_token},rest}
           end
         2->
           if next_token == :open_paren do
             contador=contador+1
             parse_function(rest,contador)
           else
-            {{:error, "Error, 3 ",numline,next_token},rest}
+            {{:error, "Error, #3",numline,next_token},rest}
           end
         3->
           if next_token == :close_paren do
             contador=contador+1
             parse_function(rest,contador)
           else
-            {{:error, "Error, 4 ",numline,next_token},rest}
+            {{:error, "Error, #4",numline,next_token},rest}
           end
         4->
           if next_token == :open_brace do
@@ -57,13 +57,13 @@ defmodule Parser do
                 if next_token == :close_brace do
                   {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
                 else
-                  {{:error, "Error 5",numline,next_token}, rest}
+                  {{:error, "Error #5",numline,next_token}, rest}
                 end
             end
           end
         end
       else
-        {{:error, "Error, 6",numline,next_token}, []}
+        {{:error, "Error #6",numline,next_token}, []}
       end
   end
 
@@ -79,11 +79,11 @@ defmodule Parser do
             if next_token == :semicolon do
               {%AST{node_name: :return, left_node: exp_node}, rest}
             else
-              {{:error, "Error: 7",numline,next_token}, rest}
+              {{:error, "Error #7",numline,next_token}, rest}
             end
         end
       else
-        {{:error, "Error: 8",numline,next_token}, rest}
+        {{:error, "Error #8",numline,next_token}, rest}
       end
     end
 
@@ -98,7 +98,7 @@ defmodule Parser do
     :negative_logical ->
       unary_op([{next_token,numline} | rest])
     _->
-    {{:error, "Error, arbol 2",numline,:constant}, rest}
+    {{:error, "Error en arbol 2",numline,:constant}, rest}
     end
   end
   def unary_op([{next_token,numline} | rest]) do
@@ -115,7 +115,7 @@ defmodule Parser do
         parexpres=parse_expression(rest)
         {nodo,rest_necesario}=parexpres
         {%AST{node_name: :negative_logical, left_node: nodo}, rest_necesario}
-      _ -> {{:error, "Error, arbol 1",numline,next_token}, rest}
+      _ -> {{:error, "Error en arbol 1",numline,next_token}, rest}
     end
   end
 end
