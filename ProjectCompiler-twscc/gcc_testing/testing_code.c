@@ -1,6 +1,6 @@
 #include <stdio.h>
 int main() {
-    return ~7;
+    return 2+2;
 }
 
 
