@@ -41,8 +41,11 @@ python3 compiler.py test.c -o example.o
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+```
+You must enter to the folder "Test" then:
 
+python3 test_compiler.py
+```
 
 ## Built With
 
