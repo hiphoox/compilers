@@ -13,7 +13,7 @@ def parser_f(token_list):
     # añadir a AST (program  hijo -> function)
     if token_list:
         raise SystemExit("Syntax error: There are more elements after the function end.")
-
+    #print(ast_list)  #for debug purposes
     test = Conversion(len(ast_list))
     post =test.infixToPostfix(ast_list)
 
