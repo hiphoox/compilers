@@ -57,7 +57,11 @@ def assembler_generator(ast):
     #         assembler += expression_code(constant_code(node.split(":")[1]))
     #print(assembler_list)
     assembler = program_code() + function_code() + assembler + return_code()
+    preass = assembler.split("\n")
+    if 'push' in preass[len(preass)-3]:
+        assembler = rreplace(assembler, 'push   %rax', ' ', 1)
     print(assembler)
+
     return assembler
 
 
@@ -147,3 +151,6 @@ def logic_neg():
     """
     return code_snip
 
+def rreplace(s, old, new, occurrence):
+    li = s.rsplit(old, occurrence)
+    return new.join(li)
