@@ -12,6 +12,8 @@ import invalid_test
 class test_compiler(unittest.TestCase):
 
 	def testValidas(self):
+	#Pruebas generador
+		#stage 1
 		self.assertEqual (generator_test.assembler_no_space(ensambladorEsperado1(),ensambladorEsperado2()), 1,"Prueba assembler_no_space fallida")
 		self.assertEqual (generator_test.assembler_return_2(ensambladorEsperado1(),ensambladorEsperado2()), 1 , "Prueba assembler_return_2 fallida")
 		self.assertEqual (generator_test.assembler_return_0(ensambladorEsperado1(),ensambladorEsperado2()), 1, "Prueba assembler_return_0 fallida")
@@ -30,6 +32,7 @@ class test_compiler(unittest.TestCase):
 		self.assertEqual (assembler_neg(), 1,"Prueba assembler_neg fallida")
 		print( "14 pruebas del generator ejecutadas correctamente")
 
+	#Pruebas lexer
 		#Stage 1
 		self.assertEqual (lexer_test.lexer_no_space(lista()), 1, "Prueba lexer_no_space fallida")
 		self.assertEqual (lexer_test.lexer_return_2(lista()), 1, "Prueba lexer_return_2 fallida")
@@ -61,7 +64,7 @@ class test_compiler(unittest.TestCase):
 		##
 		print("25 pruebas del Lexer ejecutadas correctamente")
 
-
+	#Pruebas parser
 		##Stage 1
 		self.assertEqual (parser_test.arbol_return_2(arbolEsperado()), 1, "Prueba parser_return_2 fallida")
 		self.assertEqual (parser_test.arbol_multi_digit(arbolEsperado()), 1, "Prueba parser_multi_digit fallida")
@@ -105,8 +108,6 @@ class test_compiler(unittest.TestCase):
 		self.assertEqual (invalid_test.arbol_missing_semicolon(), 0, "Prueba arbol_missing_semicolon fallida")
 		self.assertEqual (invalid_test.arbol_nested_missing_const(), 0, "Prueba arbol_nested_missing_const fallida")
 		self.assertEqual (invalid_test.arbol_wrong_order(), 0, "Prueba arbol_wrong_order fallida")
-
-		#stage 2
 		self.assertEqual (lexer_stage2_missing_const(lista2()), 0, "Prueba lexer_stage2_missing_const fallida")
 		self.assertEqual (lexer_wrong_order(lista2()), 0, "Prueba lexer_wrong_order fallida")
 		self.assertEqual (lexer_stage2_missing_semicolon(lista2()), 0, "Prueba lexer_stage2_missing_semicolon fallida")
@@ -119,6 +120,7 @@ class test_compiler(unittest.TestCase):
 		#self.assertEqual (lexer_missing_first_op(lista3()), 0, "Prueba lexer_missing_first_op fallida")
 
 		print("15 pruebas invalidas ejecutadas correctamente") 
+		print("Total de pruebas ejecutadas: 66")
 
 if __name__ == '__main__':
 	unittest.main()

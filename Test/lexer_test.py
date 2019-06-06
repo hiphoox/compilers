@@ -363,30 +363,5 @@ def lexer_unop_parens(listaEsperada):   #comparar lista fija con lista de tokens
 	else:
 		return 0
 #las pruebas devuelven cero si fallan y 1 si pasan
-lexer_mult(lista())
-#stage 1
 
-
-"""lexer_multi_digit(lista())
-lexer_spaces(lista())		
-lexer_newlines(lista())
-lexer_no_newlines(lista())	
-lexer_return_0(lista())
-lexer_no_space(lista())
-lexer_return_2(lista())
-
-#stage 2
-
-lexer_nested_ops_2(lista())
-lexer_bitwise_zero(lista())
-lexer_not_zero(lista())
-lexer_bitwise(lista())
-lexer_neg(lista())
-lexer_nested_ops(lista())
-lexer_not_five(lista())
-
-
-#Stage 3
-lexer_add(lista())
-"""
 
