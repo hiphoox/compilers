@@ -1,9 +1,12 @@
 # encoding: utf-8
+from infixtoposfix import Conversion
 from treelib import Node, Tree
 import random
 
 def parser_f(token_list):
     ast_list = []
+    ast_stack = []
+    ast_storedleaves = []
     function_parser(token_list, ast_list)
     ast = Tree()
     ast.create_node('Program', 'prog')  # to create the first node of the AST
@@ -11,7 +14,35 @@ def parser_f(token_list):
     if token_list:
         raise SystemExit("Syntax error: There are more elements after the function end.")
 
-    #print(ast_list) #debug purposes
+    test = Conversion(len(ast_list))
+    post =test.infixToPostfix(ast_list)
+
+    for element in post:
+        if 'Constant' in element[0]:
+            ast_stack.append(element)
+        elif element[0] == 'negation' or element[0] == 'bitwise_complement' or element[0] == 'logical_negation':
+            operand = ast_stack.pop()
+            operand.append(element[1])
+            ast_storedleaves.append(operand)
+            ast_stack.append(element)
+        elif element[0] == 'negation_bin' or element[0] == 'addition_bin' or element[0] == 'division' or element[0] == 'multiplication':
+            operand1 = ast_stack.pop()
+            operand2 = ast_stack.pop()
+            operand1.append(element[1])
+            operand2.append(element[1])
+            ast_storedleaves.append(operand1)
+            ast_storedleaves.append(operand2)
+            ast_stack.append(element)
+        else:
+            break
+    print("--stack-----")
+    print(ast_stack)
+    print("---leaves-----")
+    print(ast_storedleaves)
+    print("-----------")
+
+
+    return ast_list #debug purposes
     # # to create the rest of the nodes of the tree from the list
     for index, leaf in enumerate(ast_list):
         if 'negation' in leaf[0] or "bitwise_complement" in leaf[0] or "logical_negation" in leaf[0]:
@@ -69,7 +100,7 @@ def expression_parser(token_list, ast_list):
     term_parser(token_list, ast_list)
     t = token_list[0] if token_list else SystemExit("Parser ran out of tokens")
     while (t == "addition" or t == "negation"):
-        ast_list.append([t, str(random.randint(1,10000)), t])
+        ast_list.append([t+"_bin", str(random.randint(1,10000)), t+"_bin"])
         token_list.pop(0)
         term_parser(token_list, ast_list)
         t = token_list[0] if token_list else SystemExit("Parser ran out of tokens")
@@ -92,10 +123,12 @@ def term_parser(token_list, ast_list):
 def factor_parser(token_list, ast_list):
     t = token_list[0] if token_list else SystemExit("Parser ran out of tokens")
     if t == "parentheses_open":
+        ast_list.append([t, str(random.randint(1,10000)), t])
         token_list.pop(0)
         expression_parser(token_list, ast_list)
         t = token_list[0] if token_list else SystemExit("Parser ran out of tokens")
         if t == "parentheses_close":
+            ast_list.append([t, str(random.randint(1,10000)), t])
             token_list.pop(0)
             return
     if (t == "negation" or t == 'bitwise_complement' or t == 'logical_negation'):
