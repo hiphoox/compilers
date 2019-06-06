@@ -55,7 +55,7 @@ defmodule Generador_codigo do
 
   def codigo_gen(:constant, value, codigo, post_stack) do
       #IO.puts("OP bin detected")
-    if List.first(post_stack) == "+" do
+    if List.first(post_stack) == "+" or List.first(post_stack) == "*" or List.first(post_stack) == "-" do
       IO.puts("OP bin detected")
       codigo <> """
           mov     $#{value}, %rax
@@ -105,6 +105,33 @@ defmodule Generador_codigo do
         add      %rcx, %rax
     """
  end
+
+ def codigo_gen(:minus_Keyword, _, codigo, _) do
+   #IO.puts(codigo)
+   #almacenar el primer operando usando un push a %eax
+   codigo <> """
+       pop      %rcx
+       sub      %rcx, %rax
+   """
+end
+
+ def codigo_gen(:multiplication_Keyword, _, codigo, _) do
+   #IO.puts(codigo)
+   #almacenar el primer operando usando un push a %eax
+   codigo <> """
+       pop      %rcx
+       imul      %rcx, %rax
+   """
+end
+
+def codigo_gen(:division_Keyword, _, codigo, _) do
+  #IO.puts(codigo)
+  #almacenar el primer operando usando un push a %eax
+  codigo <> """
+      pop      %rcx
+      add      %rcx, %rax
+  """
+end
 
 
   def genera_archivo(code,path) do

@@ -59,18 +59,37 @@ defmodule Parser do
 
   def next_term_exp(tokens, node_term) do
     [tokens, operator] = parse_operation(tokens); #extrae el operador
-    [tokens, next_term] = parse_term(tokens) #extrae el hijo derecho
-    #crea nodo con operacion(hijo izquiero y derecho )
+    if operator == :negation_Keyword do
+       operator = :minus_Keyword
+       [tokens, next_term] = parse_term(tokens) #extrae el hijo derecho
+       #crea nodo con operacion(hijo izquiero y derecho )
 
-    # construccion del nodo con suma o resta
-    [tokens, node_term] = parse_bin_op(tokens, operator, node_term, next_term);
-    #recursividad
-    if List.first(tokens) == :negation_Keyword or List.first(tokens) ==:addition_Keyword do
-      [tokens, node_term] = next_term_exp(tokens, node_term)
+       # construccion del nodo con suma o resta
+       [tokens, node_term] = parse_bin_op(tokens, operator, node_term, next_term);
+       #recursividad
+       if List.first(tokens) == :negation_Keyword or List.first(tokens) ==:addition_Keyword do
+         [tokens, node_term] = next_term_exp(tokens, node_term)
+       else
+         [tokens, node_term]; #no hubo operacion de suma ni resta
+       end
+
     else
-      [tokens, node_term]; #no hubo operacion de suma ni resta
+
+          [tokens, next_term] = parse_term(tokens) #extrae el hijo derecho
+          #crea nodo con operacion(hijo izquiero y derecho )
+
+          # construccion del nodo con suma o resta
+          [tokens, node_term] = parse_bin_op(tokens, operator, node_term, next_term);
+          #recursividad
+          if List.first(tokens) == :negation_Keyword or List.first(tokens) ==:addition_Keyword do
+            [tokens, node_term] = next_term_exp(tokens, node_term)
+          else
+            [tokens, node_term]; #no hubo operacion de suma ni resta
+          end
+          #[tokens, node_term]
+
     end
-    #[tokens, node_term]
+
   end
 
 
@@ -145,10 +164,10 @@ defmodule Parser do
   end
 
   def parse_operation(tokens) do
-    operator = List.first(tokens); #guardo el operador
-    tokens = Enum.drop(tokens, 1) #extraccion del operador
-    [tokens, operator];
-  end
+      operator = List.first(tokens); #guardo el operador
+      tokens = Enum.drop(tokens, 1) #extraccion del operador
+      [tokens, operator];
+      end
 
 #  def parse_expression(tokens) do
     #IO.inspect(List.first(tokens), label: "K TRAE TOKENS")
@@ -247,6 +266,7 @@ defmodule Parser do
           :semicolon->";"
           :logicalNeg_Keyword->"!"
           :negation_Keyword->"-"
+          :minus_Keyword -> "-"
           :bitewise_Keyword -> "~"
           :addition_Keyword -> "+"
           :division_Keyword -> "/"
