@@ -7,7 +7,7 @@ class Conversion:
 		self.array = [] 
 		# Precedence setting 
 		self.output = [] 
-		self.precedence = {'addition_bin':1, 'negation':1, 'bitwise_complement': 1, 'logical_negation': 1, 'negation_bin':0 ,'multiplication':2, 'division':2} 
+		self.precedence = {'addition_bin':0, 'negation':1, 'bitwise_complement': 1, 'logical_negation': 1, 'negation_bin':0 ,'multiplication':2, 'division':2} 
 	
 	def isEmpty(self): 
 		return True if self.top == -1 else False
