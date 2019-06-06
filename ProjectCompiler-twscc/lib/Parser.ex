@@ -120,8 +120,7 @@ defmodule Parser do
         :algun_error_estupido
       else
         tokens=Enum.drop(tokens, 1);
-
-          [tokens, node_exp];
+        [tokens, node_exp];
       end
         #crear funcion es_unario
     else if List.first(tokens) == :negation_Keyword or List.first(tokens) == :bitewise_Keyword or List.first(tokens) == :logicalNeg_Keyword  do
@@ -132,7 +131,7 @@ defmodule Parser do
     else if elem(Enum.at(tokens, 0),0) == :constant do
       [tokens, const_node] = parse_constant(tokens, :constant)
       else
-      :fallaste
+
       end
     end
   end

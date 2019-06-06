@@ -1,3 +1,3 @@
 int main() {
-    return ~1324253;
+    return 5+9;
 }

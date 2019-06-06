@@ -1,69 +1,111 @@
 defmodule Generador_codigo do
 
   def assembly(ast, flag, path) do
-    asm_string = postorden(ast, "")
+    #obtener stack con el recorido en post-orden primero
+    post_stack = postorden_recorrido(ast, [])
+    IO.inspect(post_stack)
+    #vuelve a recorrer pero con la lista del recorrido para revisar si sigue operacion binaria
+    asm_string = postorden(ast, "", post_stack)
+    #IO.puts(asm_string)
     #Según la bandera, escribe ensamblador en disco o continua hacia el linker para generar ejecutable
     if flag == :gen_asm, do: genera_archivo(asm_string, path), else: {:ok, asm_string}
   end
   #sin hijos el nodo
-  defp postorden({}, code), do: code;
+  defp postorden_recorrido({}, l_rec), do: l_rec;
+
+  defp postorden({}, code, post_stack), do: [code, post_stack];
+
   #nodo con hijos
 
-  #Búsqueda en postorden (izquierda, derecha y arriba)
-  defp postorden({atomo, value, izquierda ,derecha }, code) do
-    code = postorden(izquierda, code)
-    code = postorden(derecha, code)
+  defp postorden_recorrido({atomo, value, izquierda ,derecha }, l_rec) do
+    l_rec = postorden_recorrido(izquierda, l_rec)
+    l_rec = postorden_recorrido(derecha, l_rec)
     #si ya no encuentra más hijos, extrae el valor, genera el código y concatenalo con "code"
+    #IO.puts(codeder)
+    #IO.inspect(value, label: "Generando codigo para")
+    l_rec = l_rec ++ [value]
+  end
 
-   codigo_gen(atomo, value, code);
+  #Búsqueda en postorden (izquierda, derecha y arriba)
+  defp postorden({atomo, value, izquierda ,derecha }, code, post_stack) do
+    [code, post_stack] = postorden(izquierda, code, post_stack)
+    [code, post_stack] = postorden(derecha, code, post_stack)
+    #si ya no encuentra más hijos, extrae el valor, genera el código y concatenalo con "code"
+    IO.puts(code)
+    post_stack = Enum.drop(post_stack, 1)
+    #IO.inspect(post_stack)
+    #IO.puts(code)
+    IO.inspect(value, label: "Generando codigo para")
+   [codigo_gen(atomo, value, code, post_stack ), post_stack];
   end
 
 #funciones "sobreescritas"
-  def codigo_gen(:program, _, codigo) do
+  def codigo_gen(:program, _, codigo, _) do
     """
     .p2align        4, 0x90
     """ <> codigo #concatena esto antes del codigo
   end
 
-  def codigo_gen(:function, _, codigo) do
+  def codigo_gen(:function, _, codigo, _) do
     """
         .globl  main         ## -- Begin function main
     main:                    ## @main
     """  <> codigo #concatena esto antes del codigo
   end
 
-  def codigo_gen(:constant, value, _) do
-    """
-        movl     $#{value}, %eax
-    """
+  def codigo_gen(:constant, value, codigo, post_stack) do
+      #IO.puts("OP bin detected")
+    if List.first(post_stack) == "+" do
+      IO.puts("OP bin detected")
+      codigo <> """
+          mov     $#{value}, %rax
+      """
+    else
+      IO.inspect(value)
+      codigo <> """
+          mov     $#{value}, %rax
+          push    %rax
+      """
+    end
+
   end
 
   ##pega el valor de la constante y añade una instruccion return
-  def codigo_gen(:return_Keyword, _, codigo) do
+  def codigo_gen(:return_Keyword, _, codigo, _) do
     codigo <> """
         ret
     """
   end
 
-  def codigo_gen(:negation_Keyword, _, codigo) do
+  def codigo_gen(:negation_Keyword, _, codigo, _) do
     codigo <> """
         neg     %eax
     """
   end
 
-  def codigo_gen(:bitewise_Keyword, _, codigo) do
+  def codigo_gen(:bitewise_Keyword, _, codigo, _) do
     codigo <> """
         not     %eax
     """
   end
 
-  def codigo_gen(:logicalNeg_Keyword, _, codigo) do
+  def codigo_gen(:logicalNeg_Keyword, _, codigo, _) do
     codigo <> """
         cmpl     $0, %eax
         movl     $0, %eax
         sete     %al
     """
   end
+
+  def codigo_gen(:addition_Keyword, _, codigo, _) do
+    #IO.puts(codigo)
+    #almacenar el primer operando usando un push a %eax
+    codigo <> """
+        pop      %rcx
+        add      %rcx, %rax
+    """
+ end
+
 
   def genera_archivo(code,path) do
     asm_path = String.replace_trailing(path, ".c", ".s")

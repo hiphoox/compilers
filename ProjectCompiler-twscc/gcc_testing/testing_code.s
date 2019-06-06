@@ -1,21 +1,17 @@
-	.file	"testing_code.c"
-	.text
-	.globl	main
-	.type	main, @function
-main:
-.LFB0:
-	.cfi_startproc
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register 6
-	movl	$-3, %eax
-	popq	%rbp
-	.cfi_def_cfa 7, 8
-	ret
-	.cfi_endproc
-.LFE0:
-	.size	main, .-main
-	.ident	"GCC: (Ubuntu 8.3.0-6ubuntu1) 8.3.0"
-	.section	.note.GNU-stack,"",@progbits
+    .globl  main         ## -- Begin function main
+main:                    ## @main
+    mov     $6, %rax
+    push    %rax
+    mov     $9, %rax
+    pop      %rcx
+    add      %rcx, %rax
+    push     %rax
+    mov     $1, %rax
+    push    %rax
+    mov     $555, %rax
+    pop      %rcx
+    add      %rcx, %rax
+    pop      %rcx
+    add      %rcx, %rax
+    ret
+
