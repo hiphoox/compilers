@@ -17,43 +17,60 @@ def parser_f(token_list):
     test = Conversion(len(ast_list))
     post =test.infixToPostfix(ast_list)
 
-    for element in post:
-        if 'Constant' in element[0]:
-            ast_stack.append(element)
-        elif element[0] == 'negation' or element[0] == 'bitwise_complement' or element[0] == 'logical_negation':
-            operand = ast_stack.pop()
-            operand.append(element[1])
-            ast_storedleaves.append(operand)
-            ast_stack.append(element)
-        elif element[0] == 'negation_bin' or element[0] == 'addition_bin' or element[0] == 'division' or element[0] == 'multiplication':
-            operand1 = ast_stack.pop()
-            operand2 = ast_stack.pop()
-            operand1.append(element[1])
-            operand2.append(element[1])
-            ast_storedleaves.append(operand1)
-            ast_storedleaves.append(operand2)
-            ast_stack.append(element)
-        else:
-            break
-    print("--stack-----")
-    print(ast_stack)
-    print("---leaves-----")
-    print(ast_storedleaves)
-    print("-----------")
+    if 'Constant' in post[0][0]:
+        for element in post:
+            if 'Constant' in element[0]:
+                ast_stack.append(element)
+            elif element[0] == 'negation' or element[0] == 'bitwise_complement' or element[0] == 'logical_negation':
+                operand = ast_stack.pop()
+                operand.append(element[1])
+                ast_storedleaves.append(operand)
+                ast_stack.append(element)
+            elif element[0] == 'negation_bin' or element[0] == 'addition_bin' or element[0] == 'division' or element[0] == 'multiplication':
+                operand1 = ast_stack.pop()
+                operand2 = ast_stack.pop()
+                operand1.append(element[1])
+                operand2.append(element[1])
+                ast_storedleaves.append(operand1)
+                ast_storedleaves.append(operand2)
+                ast_stack.append(element)
+            else:
+                break
+        # print("--stack-----")
+        # print(ast_stack)
+        # print("---leaves-----")
+        # print(ast_storedleaves)
+        # print("-----------")
+
+        for index, leaf in enumerate(ast_list):
+            if 'Expression' in leaf[0]:
+                ast.create_node(leaf[0], 'expr', parent='func', data=leaf[2])
+            if 'Function' in leaf[0]:
+                ast.create_node(leaf[0], 'func', parent='prog', data=leaf[2])
+            if 'Constant' in leaf[0] and not ast_storedleaves:
+                ast.create_node(leaf[0], leaf[1], parent = 'expr', data=leaf[2][1])
+
+        if ast_storedleaves:
+            ast.create_node(ast_stack[0][0], ast_stack[0][1], parent='expr', data=ast_stack[0][2])
+            for leaf in reversed(ast_storedleaves):
+                ast.create_node(leaf[0], leaf[1], parent=leaf[3], data=leaf[2])
+
+        return ast
 
 
-    return ast_list #debug purposes
+    #return ast_list #debug purposes
     # # to create the rest of the nodes of the tree from the list
-    for index, leaf in enumerate(ast_list):
-        if 'negation' in leaf[0] or "bitwise_complement" in leaf[0] or "logical_negation" in leaf[0]:
-            ast.create_node(leaf[0], leaf[1], parent = ast_list[index-1][1], data = leaf[2])
-        if 'Constant' in leaf[0]:
-            ast.create_node(leaf[0], leaf[1], parent = ast_list[index-1][1], data=leaf[2][1])
-        if 'Expression' in leaf[0]:
-            ast.create_node(leaf[0], leaf[1], parent='func', data=leaf[2])
-        if 'Function' in leaf[0]:
-            ast.create_node(leaf[0], 'func', parent='prog', data=leaf[2])
-    return ast
+    else:
+        for index, leaf in enumerate(ast_list):
+            if 'negation' in leaf[0] or "bitwise_complement" in leaf[0] or "logical_negation" in leaf[0]:
+                ast.create_node(leaf[0], leaf[1], parent = ast_list[index-1][1], data = leaf[2])
+            if 'Constant' in leaf[0]:
+                ast.create_node(leaf[0], leaf[1], parent = ast_list[index-1][1], data=leaf[2][1])
+            if 'Expression' in leaf[0]:
+                ast.create_node(leaf[0], leaf[1], parent='func', data=leaf[2])
+            if 'Function' in leaf[0]:
+                ast.create_node(leaf[0], 'func', parent='prog', data=leaf[2])
+        return ast
 
 
 def function_parser(token_list, ast_list):
