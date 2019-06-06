@@ -3,40 +3,51 @@ defmodule Lexer do
     Enum.flat_map(words, &lex_raw_tokens/1)
   end
 
-  def get_constant(program, linea) do
+  def get_constant(program) do
     valor = Regex.run(~r/^\d+/, program)
 
     if valor != nil do
       case valor do
         [value] ->
-          {{{:constant, String.to_integer(value)}, linea}, String.trim_leading(program, value)}
+          {{:constant, String.to_integer(value)}, String.trim_leading(program, value)}
       end
     else
-      {["error", program, linea], ""}
+      {["error", program], ""}
     end
   end
 
-  def lex_raw_tokens({program, linea}) when program != "" do
-    linea_keyword = linea
+  def lex_raw_tokens(program) when program != "" do
+
 
     {token, rest} =
       case program do
-        "int" <> rest -> {{:intkeyword, linea_keyword}, rest}
-        "return" <> rest -> {{:returnkeyword, linea_keyword}, rest}
-        "main" <> rest -> {{:mainkeyword, linea_keyword}, rest}
-        "{" <> rest -> {{:open_brace, linea_keyword}, rest}
-        "}" <> rest -> {{:close_brace, linea_keyword}, rest}
-        "(" <> rest -> {{:open_parenthesis, linea_keyword}, rest}
-        "-" <> rest -> {{:operator_negation, linea_keyword}, rest}
-        "~" <> rest -> {{:operator_bitwise_complement, linea_keyword}, rest}
-        "!" <> rest -> {{:operator_logical_negation, linea_keyword}, rest}
-        ")" <> rest -> {{:close_parenthesis, linea_keyword}, rest}
-        ";" <> rest -> {{:semicolon, linea_keyword}, rest}
-        rest -> get_constant(rest, linea)
+        "int" <> rest -> {:intkeyword, rest}
+
+        "return" <> rest -> {:returnkeyword, rest}
+
+        "main" <> rest -> {:mainkeyword, rest}
+
+        "{" <> rest -> {:open_brace, rest}
+
+        "}" <> rest -> {:close_brace, rest}
+
+        "(" <> rest -> {:open_parenthesis, rest}
+
+        "-" <> rest -> {:operator_negation, rest}
+
+        "~" <> rest -> {:operator_bitwise_complement, rest}
+
+        "!" <> rest -> {:operator_logical_negation, rest}
+
+        ")" <> rest -> {:close_parenthesis, rest}
+
+        ";" <> rest -> {:semicolon, rest}
+
+        rest -> get_constant(rest)
       end
 
     if rest != "" do
-      token_aux = {rest, linea}
+      token_aux = rest
       tokens_rest = lex_raw_tokens(token_aux)
       [token | tokens_rest]
     else

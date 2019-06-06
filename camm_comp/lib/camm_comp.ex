@@ -91,7 +91,6 @@ defmodule CammComp do
       if is_map(tree) do
         tree
         |> Generator.generate_code()
-        |> IO.inspect(label: "\nGenertor output")
         |> Linker.generate_binary(assembly)
       else
         IO.puts("Error Sintactico")
@@ -130,7 +129,6 @@ defmodule CammComp do
     |> Lexer.scan_words()
     |> Parser.parse_program()
     |> Generator.generate_code()
-    |> IO.inspect(label: "\nGenertor output")
   end
 
   defp print_help_message do

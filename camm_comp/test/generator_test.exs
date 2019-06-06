@@ -21,9 +21,10 @@ defmodule GeneratorTest do
       :close_parenthesis,
       :open_brace,
       :returnkeyword,
-      {:constant, 2},
+      {:constant, 0},
       :semicolon,
-      :close_brace]))}
+      :close_brace]
+))}
   end
 
        test " :Separdos por espacios", state do

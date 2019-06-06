@@ -4,26 +4,27 @@ defmodule ParserTest do
 
   setup_all do
     {:ok,
-    ast: Parser.parse_program([
-      :intkeyword,
-      :mainkeyword,
-      :open_parenthesis,
-      :close_parenthesis,
-      :open_brace,
-      :returnkeyword,
-      {:constant, 2},
-      :semicolon,
-      :close_brace]),
-      ast0: Parser.parse_program([
-        :intkeyword,
-        :mainkeyword,
-        :open_parenthesis,
-        :close_parenthesis,
-        :open_brace,
-        :returnkeyword,
-        {:constant, 2},
-        :semicolon,
-        :close_brace])}
+  ast: Parser.parse_program([
+    :intkeyword,
+    :mainkeyword,
+    :open_parenthesis,
+    :close_parenthesis,
+    :open_brace,
+    :returnkeyword,
+    {:constant, 2},
+    :semicolon,
+    :close_brace]),
+  ast0: Parser.parse_program([
+    :intkeyword,
+    :mainkeyword,
+    :open_parenthesis,
+    :close_parenthesis,
+    :open_brace,
+    :returnkeyword,
+    {:constant, 0},
+    :semicolon,
+    :close_brace])
+}
 
   end
 
@@ -74,7 +75,7 @@ defmodule ParserTest do
   end
 
   test " :Elementos separados por espacios", state do
-      assert Lexer.scan_words(["int", "main(){return", "10;}"]) 
+      assert Lexer.scan_words(["int", "main(){return", "10;}"])
       |> Parser.parse_program() == state[:ast] or state[:ast0]
   end
 
