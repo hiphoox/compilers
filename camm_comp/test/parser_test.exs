@@ -14,6 +14,7 @@ defmodule ParserTest do
     {:constant, 2},
     :semicolon,
     :close_brace]),
+
   ast0: Parser.parse_program([
     :intkeyword,
     :mainkeyword,
@@ -22,6 +23,42 @@ defmodule ParserTest do
     :open_brace,
     :returnkeyword,
     {:constant, 0},
+    :semicolon,
+    :close_brace]),
+
+  ast1: Parser.parse_program([
+    :intkeyword,
+    :mainkeyword,
+    :open_parenthesis,
+    :close_parenthesis,
+    :open_brace,
+    :returnkeyword,
+    :operator_negation,
+    {:constant, 2},
+    :semicolon,
+    :close_brace]),
+
+  ast2: Parser.parse_program([
+    :intkeyword,
+    :mainkeyword,
+    :open_parenthesis,
+    :close_parenthesis,
+    :open_brace,
+    :returnkeyword,
+    :operator_logical_negation,
+    {:constant, 2},
+    :semicolon,
+    :close_brace]),
+
+  ast3: Parser.parse_program([
+    :intkeyword,
+    :mainkeyword,
+    :open_parenthesis,
+    :close_parenthesis,
+    :open_brace,
+    :returnkeyword,
+    :operator_bitwise_complement,
+    {:constant, 2},
     :semicolon,
     :close_brace])
 }
@@ -70,18 +107,33 @@ defmodule ParserTest do
   # Más pruebas
 
   test " :Una sola cadena", state do
-      assert Lexer.scan_words(["intmain(){return10;}"])
+      assert Lexer.scan_words(["intmain(){return0;}"])
       |> Parser.parse_program() == state[:ast] or state[:ast0]
   end
 
   test " :Elementos separados por espacios", state do
-      assert Lexer.scan_words(["int", "main(){return", "10;}"])
+      assert Lexer.scan_words(["int", "main(){return", "0;}"])
       |> Parser.parse_program() == state[:ast] or state[:ast0]
   end
 
-  test " :Separados en dos cadenas ", state do
-    assert Lexer.scan_words(["intmain()","{return10;}"])
+  test " :Separados en dos cadenas", state do
+    assert Lexer.scan_words(["intmain()","{return0;}"])
       |> Parser.parse_program() == state[:ast] or state[:ast0]
+  end
+
+  test " :Probando negación", state do
+      assert Lexer.scan_words(["intmain(){return-2;}"])
+      |> Parser.parse_program() == state[:ast1]
+  end
+
+  test " :Probando negación lógica", state do
+      assert Lexer.scan_words(["int", "main(){return", "!2;}"])
+      |> Parser.parse_program() == state[:ast2]
+  end
+
+  test " :Probando complemento", state do
+    assert Lexer.scan_words(["intmain()","{return~2;}"])
+      |> Parser.parse_program() == state[:ast3]
   end
 
 end

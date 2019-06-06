@@ -24,8 +24,44 @@ defmodule LexerTest do
        :return_keyword,
        {:constant, 0},
        :semicolon,
-       :close_brace
-  ]}
+       :close_brace],
+
+       tokens1: [
+         :intkeyword,
+         :mainkeyword,
+         :open_parenthesis,
+         :close_parenthesis,
+         :open_brace,
+         :returnkeyword,
+         :operator_negation,
+         {:constant, 2},
+         :semicolon,
+         :close_brace],
+
+       tokens2: [
+         :intkeyword,
+         :mainkeyword,
+         :open_parenthesis,
+         :close_parenthesis,
+         :open_brace,
+         :returnkeyword,
+         :operator_logical_negation,
+         {:constant, 2},
+         :semicolon,
+         :close_brace],
+
+       tokens3: [
+         :intkeyword,
+         :mainkeyword,
+         :open_parenthesis,
+         :close_parenthesis,
+         :open_brace,
+         :returnkeyword,
+         :operator_bitwise_complement,
+         {:constant, 2},
+         :semicolon,
+         :close_brace]
+  }
   end
 
   test " :Separdos por espacios", state do
@@ -70,18 +106,33 @@ defmodule LexerTest do
   # Más pruebas
 
   test " :Una sola cadena", state do
-    assert Lexer.scan_words(["intmain(){return10;}"]) ==
+    assert Lexer.scan_words(["intmain(){return0;}"]) ==
     state[:tokens] or state[:tokens0]
   end
 
   test " :Elementos separados por espacios", state do
-    assert Lexer.scan_words(["int", "main(){return", "10;}"]) ==
+    assert Lexer.scan_words(["int", "main(){return", "0;}"]) ==
     state[:tokens] or state[:tokens0]
   end
 
-  test " :Separados en dos cadenas ", state do
-    assert Lexer.scan_words(["intmain()","{return10;}"]) ==
+  test " :Separados en dos cadenas", state do
+    assert Lexer.scan_words(["intmain()","{return0;}"]) ==
     state[:tokens] or state[:tokens0]
+  end
+
+  test " :Probando negación", state do
+    assert Lexer.scan_words(["intmain(){return-2;}"]) ==
+    state[:tokens1]
+  end
+
+  test " :Probando negación lógica", state do
+    assert Lexer.scan_words(["int", "main(){return", "!2;}"]) ==
+    state[:tokens2]
+  end
+
+  test " :Probando complemento", state do
+    assert Lexer.scan_words(["intmain()","{return~2;}"]) ==
+    state[:tokens3]
   end
 
 end
