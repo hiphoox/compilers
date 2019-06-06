@@ -322,126 +322,164 @@ defmodule ParserTest do
      ]}
   end
 
-  IO.puts("Pruebas para el parser (Pruebas invalidas)")
-  IO.puts("7 Pruebas invalidas ")
-test "1.- Elementos separadas espacios ", state do
-    assert Lexer.scan_words(["int", "main(){return", "2;}"]) == state[:tokens_0] or state[:tokens]
+  IO.puts("Pruebas para el parser")
+  ###############################################################1######################################
+  IO.puts("Se ejecutan 7 pruebas Validas Para la primera Etapa")
+test "1.- Con 2 diferentes digitos", state do
+    assert "int main () {return 2;}"
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() == 
+    state[:tokens] or state[:tokens_multi_digit]
+  end
+test "2.- Con Saltos de linea", state do
+    assert "int\nmain\n(\n)\n{\nreturn\n2\n;\n}"
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() == 
+    state[:tokens] or state[:tokens_multi_digit]
   end
 
-  test "2.- Funcion separada del main y el cuerpo del programa", state do
-    assert Lexer.scan_words(["int", "main()", "{return", "2;}"]) == state[:tokens] or
-             state[:tokens_0]
+test "3.- Todo junto", state do
+    assert "int main(){return 2;}"
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() == 
+    state[:tokens] or state[:tokens_multi_digit]
   end
 
-  test "3.- Todo separado ", state do
-    assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", "2", ";", "}"]) ==
-             state[:tokens] or state[:tokens_0]
+test "4.- Todo junto", state do
+    assert "int main(){return 2;}"
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() == 
+    state[:tokens] or state[:tokens_multi_digit]
   end
 
-  test "4.- Retornando un 0", state do
-    assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", "0", ";", "}"]) ==
-             state[:tokens_0] or state[:tokens]
+test "5.- Con el digito return 0", state do
+    assert "int main(){\nreturn 0;\n}"
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() == 
+    state[:tokens] or state[:tokens_multi_digit]
   end
 
-  test "5.- Con saltos de linea en int y main usando sanitizer", state do
-    assert "int\nmain\n()\n{return 0;}" |> Sanitizer.sanitize_source() |> Lexer.scan_words() ==
-             state[:tokens] or state[:tokens_0]
+test "6.- Con el digito 2", state do
+    assert "int main(){\nreturn 2;\n}"
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() == 
+    state[:tokens] or state[:tokens_multi_digit]
   end
 
-  test "6.- Con saltos de linea en todo usando sanitizer", state do
-    assert "int\nmain\n(\n)\n{\nreturn\n0\n;\n}\n"
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words() ==
-             state[:tokens] or state[:tokens_0]
+test "7.- Con espacios entre los digitos", state do
+    assert " int main ( ) { return 0 ; }"
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() == 
+    state[:tokens] or state[:tokens_multi_digit]
+  end
+###################################
+  IO.puts("7 Pruebas no validas Para la primera etapa ")
+  test "8.- Falta un parentesis", state do
+    assert "int main( {\nreturn 2};" 
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() ==
+    state[:tokens] or state[:tokens_missing_paren]
   end
 
-  test "7.- Con espacios entre los caracteres en todo usando sanitizer", state do
-    assert "int    main    (   )   {   return    0   ;   }   "
-           |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words() ==
-             state[:tokens] or state[:tokens_0]
+  test "9.- Falta argumento en el return", state do
+    assert "int main() {\nreturn };" 
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() ==
+    state[:tokens] or state[:tokens_missing_retval]
   end
 
-  ######################################################################################
-  IO.puts("Pruebas no validas")
-
-  test "8.-Faltan los parentesis ", state do
-    assert Lexer.scan_words(["int", "main", "{", "return", "0", ";", "}"]) == state[:tokens_SP] or
-             state[:tokens]
+  test "10.- Sin parentesis", state do
+    assert "int main {\nreturn 2};" 
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() ==
+    state[:tokens] or state[:tokens_missing_paren]
   end
 
-  test "9.-Falta argumento en el return ", state do
-    assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", ";}"]) == state[:tokens4] or
-             state[:tokens]
+  test "11.- Sin Espacios en el return", state do
+    assert "int main() {\nreturn0 };" 
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() ==
+    state[:tokens] or state[:tokens_missing_retval]
   end
 
-  test "10.-Faltan llaves ", state do
-    assert Lexer.scan_words(["int", "main", "(", ")", "return", "0", ";"]) == state[:tokens_0] or
-             state[:tokens_SL]
+  test "12.- Con mayusculas en el RETURN", state do
+    assert "int main() {\nRETURN 0 };" 
+    |> Sanitizer.sanitize_source()
+    |> Parser.parse_program() ==
+    state[:tokens] or state[:tokens_missing_retval]
   end
-
-  test "12.-Faltan espacios en el return  y el argumento ", state do
-    assert Lexer.scan_words(["int", "main", "(", ")", "{", "return", "0", ";", "}"]) ==
-             state[:tokens_0] or state[:tokens]
-  end
-
-  #################################################################################################
-  ############ Pruebas propias
-  ########### Pruebas Validas
-
-  test "13.- 2 veces el main", state do
-    assert Lexer.scan_words(["int", "main", "main", "(", ")", "{", "return", "0;}"]) ==
-             state[:tokens] or state[:tokens_int]
-  end
-
-  test "14.- 2 veces el int", state do
-    assert Lexer.scan_words(["int", "int", "main", "(", ")", "{", "return", "0;}"]) ==
-             state[:tokens] or state[:tokens_int]
-  end
-
-  ################################################################################################################
-######################3##Pruebas Validas para la segunda etapa del compilador#####################################
-  test "1.- bitwise", state do
+  ##########################################################2####################################
+  IO.puts("Se ejecutan 7 pruebas Validas Para la Segunda Etapa")
+  test "13.- bitwise", state do
     assert "int main()\n {\n  return !12;\n}"
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words() ==
-             state[:tokens] or state[:tokens_0]
+           |> Parser.parse_program() ==
+             state[:tokens] or state[:tokens_bitwise]
   end
-  test "2.- bitwise_zero", state do
+  test "14.- bitwise_zero", state do
     assert "int main()\n {\n  return ~0;\n}"
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words() ==
-             state[:tokens] or state[:tokens_0]
+           |> Parser.parse_program() ==
+             state[:tokens] or state[:tokens_bitwise_zero]
   end
-  test "3.- neg", state do
+  test "15.- neg", state do
     assert "int main()\n {\n  return -5;\n}"
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words() ==
-             state[:tokens] or state[:tokens_0]
+           |> Parser.parse_program ==
+             state[:tokens] or state[:tokens_neg]
   end
-  test "4.- nested_ops", state do
+  test "16.- nested_ops", state do
     assert "int main()\n {\n  return !-3;\n}"
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words() ==
-             state[:tokens] or state[:tokens_0]
+           |> Parser.parse_program() ==
+             state[:tokens] or state[:tokens_nested_ops]
   end
-  test "5.- nested_ops", state do
+  test "17.- nested_ops", state do
     assert "int main()\n {\n  return -~0;\n}"
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words() ==
-             state[:tokens] or state[:tokens_0]
+           |> Parser.parse_program() ==
+             state[:tokens] or state[:tokens_nested_ops2]
   end
-  test "6.- not_five", state do
+  test "18.- not_five", state do
     assert "int main()\n {\n  return !5;\n}"
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words() ==
-             state[:tokens] or state[:tokens_0]
+           |> Parser.parse_program() ==
+             state[:tokens] or state[:tokens_not_five]
   end
-  test "7.- not_zero", state do
+  test "19.- not_zero", state do
     assert "int main()\n {\n  return !0;\n}"
            |> Sanitizer.sanitize_source()
-           |> Lexer.scan_words() ==
-             state[:tokens] or state[:tokens_0]
+           |> Parser.parse_program ==
+             state[:tokens] or state[:tokens_not_zero]
   end
 ###################################################################################################################
+IO.puts("Se ejecutan 4 pruebas No Validas Para la Segunda Etapa")
+
+  test "21.- missing_const", state do
+    assert "int main()\n {\n  return !;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Parser.parse_program ==
+             state[:tokens] or state[:tokens_not_zero]
+  end
+
+  test "22.- missing_semicolon", state do
+    assert "int main()\n {\n  return !5;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Parser.parse_program ==
+             state[:tokens] or state[:tokens_not_zero]
+  end
+
+  test "23.- nested_mising_const", state do
+    assert "int main()\n {\n  return !~;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Parser.parse_program ==
+             state[:tokens] or state[:tokens_not_zero]
+  end
+
+  test "24.- wrong_order", state do
+    assert "int main()\n {\n  return 4-;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Parser.parse_program ==
+             state[:tokens] or state[:tokens_not_zero]
+  end
 end
