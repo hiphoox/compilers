@@ -13,13 +13,12 @@ def assembler_generator(ast):
     #    if not ast.is_branch(leaf):
     #        assembler = expression_code(constant_code(ast.get_node(leaf).data))
     #
-    print (ast)
-    gen = ast.expand_tree(nid = 'func', mode = 3, filter = None, key = None, reverse = False, sorting = False)
+    #print (ast) #for debug purposes
+    gen = ast.expand_tree(nid = 'func', mode = 1, filter = None, key = None, reverse = False, sorting = False)
     tree_traversed = (list(gen))
     tree_traversed.reverse()
-    print(tree_traversed)
+    #print(tree_traversed) #for debug purposes
     for index, node in enumerate(tree_traversed):
-        print("test")
         if 'logical_negation' == ast.get_node(node).tag:
             assembler += logic_neg()
         elif 'bitwise_complement' in ast.get_node(node).tag:
@@ -27,9 +26,9 @@ def assembler_generator(ast):
         elif 'negation' == ast.get_node(node).tag:
             assembler += negation_code()
         elif 'Constant' in ast.get_node(node).tag:
-            if('Constant' in ast.get_node(tree_traversed[index-1]).tag):
-                assembler += push_code()
-            assembler += expression_code(constant_code(ast.get_node(node).tag.split(":")[1]))
+            #if('Constant' in ast.get_node(tree_traversed[index-1]).tag):
+            #    assembler += push_code()
+            assembler += expression_code(constant_code(ast.get_node(node).tag.split(":")[1])) + push_code()
         elif 'addition_bin' == ast.get_node(node).tag:
             assembler += addi_code()
         elif 'negation_bin' == ast.get_node(node).tag:
@@ -55,12 +54,10 @@ def assembler_generator(ast):
     #         assembler += negation_code()
     #     if 'Constant' in node:
     #         assembler += expression_code(constant_code(node.split(":")[1]))
-    #print(assembler_list)
+    #print(assembler_list) #for debug purposes
     assembler = program_code() + function_code() + assembler + return_code()
-    preass = assembler.split("\n")
-    if 'push' in preass[len(preass)-3]:
-        assembler = rreplace(assembler, 'push   %rax', ' ', 1)
-    print(assembler)
+    assembler = rreplace(assembler, 'push   %rax', ' ', 1)
+    #print(assembler) #for debug purposes
 
     return assembler
 
@@ -102,12 +99,13 @@ def negation_code():
 
 def push_code():
     code_snip = """
-    push    %rax
+    push   %rax
     """
     return code_snip
 
 def addi_code():
     code_snip = """
+    pop    %rcx
     pop    %rcx
     addl   %ecx, %eax
     push   %rax
@@ -117,6 +115,7 @@ def addi_code():
 def multi_code():
     code_snip = """
     pop    %rcx
+    pop    %rcx
     imul   %ecx, %eax
     push   %rax
     """
@@ -125,17 +124,16 @@ def multi_code():
 def subs_code():
     code_snip = """
     pop    %rcx
-    subl   %eax, %ecx
-    movl   %ecx, %eax
+    pop    %rcx
+    subl   %ecx, %eax
     push   %rax
     """
     return code_snip
 
 def divi_code():
     code_snip = """
-    push   %rax
-    pop    %rcx
     pop    %rax
+    pop    %rcx
     xor    %edx, %edx
     idivl  %ecx
     push   %rax
