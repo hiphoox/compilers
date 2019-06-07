@@ -151,6 +151,5 @@ clear && cat test/missing_first_op.c && printf "\n******************************
 clear && cat test/missing_second_op.c && printf "\n*********************************************\n" &&
 ./twscc_compilador_c -a test/missing_second_op.c
 
-
-
-
+clear && cat test/no_semicolon.c && printf "\n*********************************************\n" &&
+./twscc_compilador_c -a test/no_semicolon.c
