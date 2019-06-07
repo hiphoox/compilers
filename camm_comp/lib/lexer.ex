@@ -17,38 +17,22 @@ defmodule Lexer do
   end
 
   def lex_raw_tokens(program) when program != "" do
-
-
     {token, rest} =
       case program do
         "int" <> rest -> {:intkeyword, rest}
-
         "return" <> rest -> {:returnkeyword, rest}
-
         "main" <> rest -> {:mainkeyword, rest}
-
         "{" <> rest -> {:open_brace, rest}
-
         "}" <> rest -> {:close_brace, rest}
-
         "(" <> rest -> {:open_parenthesis, rest}
-
         "-" <> rest -> {:operator_negation, rest}
-
         "+" <> rest -> {:operator_addition, rest}
-
         "*" <> rest -> {:operator_multiplication, rest}
-
         "/" <> rest -> {:operator_division, rest}
-
         "~" <> rest -> {:operator_bitwise_complement, rest}
-
         "!" <> rest -> {:operator_logical_negation, rest}
-
         ")" <> rest -> {:close_parenthesis, rest}
-
         ";" <> rest -> {:semicolon, rest}
-
         rest -> get_constant(rest)
       end
 

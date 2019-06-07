@@ -26,42 +26,72 @@ defmodule Generator do
 
   def emit_code(:function, code_snippet, :main) do
     """
-	       .globl	main
+        .globl	main
     main:
     """ <>
       code_snippet
   end
 
   def emit_code(:return, code_snippet, _) do
-    code_snippet<>
-    """
-        ret
-    """
+    code_snippet <>
+      """
+          ret
+      """
   end
+
   def emit_code(:negation, code_snippet, _) do
-    code_snippet<>
-    """
-        neg	%eax
-    """
+    code_snippet <>
+      """
+          neg	%eax
+      """
   end
+
   def emit_code(:complement, code_snippet, _) do
-    code_snippet<>
-    """
-        not	%eax
-    """
+    code_snippet <>
+      """
+          not	%eax
+      """
   end
+
   def emit_code(:logical, code_snippet, _) do
-    code_snippet<>
-    """
-    cmpl     $0, %eax
-    movl     $0, %eax
-    sete     %al
-    """
+    code_snippet <>
+      """
+      cmpl     $0, %eax
+      movl     $0, %eax
+      sete     %al
+      """
   end
 
   def emit_code(:constant, _code_snippet, value) do
     """
         movl	$#{value}, %eax
+    """
+  end
+
+  def emit_code(:addition, _code_snippet, _) do
+    """
+    pop    %rcx
+    addl   %ecx, %eax
+    push   %rax
+    """
+  end
+
+  def emit_code(:multiplication, _code_snippet, _) do
+    """
+    pop    %rcx
+    imul   %ecx, %eax
+    push   %rax
+    """
+  end
+
+  def emit_code(:division, _code_snippet, _) do
+    """
+    push   %rax
+    pop    %rcx
+    pop    %rax
+    xor    %edx, %edx
+    idivl  %ecx
+    push   %rax
     """
   end
 end
