@@ -1,5 +1,7 @@
 import os
 import sys
+from os import listdir
+from os.path import isfile, join
 
 def read_file(direc):
 	with open(direc, 'r') as source: #get from the argument list the name of the file to be compiled
@@ -8,3 +10,6 @@ def read_file(direc):
 		plain_text = source.read() #to extract the plain text from the file
 	source.close() 
 	return (plain_text)
+
+def get_files(path):
+    return [arch for arch in listdir(path) if isfile(join(path, arch))]
