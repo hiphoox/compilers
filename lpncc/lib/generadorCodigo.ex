@@ -61,9 +61,8 @@ defmodule CodeGenerator do
   def emit_code(:addition, code_snippet, _) do
     code_snippet<>
     """
-    pop    %rcx
-    addl   %ecx, %eax
-    push   %rax
+    pop     %rcx
+    add     %rcx, %rax
     """
   end
 
@@ -79,9 +78,8 @@ end
   def emit_code(:multiplication, code_snippet, _) do
     code_snippet<>
     """
-    pop       %rcx
-    imul      %rcx, %rax
-    push      %rax
+    pop     %rcx
+    imul    %rcx, %rax
     """
   end
    
