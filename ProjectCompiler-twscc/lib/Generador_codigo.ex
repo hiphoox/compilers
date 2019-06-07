@@ -48,7 +48,8 @@ defmodule Generador_codigo do
 
   def codigo_gen(:constant, value, codigo, post_stack) do
       #IO.puts("OP bin detected")
-    if List.first(post_stack) == "+" or List.first(post_stack) == "*" do
+      IO.inspect(post_stack)
+    if List.first(post_stack) == "+" or List.first(post_stack) == "*" or List.first(post_stack) == "/" or List.first(post_stack) == "-" or List.first(post_stack) == "~"  or List.first(post_stack) == "!" do
       #IO.puts("OP bin detected")
       codigo <> """
           mov     $#{value}, %rax
@@ -57,6 +58,7 @@ defmodule Generador_codigo do
       #IO.inspect(value)
       codigo <> """
           mov     $#{value}, %rax
+          push    %rax
       """
     end
 
@@ -75,10 +77,18 @@ defmodule Generador_codigo do
     """
   end
 
-  def codigo_gen(:bitewise_Keyword, _, codigo, _) do
-    codigo <> """
-        not     %rax
-    """
+  def codigo_gen(:bitewise_Keyword, _, codigo,post_stack) do
+     if List.first(post_stack) == "return" do
+       codigo <> """
+           not     %rax
+       """
+     else
+       codigo <> """
+           not     %rax
+           push    %rax
+       """
+     end
+
   end
 
   def codigo_gen(:logicalNeg_Keyword, _, codigo, _) do
@@ -104,7 +114,6 @@ defmodule Generador_codigo do
    codigo <> """
        pop     %rcx
        imul    %rcx, %rax
-       push    %rax
    """
 end
 
@@ -112,8 +121,18 @@ def codigo_gen(:division_Keyword, _, codigo, _) do
   #IO.puts(codigo)
   #almacenar el primer operando usando un push a %eax
   codigo <> """
-     pop     %ecx
-     div     %ecx
+      pop     %rcx
+      div     %rcx
+  """
+end
+
+def codigo_gen(:minus_Keyword, _, codigo, _) do
+  #IO.puts(codigo)
+  #almacenar el primer operando usando un push a %eax
+  codigo <> """
+      pop     %rcx
+      sub     %rax, %rcx
+      mov     %rcx, %rax
   """
 end
 

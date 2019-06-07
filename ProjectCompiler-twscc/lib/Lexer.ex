@@ -25,11 +25,11 @@ defmodule Lexer do
         IO.puts("LISTA DE TOKENS CON OPERADORES UNARIOS OPTIMIZADOS...")
         IO.inspect(token_list2)
          #Solo mostrar lista de tokens y finalizar ejecución en el orquestador.
-         {:only_tokens, token_list2}
+         {:only_tokens, token_list}
       #   {:op_tokens,token_list2}
        else
            token_list2= Enum.dedup(token_list)
-         {:ok, token_list2}
+         {:ok, token_list}
        end
      end
   end
