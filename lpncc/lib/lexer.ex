@@ -48,6 +48,12 @@ defmodule Lexer do
           {{:complement_keyword, linea_keyword}, rest}
         "!" <> rest ->
           {{:negative_logical, linea_keyword}, rest}
+        "+" <> rest ->
+            {{:addition, linea_keyword}, rest}
+        "*" <> rest ->
+            {{:multiplication, linea_keyword}, rest}
+        "/" <> rest ->
+            {{:division, linea_keyword}, rest}
 
         rest ->
           get_constant(rest,linea)
