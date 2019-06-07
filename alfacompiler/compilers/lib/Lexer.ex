@@ -46,13 +46,13 @@ defmodule Lexer do
 
 
           " + "  <> rest ->
-            { : add , rest}
+            {:add , rest}
 
           " * "  <> rest ->
-            { : mult , rest}
+            {:mult , rest}
 
           " / "  <> rest ->
-            { : div , rest}
+            {:div , rest}
 
 
         "~" <> rest ->
