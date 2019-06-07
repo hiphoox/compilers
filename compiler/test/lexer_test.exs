@@ -88,7 +88,112 @@ tokens6: [
   {{:constant, 2}, 0},
   {:semicolon, 0},
   {:close_brace, 0}
+],
+tokens7: [
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:close_paren, 0},
+  {:negative_keyword, 0},
+  {{:constant, 10}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+],
+tokens8: [
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:negative_logical, 0},
+  {:negative_keyword, 0},
+  {:complement_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:close_paren, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+],
+tokens9: [
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+],
+
+tokens10: [
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:close_paren, 0},
+  {:negative_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:close_paren, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+],
+
+tokens11: [
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:negative_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:close_paren, 0},
+  {:close_paren, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
 ]
+
 }
   end
 
@@ -190,4 +295,36 @@ test "con varios operadores unitarios", state do
     |> Lexer.scan_words() ==
     state[:tokens6]
   end
+
+test "con varios operadores binarios", state do
+   assert "int  main(){return (5-4-7-7)-10;}"
+   |> Sanitizer.sanitize_source()
+   |> Lexer.scan_words() ==
+   state[:tokens7]
+ end
+ test "con varios operadores binarios y varios unitarios", state do
+    assert "int  main(){return !-~(5-4-7-7);}"
+    |> Sanitizer.sanitize_source()
+    |> Lexer.scan_words() ==
+    state[:tokens8]
+  end
+  test "con varios operadores binarios sin parentesis", state do
+     assert "int  main(){return 5-4-7-7;}"
+     |> Sanitizer.sanitize_source()
+     |> Lexer.scan_words() ==
+     state[:tokens9]
+   end
+   test "con varios operadores binarios con mas de 1 parentesis", state do
+      assert "int  main(){return (5-4)-(7-7);}"
+      |> Sanitizer.sanitize_source()
+      |> Lexer.scan_words() ==
+      state[:tokens10]
+    end
+    test "con varios operadores binarios con parentesis anidados", state do
+       assert "int  main(){return (5-4-(7-7));}"
+       |> Sanitizer.sanitize_source()
+       |> Lexer.scan_words() ==
+       state[:tokens11]
+     end
+
 end

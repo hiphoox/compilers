@@ -78,8 +78,130 @@ arbol_unitary3: Parser.parse_program([
   {{:constant, 2}, 0},
   {:semicolon, 0},
   {:close_brace, 0}
+]),
+arbol_binario1: Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:close_paren, 0},
+  {:negative_keyword, 0},
+  {{:constant, 10}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+]),
+arbol_binario2: Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:negative_logical, 0},
+  {:negative_keyword, 0},
+  {:complement_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:close_paren, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+]),
+arbol_binario3: Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+]),
+arbol_binario4: Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:close_paren, 0},
+  {:negative_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:close_paren, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+]),
+arbol_binario5: Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:negative_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:close_paren, 0},
+  {:close_paren, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
+]),
+arbol_binario6: Parser.parse_program([
+  {:int_keyword, 0},
+  {:main_keyword, 0},
+  {:open_paren, 0},
+  {:close_paren, 0},
+  {:open_brace, 0},
+  {:return_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 5}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 4}, 0},
+  {:negative_keyword, 0},
+  {:open_paren, 0},
+  {{:constant, 7}, 0},
+  {:negative_keyword, 0},
+  {{:constant, 7}, 0},
+  {:close_paren, 0},
+  {:close_paren, 0},
+  {:semicolon, 0},
+  {:close_brace, 0}
 ])
-
 }
   end
   test "token justos", state do
@@ -206,5 +328,41 @@ test "con varios operadores unitarios", state do
     |> Parser.parse_program() ==
     state[:arbol_unitary3]
   end
+  #operadores binarios-------------------------------------------------------
+  test "con varios operadores binarios", state do
+     assert "int  main(){return (5-4-7-7)-10;}"
+     |> Sanitizer.sanitize_source()
+     |> Lexer.scan_words()
+     |> Parser.parse_program() ==
+     state[:arbol_binario1]
+   end
+   test "con varios operadores binarios y varios unitarios", state do
+      assert "int  main(){return !-~(5-4-7-7);}"
+      |> Sanitizer.sanitize_source()
+      |> Lexer.scan_words()
+      |> Parser.parse_program() ==
+      state[:arbol_binario2]
+    end
+    test "con varios operadores binarios sin parentesis", state do
+       assert "int  main(){return 5-4-7-7;}"
+       |> Sanitizer.sanitize_source()
+       |> Lexer.scan_words()
+       |> Parser.parse_program() ==
+       state[:arbol_binario3]
+     end
+     test "con varios operadores binarios con mas de 1 parentesis", state do
+        assert "int  main(){return (5-4)-(7-7);}"
+        |> Sanitizer.sanitize_source()
+        |> Lexer.scan_words()
+        |> Parser.parse_program() ==
+        state[:arbol_binario4]
+      end
+      test "con varios operadores binarios con parentesis anidados", state do
+         assert "int  main(){return (5-4-(7-7));}"
+         |> Sanitizer.sanitize_source()
+         |> Lexer.scan_words()
+         |> Parser.parse_program() ==
+         state[:arbol_binario5]
+       end
 
 end
