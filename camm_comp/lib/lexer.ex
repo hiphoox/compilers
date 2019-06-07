@@ -35,6 +35,12 @@ defmodule Lexer do
 
         "-" <> rest -> {:operator_negation, rest}
 
+        "+" <> rest -> {:operator_addition, rest}
+
+        "*" <> rest -> {:operator_multiplication, rest}
+
+        "/" <> rest -> {:operator_division, rest}
+
         "~" <> rest -> {:operator_bitwise_complement, rest}
 
         "!" <> rest -> {:operator_logical_negation, rest}
