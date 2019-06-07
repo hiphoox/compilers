@@ -11,20 +11,14 @@ defmodule Generador_codigo do
     if flag == :gen_asm, do: genera_archivo(asm_string, path), else: {:ok, asm_string}
   end
   #sin hijos el nodo
-  defp postorden_recorrido({}, l_rec), do: l_rec;
 
-  defp postorden({}, code, post_stack), do: [code, post_stack];
-
-  #nodo con hijos
-
-  defp postorden_recorrido({atomo, value, izquierda ,derecha }, l_rec) do
+  defp postorden_recorrido({_, value, izquierda ,derecha }, l_rec) do
     l_rec = postorden_recorrido(izquierda, l_rec)
     l_rec = postorden_recorrido(derecha, l_rec)
-    #si ya no encuentra más hijos, extrae el valor, genera el código y concatenalo con "code"
-    #IO.puts(codeder)
-    #IO.inspect(value, label: "Generando codigo para")
-    l_rec = l_rec ++ [value]
+    l_rec ++ [value]
   end
+
+  defp postorden_recorrido({}, l_rec), do: l_rec;
 
   #Búsqueda en postorden (izquierda, derecha y arriba)
   defp postorden({atomo, value, izquierda ,derecha }, code, post_stack) do
@@ -33,11 +27,10 @@ defmodule Generador_codigo do
     #si ya no encuentra más hijos, extrae el valor, genera el código y concatenalo con "code"
     IO.puts(code)
     post_stack = Enum.drop(post_stack, 1)
-    #IO.inspect(post_stack)
-    #IO.puts(code)
-    IO.inspect(value, label: "Generando codigo para")
-   [codigo_gen(atomo, value, code, post_stack ), post_stack];
+    [codigo_gen(atomo, value, code, post_stack ), post_stack];
   end
+
+  defp postorden({}, code, post_stack), do: [code, post_stack];
 
 #funciones "sobreescritas"
   def codigo_gen(:program, _, codigo, _) do
@@ -55,7 +48,7 @@ defmodule Generador_codigo do
 
   def codigo_gen(:constant, value, codigo, post_stack) do
       #IO.puts("OP bin detected")
-    if List.first(post_stack) == "+" or List.first(post_stack) == "*" or List.first(post_stack) == "-" do
+    if List.first(post_stack) == "+" or List.first(post_stack) == "*" do
       IO.puts("OP bin detected")
       codigo <> """
           mov     $#{value}, %rax
@@ -64,7 +57,6 @@ defmodule Generador_codigo do
       IO.inspect(value)
       codigo <> """
           mov     $#{value}, %rax
-          push    %rax
       """
     end
 
@@ -79,20 +71,20 @@ defmodule Generador_codigo do
 
   def codigo_gen(:negation_Keyword, _, codigo, _) do
     codigo <> """
-        neg     %eax
+        neg     %rax
     """
   end
 
   def codigo_gen(:bitewise_Keyword, _, codigo, _) do
     codigo <> """
-        not     %eax
+        not     %rax
     """
   end
 
   def codigo_gen(:logicalNeg_Keyword, _, codigo, _) do
     codigo <> """
-        cmpl     $0, %eax
-        movl     $0, %eax
+        cmp     $0, %rax
+        mov     $0, %rax
         sete     %al
     """
   end
@@ -106,21 +98,13 @@ defmodule Generador_codigo do
     """
  end
 
- def codigo_gen(:minus_Keyword, _, codigo, _) do
-   #IO.puts(codigo)
-   #almacenar el primer operando usando un push a %eax
-   codigo <> """
-       pop      %rcx
-       sub      %rcx, %rax
-   """
-end
-
  def codigo_gen(:multiplication_Keyword, _, codigo, _) do
    #IO.puts(codigo)
    #almacenar el primer operando usando un push a %eax
    codigo <> """
-       pop      %rcx
+       pop       %rcx
        imul      %rcx, %rax
+       push      %rax
    """
 end
 
@@ -128,8 +112,8 @@ def codigo_gen(:division_Keyword, _, codigo, _) do
   #IO.puts(codigo)
   #almacenar el primer operando usando un push a %eax
   codigo <> """
-      pop      %rcx
-      add      %rcx, %rax
+     pop         %ecx
+     div         %ecx
   """
 end
 

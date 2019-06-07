@@ -30,7 +30,7 @@ defmodule ParserTest do
 
   test "Prueba 4 de Nora Sandler: Sin valor de retorno" do
     token_list = Lexer.scan_word(File.read!("test/missing_retval.c"), :no_output);
-    assert  Parser.parse_tokens(elem(token_list, 1), :no_output) == {:error, "Error de sintaxis. Falta algún valor en la expresión."}
+    assert  Parser.parse_tokens(elem(token_list, 1), :no_output) == {:error, "Error de sintaxis: Se esperaba una constante u operador y se encontró ;."}
   end
 
   test "Código al cual le falta la expresión return" do
@@ -101,12 +101,12 @@ defmodule ParserTest do
 
   test "Prueba 12 de Nora Sandler: Operadores anidados sin constante." do
     token_list = Lexer.scan_word(File.read!("test/nested_missing_const.c"), :no_output);
-    assert  Parser.parse_tokens(elem(token_list, 1), :no_output) == {:error, "Error de sintaxis. Falta algún valor en la expresión."}
+    assert  Parser.parse_tokens(elem(token_list, 1), :no_output) == {:error, "Error de sintaxis: Se esperaba una constante u operador y se encontró ;."}
   end
 
   test "Prueba 12 de Nora Sandler: Operadores en desorden." do
     token_list = Lexer.scan_word(File.read!("test/wrong_order.c"), :no_output);
-    assert  Parser.parse_tokens(elem(token_list, 1), :no_output) == {:error, "Error de sintáxis. Se esperaba ; y se encontró: -"}
+    assert  Parser.parse_tokens(elem(token_list, 1), :no_output) == {:error, "Error de sintaxis: Falta el segundo operando después de -."}
   end
 
 
