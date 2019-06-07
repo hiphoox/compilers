@@ -42,13 +42,12 @@ defmodule Generador_codigo do
   def codigo_gen(:function, _, codigo, _) do
     """
         .globl  main         ## -- Begin function main
-    main:                    ## @main
+    _main:                    ## @main
     """  <> codigo #concatena esto antes del codigo
   end
 
   def codigo_gen(:constant, value, codigo, post_stack) do
       #IO.puts("OP bin detected")
-      IO.inspect(post_stack)
     if List.first(post_stack) == "+" or List.first(post_stack) == "*" or List.first(post_stack) == "/" or List.first(post_stack) == "-" or List.first(post_stack) == "~"  or List.first(post_stack) == "!" do
       #IO.puts("OP bin detected")
       codigo <> """
