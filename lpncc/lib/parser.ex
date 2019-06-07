@@ -1,12 +1,12 @@
 defmodule Parser do
-  """
-<program> ::= <function>
-<function> ::= "int" <id> "(" ")" "{" <statement> "}"
-<statement> ::= "return" <exp> ";"
-<exp> ::= <term> { ("+" | "-") <term> }
-<term> ::= <factor> { ("*" | "/") <factor> }
-<factor> ::= "(" <exp> ")" | <unary_op> <factor> | <int>
-  """
+  @moduledoc """
+    <program> ::= <function>
+    <function> ::= "int" <id> "(" ")" "{" <statement> "}"
+    <statement> ::= "return" <exp> ";"
+    <exp> ::= <term> { ("+" | "-") <term> }
+    <term> ::= <factor> { ("*" | "/") <factor> }
+    <factor> ::= "(" <exp> ")" | <unary_op> <factor> | <int>
+    """
   def parse_program(token_list) do
     function = parse_function(token_list,0)
     case function do
@@ -109,6 +109,20 @@ defmodule Parser do
     {{:error, "Error en arbol 2",numline,:constant}, rest}
     end
   end
+
+def next_term ([{next_token,numline}] | rest) do
+    case next_token do
+      
+    end
+end
+def parse_term ([{next_token,numline}]| rest)
+
+end
+
+def parse_factor ([{next_token,numline}]| rest)
+
+do
+
   def unary_op([{next_token,numline} | rest]) do
     case next_token do
       :negative_keyword ->
