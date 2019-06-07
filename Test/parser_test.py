@@ -28,21 +28,16 @@ def arbol_return_2(ast_test):
 
 	node_list = ast.is_branch('func')
 	#print(node_list)
-	for expr in node_list:
-		if ast.get_node(expr) != ast_test.get_node(expr):
-			#print("Es diferente")
+	for leaf in node_list:
+		if ast.get_node(leaf) != ast_test.get_node(leaf):
 			return 1
-		if ast.get_node(expr).identifier != ast_test.get_node(expr).identifier:
-			#print("Es diferente")
+		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
 			return 0
-		if ast.get_node(expr).bpointer != ast_test.get_node(expr).bpointer:
-			#print("Es diferente")
+		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
 			return 0
-		if ast.get_node(expr).data == ast_test.get_node(expr).data:
-			#print("Es igual")
+		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 def arbol_spaces(ast_test):
 	archivo = open("stage_1/valid/spaces.c", "r")
@@ -55,20 +50,15 @@ def arbol_spaces(ast_test):
 	node_list = ast.is_branch('func')
 	#print(node_list)
 	for leaf in node_list:
-		if ast.get_node(leaf).tag != ast_test.get_node(leaf).tag:
-			#print("Es diferente")
-			return 0
+		if ast.get_node(leaf) != ast_test.get_node(leaf):
+			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 def arbol_newlines(ast_test):
 	archivo = open("stage_1/valid/newlines.c", "r")
@@ -82,19 +72,14 @@ def arbol_newlines(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_no_newlines(ast_test):
@@ -109,19 +94,14 @@ def arbol_no_newlines(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 def arbol_return_0(ast_test):
 	archivo = open("stage_1/valid/return_0.c", "r")
@@ -135,19 +115,14 @@ def arbol_return_0(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 def arbol_multi_digit(ast_test):
 	archivo = open("stage_1/valid/multi_digit.c", "r")
@@ -161,19 +136,14 @@ def arbol_multi_digit(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 ####################Stage 2############################
 def arbol_bitwise(ast_test):
@@ -188,19 +158,14 @@ def arbol_bitwise(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_bitwise_zero(ast_test):
@@ -215,19 +180,14 @@ def arbol_bitwise_zero(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_neg(ast_test):
@@ -242,19 +202,14 @@ def arbol_neg(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_nested_ops(ast_test):
@@ -269,19 +224,14 @@ def arbol_nested_ops(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_nested_ops_2(ast_test):
@@ -296,20 +246,16 @@ def arbol_nested_ops_2(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
+
 def arbol_not_five(ast_test):
 	archivo = open("stage_2/valid/not_five.c", "r")
 
@@ -322,19 +268,14 @@ def arbol_not_five(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_not_zero(ast_test):
@@ -349,22 +290,17 @@ def arbol_not_zero(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
-####################Stage 2############################
+####################Stage 3############################
 def arbol_add(ast_test):
 	archivo = open("stage_3/valid/add.c", "r")
 
@@ -377,19 +313,14 @@ def arbol_add(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_associativity(ast_test):
@@ -404,19 +335,14 @@ def arbol_associativity(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_associativity_2(ast_test):
@@ -431,22 +357,17 @@ def arbol_associativity_2(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
-def arbol_dic(ast_test):
+def arbol_div(ast_test):
 	archivo = open("stage_3/valid/div.c", "r")
 
 	plainText  = archivo.read()
@@ -458,22 +379,17 @@ def arbol_dic(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
-def arbol_mul(ast_test):
+def arbol_mult(ast_test):
 	archivo = open("stage_3/valid/mult.c", "r")
 
 	plainText  = archivo.read()
@@ -485,19 +401,14 @@ def arbol_mul(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_parens(ast_test):
@@ -512,19 +423,14 @@ def arbol_parens(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_precedence(ast_test):
@@ -539,19 +445,14 @@ def arbol_precedence(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_sub(ast_test):
@@ -566,19 +467,14 @@ def arbol_sub(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_sub_neg(ast_test):
@@ -593,19 +489,14 @@ def arbol_sub_neg(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_unop_add(ast_test):
@@ -620,19 +511,14 @@ def arbol_unop_add(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
 
 def arbol_unop_parens(ast_test):
@@ -647,26 +533,12 @@ def arbol_unop_parens(ast_test):
 	#print(node_list)
 	for leaf in node_list:
 		if ast.get_node(leaf) != ast_test.get_node(leaf):
-			#print("Es diferente")
 			return 1
 		if ast.get_node(leaf).identifier != ast_test.get_node(leaf).identifier:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).bpointer != ast_test.get_node(leaf).bpointer:
-			#print("Es diferente")
 			return 0
 		if ast.get_node(leaf).data == ast_test.get_node(leaf).data:
-			#print("Es igual")
 			return 1
 		else:
-			#print("Es diferente")
 			return 0
-
-
-################################## INVALIDAS ################################## 
-"""def arbol_no_brace():
-	archivo = open("stage_1/invalid/no_brace.c", "r")
-
-	plainText  = archivo.read()
-	token_list = lexer(plainText)
-	ast=parser_f(token_list)"""

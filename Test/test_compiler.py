@@ -80,18 +80,18 @@ class test_compiler(unittest.TestCase):
 		self.assertEqual (parser_test.arbol_not_five(arbolEsperado()), 1, "Prueba parser_not_five fallida")
 		self.assertEqual (parser_test.arbol_not_zero(arbolEsperado()), 1, "Prueba parser_not_zero fallida")
 		##Stage 3
-		#self.assertEqual (parser_test.arbol_add(arbolEsperado()), 1, "Prueba parser_add fallida")
-		#self.assertEqual (parser_test.arbol_associativity(arbolEsperado()), 1, "Prueba parser_associativity fallida")
-		#self.assertEqual (parser_test.arbol_associativity_2(arbolEsperado()), 1, "Prueba parser_associativity_2 fallida")
-		#self.assertEqual (parser_test.arbol_div(arbolEsperado()), 1, "Prueba parser_div fallida")
-		#self.assertEqual (parser_test.arbol_mult(arbolEsperado()), 1, "Prueba parser_mult fallida")
-		#self.assertEqual (parser_test.arbol_parens(arbolEsperado()), 1, "Prueba parser_parens fallida")
-		#self.assertEqual (parser_test.arbol_precedence(arbolEsperado()), 1, "Prueba parser_precedence fallida")
-		#self.assertEqual (parser_test.arbol_sub(arbolEsperado()), 1, "Prueba parser_sub fallida")
-		#self.assertEqual (parser_test.arbol_sub_neg(arbolEsperado()), 1, "Prueba parser_sub_neg fallida")
-		#self.assertEqual (parser_test.arbol_unop_add(arbolEsperado()), 1, "Prueba parser_unop_add fallida")
-		#self.assertEqual (parser_test.arbol_unop_parens(arbolEsperado()), 1, "Prueba parser_unop_parens fallida")
-		print("12 pruebas del parser ejecutadas correctamente") 
+		self.assertEqual (parser_test.arbol_add(arbolEsperado()), 1, "Prueba parser_add fallida")
+		self.assertEqual (parser_test.arbol_associativity(arbolEsperado()), 1, "Prueba parser_associativity fallida")
+		self.assertEqual (parser_test.arbol_associativity_2(arbolEsperado()), 1, "Prueba parser_associativity_2 fallida")
+		self.assertEqual (parser_test.arbol_div(arbolEsperado()), 1, "Prueba parser_div fallida")
+		self.assertEqual (parser_test.arbol_mult(arbolEsperado()), 1, "Prueba parser_mult fallida")
+		self.assertEqual (parser_test.arbol_parens(arbolEsperado()), 1, "Prueba parser_parens fallida")
+		self.assertEqual (parser_test.arbol_precedence(arbolEsperado()), 1, "Prueba parser_precedence fallida")
+		self.assertEqual (parser_test.arbol_sub(arbolEsperado()), 1, "Prueba parser_sub fallida")
+		self.assertEqual (parser_test.arbol_sub_neg(arbolEsperado()), 1, "Prueba parser_sub_neg fallida")
+		self.assertEqual (parser_test.arbol_unop_add(arbolEsperado()), 1, "Prueba parser_unop_add fallida")
+		self.assertEqual (parser_test.arbol_unop_parens(arbolEsperado()), 1, "Prueba parser_unop_parens fallida")
+		print("23 pruebas del parser ejecutadas correctamente") 
 
 	#pruebas invalidas
 
@@ -101,26 +101,23 @@ class test_compiler(unittest.TestCase):
 		self.assertEqual (invalid_test.arbol_no_semicolon(), 0, "Prueba arbol_no_semicolon fallida")
 		self.assertEqual (invalid_test.lexer_missing_paren(lista1()), 0, "Prueba lexer_missing_paren fallida")
 		self.assertEqual (invalid_test.lexer_missing_retval(lista1()), 0, "Prueba lexer_missing_retval fallida")
+		#Stage 2
 		self.assertEqual (invalid_test.lexer_no_brace(lista1()), 0, "Prueba lexer_no_brace fallida")
 		self.assertEqual (invalid_test.lexer_no_semicolon(lista1()), 0, "Prueba lexer_no_semicolon fallida")
-		##Stage 2
 		self.assertEqual (invalid_test.arbol_missing_const(), 0, "Prueba arbol_missing_const fallida")
 		self.assertEqual (invalid_test.arbol_missing_semicolon(), 0, "Prueba arbol_missing_semicolon fallida")
 		self.assertEqual (invalid_test.arbol_nested_missing_const(), 0, "Prueba arbol_nested_missing_const fallida")
+		#Stage 3
 		self.assertEqual (invalid_test.arbol_wrong_order(), 0, "Prueba arbol_wrong_order fallida")
 		self.assertEqual (lexer_stage2_missing_const(lista2()), 0, "Prueba lexer_stage2_missing_const fallida")
 		self.assertEqual (lexer_wrong_order(lista2()), 0, "Prueba lexer_wrong_order fallida")
 		self.assertEqual (lexer_stage2_missing_semicolon(lista2()), 0, "Prueba lexer_stage2_missing_semicolon fallida")
 		self.assertEqual (lexer_nested_missing_const(lista2()), 0, "Prueba lexer_nested_missing_const fallida")
 
-		#stage 3
-		#self.assertEqual (lexer_stage3_no_semicolon(lista3()), 0, "Prueba lexer_stage3_no_semicolon fallida")
-		#self.assertEqual (lexer_missing_second_op(lista3()), 0, "Prueba lexer_missing_second_op fallida")
-		#self.assertEqual (lexer_malformed_paren(lista3()), 0, "Prueba lexer_malformed_paren fallida")
-		#self.assertEqual (lexer_missing_first_op(lista3()), 0, "Prueba lexer_missing_first_op fallida")
+
 
 		print("15 pruebas invalidas ejecutadas correctamente") 
-		print("Total de pruebas ejecutadas: 66")
+		print("Total de pruebas ejecutadas: 77")
 
 if __name__ == '__main__':
 	unittest.main()
