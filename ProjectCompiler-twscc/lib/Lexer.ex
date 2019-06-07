@@ -1,4 +1,4 @@
-  defmodule Lexer do
+defmodule Lexer do
 
   def scan_word(string, flag) do
     #Realiza limpieza del código
@@ -20,11 +20,16 @@
     else
       #revisa la bandera para mostrar o no en pantalla la lista de tokens
        if flag == :show_token do
+        token_list2= Enum.dedup(token_list)
         IO.inspect(token_list)
+        IO.puts("LISTA DE TOKENS CON OPERADORES UNARIOS OPTIMIZADOS...")
+        IO.inspect(token_list2)
          #Solo mostrar lista de tokens y finalizar ejecución en el orquestador.
-         {:only_tokens, token_list}
+         {:only_tokens, token_list2}
+      #   {:op_tokens,token_list2}
        else
-         {:ok, token_list}
+           token_list2= Enum.dedup(token_list)
+         {:ok, token_list2}
        end
      end
   end
