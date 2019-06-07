@@ -64,4 +64,31 @@ defmodule Generator do
         movl	$#{value}, %eax
     """
   end
+
+  def emit_code(:add, _code_snippet, _) do
+    """
+    pop    %rcx
+    addl   %ecx, %eax
+    push   %rax
+    """
+  end
+
+  def emit_code(:mult, _code_snippet, _) do
+    """
+    pop    %rcx
+    imul   %ecx, %eax
+    push   %rax
+    """
+  end
+
+  def emit_code(:div, _code_snippet, _) do
+    """
+    push   %rax
+    pop    %rcx
+    pop    %rax
+    xor    %edx, %edx
+    idivl  %ecx
+    push   %rax
+    """
+  end
 end
