@@ -3,5 +3,7 @@
     .globl  _main         ## -- Begin function main
 _main:                    ## @main
     movl    $0, %eax
+     
+    
     not    %eax
     ret

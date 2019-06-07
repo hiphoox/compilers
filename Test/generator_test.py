@@ -68,11 +68,9 @@ def assembler_return_2(ensambladorEsperado1,ensambladorEsperado2):
 	keywords = re.compile('[\$]+|[0-9]+')
 
 	unknown_inputs = re.sub(keywords, '', ensambladorGenerado)
-
 	if unknown_inputs.strip(): #to displaye the error in case of a failed lexical analysis
 		return 0
 	return 1
-
 
 def assembler_multi_digit(ensambladorEsperado1,ensambladorEsperado2):
 	archivo = open("stage_1/valid/multi_digit.c", "r")
@@ -175,6 +173,8 @@ def assembler_bitwise():
 
 	assem=assembler_generator(ast)
 
+	
+
 	esperado = ensamblador_esperado_stage2("assembler_test/bitwise.txt")
 
 	#print(">>>>",assem)
@@ -184,6 +184,8 @@ def assembler_bitwise():
 		return 1
 	else:
 		return 0
+
+
 def assembler_nested_ops():
 	archivo = open("stage_2/valid/nested_ops.c", "r")
 
@@ -194,6 +196,8 @@ def assembler_nested_ops():
 
 	assem=assembler_generator(ast)
 
+	
+
 	esperado = ensamblador_esperado_stage2("assembler_test/nested_ops.txt")
 
 	#print(">>>>",assem)
@@ -203,6 +207,8 @@ def assembler_nested_ops():
 		return 1
 	else:
 		return 0
+
+
 def assembler_not_zero():
 	archivo = open("stage_2/valid/not_zero.c", "r")
 
@@ -213,6 +219,8 @@ def assembler_not_zero():
 
 	assem=assembler_generator(ast)
 
+	
+
 	esperado = ensamblador_esperado_stage2("assembler_test/not_zero.txt")
 
 	#print(">>>>",assem)
@@ -222,6 +230,8 @@ def assembler_not_zero():
 		return 1
 	else:
 		return 0
+
+
 def assembler_not_five():
 	archivo = open("stage_2/valid/not_five.c", "r")
 
@@ -231,6 +241,7 @@ def assembler_not_five():
 	plainText = archivo.close()
 
 	assem=assembler_generator(ast)
+	
 
 	esperado = ensamblador_esperado_stage2("assembler_test/not_five.txt")
 
@@ -241,6 +252,8 @@ def assembler_not_five():
 		return 1
 	else:
 		return 0
+
+
 def assembler_bitwise_zero():
 	archivo = open("stage_2/valid/bitwise_zero.c", "r")
 
@@ -250,6 +263,7 @@ def assembler_bitwise_zero():
 	plainText = archivo.close()
 
 	assem=assembler_generator(ast)
+	
 
 	esperado = ensamblador_esperado_stage2("assembler_test/bitwise_zero.txt")
 
@@ -260,6 +274,7 @@ def assembler_bitwise_zero():
 		return 1
 	else:
 		return 0
+
 def assembler_neg():
 	archivo = open("stage_2/valid/neg.c", "r")
 
@@ -269,6 +284,7 @@ def assembler_neg():
 	plainText = archivo.close()
 
 	assem=assembler_generator(ast)
+	
 
 	esperado = ensamblador_esperado_stage2("assembler_test/neg.txt")
 
@@ -289,6 +305,8 @@ def assembler_nested_ops_2():
 
 	assem=assembler_generator(ast)
 
+	
+
 	esperado = ensamblador_esperado_stage2("assembler_test/nested_ops_2.txt")
 
 	#print(">>>>",assem)
@@ -298,6 +316,7 @@ def assembler_nested_ops_2():
 		return 1
 	else:
 		return 0
+
 
 
 
