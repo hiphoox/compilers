@@ -20,51 +20,39 @@ defmodule Lexer do
 
     {token, rest} =
       case program do
-        "int" <> rest ->
+        "int" <> rest -> 
           {:int_keyword, rest}
-
-        "return" <> rest ->
+        
+        "return" <> rest -> 
           {:return_keyword, rest}
-
-        "main" <> rest ->
+        
+        "main" <> rest -> 
           {:main_keyword, rest}
-
-        "{" <> rest ->
+        
+        "{" <> rest -> 
           {:a_llave, rest}
-
-        "}" <> rest ->
+       
+        "}" <> rest -> 
           {:c_llave, rest}
-
-        "(" <> rest ->
+       
+        "(" <> rest -> 
           {:a_parentesis, rest}
-        " - "  <> rest ->
-          { :negacion , rest}
+       
+        ")" <> rest -> 
+          {:c_parentesis, rest}
 
-        " + "  <> rest ->
-          { :add , rest}
-
-        " * "  <> rest ->
-          { :mult , rest}
-
-        " / "  <> rest ->
-          { :div , rest}
-
-
-        "-" <> rest ->
+        "-" <> rest -> 
           {:negacion, rest}
-
-        "~" <> rest ->
+         
+        "~" <> rest -> 
           {:complemento, rest}
-
-        "!" <> rest ->
+         
+        "!" <> rest -> 
           {:logical_negation, rest}
-
-        ")" <> rest ->
-            {:c_parentesis, rest}
-
-        ";" <> rest ->
+       
+        ";" <> rest -> 
           {:semicolon, rest}
-
+       
         rest -> get_constant(rest)
       end
 
