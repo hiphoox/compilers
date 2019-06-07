@@ -96,14 +96,14 @@ defmodule Parser do
   end
 
   def parse_expression(lista_tkn, cExp) do
-    [{next_token,numline} | rest]=lista_tok
+    [{next_token,numline} | rest]=lista_tkn
 
-      term = parse_term(lista_tok,1)
+      term = parse_term(lista_tkn,1)
       {expression_node,lista_rest}=term
       [{next_tok,numline}|rest]=lista_rest
       case next_tok do
-      :sum ->
-        sTree=%AST{node_name: :sum}
+      :addition ->
+        sTree=%AST{node_name: :addition}
         top = parse_expression(rest,1)
         {node,lista_rest}=top
         [{next_tok,numline}|restop]=lista_rest
