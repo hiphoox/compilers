@@ -3,7 +3,7 @@ defmodule Generador_codigo do
   def assembly(ast, flag, path) do
     #obtener stack con el recorido en post-orden primero
     post_stack = postorden_recorrido(ast, [])
-    IO.inspect(post_stack)
+    #IO.inspect(post_stack)
     #vuelve a recorrer pero con la lista del recorrido para revisar si sigue operacion binaria
     asm_string = postorden(ast, "", post_stack)
     #IO.puts(asm_string)
@@ -25,7 +25,7 @@ defmodule Generador_codigo do
     [code, post_stack] = postorden(izquierda, code, post_stack)
     [code, post_stack] = postorden(derecha, code, post_stack)
     #si ya no encuentra más hijos, extrae el valor, genera el código y concatenalo con "code"
-    IO.puts(code)
+    #IO.puts(code)
     post_stack = Enum.drop(post_stack, 1)
     [codigo_gen(atomo, value, code, post_stack ), post_stack];
   end
@@ -49,12 +49,12 @@ defmodule Generador_codigo do
   def codigo_gen(:constant, value, codigo, post_stack) do
       #IO.puts("OP bin detected")
     if List.first(post_stack) == "+" or List.first(post_stack) == "*" do
-      IO.puts("OP bin detected")
+      #IO.puts("OP bin detected")
       codigo <> """
           mov     $#{value}, %rax
       """
     else
-      IO.inspect(value)
+      #IO.inspect(value)
       codigo <> """
           mov     $#{value}, %rax
       """
@@ -85,7 +85,7 @@ defmodule Generador_codigo do
     codigo <> """
         cmp     $0, %rax
         mov     $0, %rax
-        sete     %al
+        sete    %al
     """
   end
 
@@ -93,8 +93,8 @@ defmodule Generador_codigo do
     #IO.puts(codigo)
     #almacenar el primer operando usando un push a %eax
     codigo <> """
-        pop      %rcx
-        add      %rcx, %rax
+        pop     %rcx
+        add     %rcx, %rax
     """
  end
 
@@ -102,9 +102,9 @@ defmodule Generador_codigo do
    #IO.puts(codigo)
    #almacenar el primer operando usando un push a %eax
    codigo <> """
-       pop       %rcx
-       imul      %rcx, %rax
-       push      %rax
+       pop     %rcx
+       imul    %rcx, %rax
+       push    %rax
    """
 end
 
@@ -112,8 +112,8 @@ def codigo_gen(:division_Keyword, _, codigo, _) do
   #IO.puts(codigo)
   #almacenar el primer operando usando un push a %eax
   codigo <> """
-     pop         %ecx
-     div         %ecx
+     pop     %ecx
+     div     %ecx
   """
 end
 
