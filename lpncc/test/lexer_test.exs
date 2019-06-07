@@ -191,48 +191,171 @@ defmodule LexerTest do
   end
 
   ################################################################################################################
-######################3##Pruebas Validas para la segunda etapa del compilador#####################################
-  test "1.- bitwise", state do
+  ###################### 3##Pruebas Validas para la segunda etapa del compilador#####################################
+  test "15.- bitwise", state do
     assert "int main()\n {\n  return !12;\n}"
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words() ==
              state[:tokens] or state[:tokens_0]
   end
-  test "2.- bitwise_zero", state do
+
+  test "16.- bitwise_zero", state do
     assert "int main()\n {\n  return ~0;\n}"
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words() ==
              state[:tokens] or state[:tokens_0]
   end
-  test "3.- neg", state do
+
+  test "17.- neg", state do
     assert "int main()\n {\n  return -5;\n}"
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words() ==
              state[:tokens] or state[:tokens_0]
   end
-  test "4.- nested_ops", state do
+
+  test "18.- nested_ops", state do
     assert "int main()\n {\n  return !-3;\n}"
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words() ==
              state[:tokens] or state[:tokens_0]
   end
-  test "5.- nested_ops", state do
+
+  test "19.- nested_ops", state do
     assert "int main()\n {\n  return -~0;\n}"
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words() ==
              state[:tokens] or state[:tokens_0]
   end
-  test "6.- not_five", state do
+
+  test "20.- not_five", state do
     assert "int main()\n {\n  return !5;\n}"
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words() ==
              state[:tokens] or state[:tokens_0]
   end
-  test "7.- not_zero", state do
+
+  test "21.- not_zero", state do
     assert "int main()\n {\n  return !0;\n}"
            |> Sanitizer.sanitize_source()
            |> Lexer.scan_words() ==
              state[:tokens] or state[:tokens_0]
   end
-###################################################################################################################
+
+  #################################################### 3###############################################################
+  IO.puts("Pruebas para al tercer semana (10 pruebas Validas)")
+
+  test "22.- add", state do
+    assert "int main()\n {\n  return 2- -1;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "23.- asociativity", state do
+    assert "int main()\n {\n  return 1 - 2 - 3;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "24.- add", state do
+    assert "int main()\n {\n  return 6 / 3 / 2 ;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "25.- div", state do
+    assert "int main()\n {\n  return 4 / 2;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "26.- Mult", state do
+    assert "int main()\n {\n  return 2 * 3;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "27.- Mult", state do
+    assert "int main()\n {\n  return 2 * 3;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "28.- Parens", state do
+    assert "int main()\n {\n  return 2 * (3 + 4);\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "29.- Precedence", state do
+    assert "int main()\n {\n  return 2 + 3 * 4;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "30.- Sub", state do
+    assert "int main()\n {\n  return 1 - 2;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "31.- Sub Neg", state do
+    assert "int main()\n {\n  return 2- -1;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "32.- Unop Add", state do
+    assert "int main()\n {\n  return ~2 +3;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "33.- Uno Parens", state do
+    assert "int main()\n {\n  return ~(1 + 1);\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  ##################################################### 3####################################################
+  IO.puts("Pruebas no Validas para al tercer semana (4 Pruebas)")
+
+  test "34.- No Semicolon", state do
+    assert "int main()\n {\n  return 2*2\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "35.- Missing second Opcion", state do
+    assert "int main()\n {\n  return 1 +;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "36.- Missign First Opcion", state do
+    assert "int main()\n {\n  return /3;\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
+
+  test "37.- Malformed Paren", state do
+    assert "int main()\n {\n  return 2 (- 3);\n}"
+           |> Sanitizer.sanitize_source()
+           |> Lexer.scan_words() ==
+             state[:tokens] or state[:tokens_0]
+  end
 end
