@@ -657,13 +657,13 @@ defmodule CompilersTest do
   ## ***********************      WEEK3   *******************************************
 
 
-  #test "Nora_add", state do
-  #  assert Compilers.parser_test(["test/Nora/valid/week3/add.c"]) == state[:tokens_add]
-  #end
+  test "Nora_add", state do
+    assert Compilers.parser_test(["test/Nora/valid/week3/add.c"]) == state[:tokens_add]
+  end
 
-  #test "Nora_associativity", state do
-  #  assert Compilers.parser_test(["test/Nora/valid/week3/associativity.c"]) == state[:tokens_associativity]
-  #end
+  test "Nora_associativity", state do
+    assert Compilers.parser_test(["test/Nora/valid/week3/associativity.c"]) == state[:tokens_associativity]
+  end
 
   #test "Nora_associativity_2", state do
   #  assert Compilers.parser_test(["test/Nora/valid/week3/associativity_2.c"]) == state[:tokens_associativity_2]

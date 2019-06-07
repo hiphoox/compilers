@@ -171,7 +171,7 @@ defmodule Parser do
   def parse_binary_op([next_token | rest]) do
     case next_token do
       :add ->
-        new_expression = new_expression(rest)
+        new_expression = parse_expression(rest)
         {nodo, rest2} = new_expression
 
         case new_expression do
@@ -180,7 +180,7 @@ defmodule Parser do
         end
 
       :mult ->
-        new_expression = new_expression(rest)
+        new_expression = parse_expression(rest)
         {nodo, rest2} = new_expression
 
         case new_expression do
@@ -189,7 +189,7 @@ defmodule Parser do
         end
 
       :div ->
-        new_expression = new_expression(rest)
+        new_expression = parse_expression(rest)
         {nodo, rest2} = new_expression
 
         case new_expression do
