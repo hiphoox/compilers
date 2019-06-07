@@ -66,6 +66,15 @@ defmodule CodeGenerator do
     push   %rax
     """
   end
+
+  def emit_code(:negative_keyword, code_snippet, _) do
+  code_snippet<> 
+  """
+      pop     %rcx
+      sub     %rax, %rcx
+      mov     %rcx, %rax
+  """
+end
  
   def emit_code(:multiplication, code_snippet, _) do
     code_snippet<>
