@@ -58,9 +58,38 @@ defmodule CodeGenerator do
     """
   end
 
+  def emit_code(:addition, _code_snippet, value) do
+    code_snippet <>
+    """
+    pop      %rcx
+    add      %rcx, %rax
+    """
+  end
+ 
+  def emit_code(:multiplication, _code_snippet, value) do
+    code_snippet <>
+    """
+    pop       %rcx
+    imul      %rcx, %rax
+    push      %rax
+    """
+  end
+   
+  def emit_code(:division, _code_snippet, value) do
+    code_snippet <>
+    """
+    pop         %ecx
+    div         %ecx
+    """
+  end
+
+
   def emit_code(:constant, _code_snippet, value) do
+    
     """
         movl	$#{value}, %eax
     """
   end
+
+ 
 end

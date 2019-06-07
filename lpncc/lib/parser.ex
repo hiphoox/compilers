@@ -1,4 +1,12 @@
 defmodule Parser do
+  """
+<program> ::= <function>
+<function> ::= "int" <id> "(" ")" "{" <statement> "}"
+<statement> ::= "return" <exp> ";"
+<exp> ::= <term> { ("+" | "-") <term> }
+<term> ::= <factor> { ("*" | "/") <factor> }
+<factor> ::= "(" <exp> ")" | <unary_op> <factor> | <int>
+  """
   def parse_program(token_list) do
     function = parse_function(token_list,0)
     case function do
