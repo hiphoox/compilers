@@ -25,7 +25,7 @@ defmodule Parser do
   end
 
   def parse_function([next_token | rest]) do
-    
+
     if next_token == :int_keyword do
       [next_token | rest] = rest
 
@@ -70,7 +70,13 @@ defmodule Parser do
   end
 
   def parse_statement([next_token | rest]) do
-    if next_token == :return_keyword do
+
+    if next_token == :return_keyword
+    or next_token == :mult
+    or next_token == :div
+    or next_token == :add
+
+    do
       expression = parse_expression(rest)
 
       case expression do
@@ -78,9 +84,21 @@ defmodule Parser do
           {{:error, error_message}, rest}
 
         {exp_node, [next_token | rest]} ->
-          if next_token == :semicolon do
-            {%AST{node_name: :return, left_node: exp_node}, rest}
-          else
+
+          case next_token do
+            :semicolon ->
+              {%AST{node_name: :return, left_node: exp_node}, rest}
+
+            :add ->
+              parse_statement(rest)
+
+            :mult ->
+              parse_statement(rest)
+
+            :div ->
+              parse_statement(rest)
+
+            _ ->
             {{:error, "Error: se encontró '#{next_token}' y se esperaba 'semicolon' "},
              rest}
           end
@@ -92,36 +110,47 @@ defmodule Parser do
 
   def parse_expression([next_token | rest]) do
     case next_token do
-      {:constant, value} -> {%AST{node_name: :constant, value: value}, rest}
+      {:constant, value} ->
+        {%AST{node_name: :constant, value: value}, rest}
 
-      :negacion -> 
+      :negacion ->
         parse_unarios([next_token | rest])
 
       :complemento ->
         parse_unarios([next_token | rest])
 
-      :logical_negation ->  
+      :logical_negation ->
         parse_unarios([next_token | rest])
+
+        :add ->
+          parse_binary_op([next_token | rest])
+
+        :mult ->
+          parse_binary_op([next_token | rest])
+
+        :div ->
+          parse_binary_op([next_token | rest])
 
       _-> {{:error, "Error: se encontró '#{next_token}' y se esperaba una constante"},rest}
     end
   end
-  
-  def parse_unarios ([next_token | rest]) do
-    case next_token do 
 
-      :negacion -> 
+  def parse_unarios ([next_token | rest]) do
+    case next_token do
+
+      :negacion ->
         new_expression=parse_expression(rest)
         {node,rest2}=new_expression
-        case new_expression do 
+
+        case new_expression do
         {{:error, error_message}, rest} -> {{:error, error_message}, rest}
         _-> {%AST{node_name: :negation, left_node: node}, rest2}
-        end   
+        end
 
       :complemento ->
         new_expression=parse_expression(rest)
         {node,rest2}=new_expression
-        case new_expression do 
+        case new_expression do
         {{:error, error_message}, rest} -> {{:error, error_message}, rest}
         _-> {%AST{node_name: :complement, left_node: node}, rest2}
         end
@@ -129,13 +158,47 @@ defmodule Parser do
       :logical_negation ->
         new_expression=parse_expression(rest)
         {node,rest2}=new_expression
-        case new_expression do 
+        case new_expression do
         {{:error, error_message}, rest} -> {{:error, error_message}, rest}
         _-> {%AST{node_name: :logical, left_node: node}, rest2}
         end
 
       _ -> {{:error, "Error: operador unario no encontrado", next_token}, rest}
 
+    end
+  end
+
+  def parse_binary_op([next_token | rest]) do
+    case next_token do
+      :add ->
+        new_expression = new_expression(rest)
+        {nodo, rest2} = new_expression
+
+        case new_expression do
+          {{:error, error_message}, rest} -> {{:error, error_message}, rest}
+          _ -> {%AST{node_name: :addition, left_node: nodo}, rest2}
+        end
+
+      :mult ->
+        new_expression = new_expression(rest)
+        {nodo, rest2} = new_expression
+
+        case new_expression do
+          {{:error, error_message}, rest} -> {{:error, error_message}, rest}
+          _ -> {%AST{node_name: :multiplication, left_node: nodo}, rest2}
+        end
+
+      :div ->
+        new_expression = new_expression(rest)
+        {nodo, rest2} = new_expression
+
+        case new_expression do
+          {{:error, error_message}, rest} -> {{:error, error_message}, rest}
+          _ -> {%AST{node_name: :division, left_node: nodo}, rest2}
+        end
+
+      _ ->
+        {:error, "Error: not found binary op", next_token, rest}
     end
   end
 
