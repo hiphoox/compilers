@@ -7,35 +7,25 @@ defmodule Parser do
   <exp> ::= <int>
   """
 
-
-  def parsing(token_list) do
-    if token_list != [] do
-      parse_program(token_list)
-    else
-      IO.puts("Error : Falta de Tokens")
-    end
-  end
-
   def parse_program(token_list) do
-  function = parse_function(token_list)
+    function = parse_function(token_list)
 
-  case function do
-
-    {{:error, error_message}, _rest} ->
-      {:error, error_message}
+    case function do
+      {{:error, error_message}, _rest} ->
+        {:error, error_message}
 
 
       {function_node, rest} ->
         if rest == [] do
           %AST{node_name: :program, left_node: function_node}
         else
-          {:error, "Error: Hay más elementos de los permitidos 'end'",0}
+          {:error, "Error: Hay más elementos de los permitidos 'end' ", 0}
         end
     end
   end
 
   def parse_function([next_token | rest]) do
-
+    
     if next_token == :int_keyword do
       [next_token | rest] = rest
 
@@ -49,40 +39,35 @@ defmodule Parser do
             [next_token | rest] = rest
 
             if next_token == :a_llave do
-              statements = parse_statement(rest)
+              statement = parse_statement(rest)
 
-              case statements do
+              case statement do
                 {{:error, error_message}, rest} ->
                   {{:error, error_message}, rest}
 
-                  {statement_node, [next_token | rest]} ->
-
-                    if next_token == :c_llave do
-                      {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
-                    else
-                      IO.puts("Falta llave de cierre")
-                      {{:error, "Error: llave de cierre no encontrada"}, rest}
-                    end
-                end
+                {statement_node, [next_token | rest]} ->
+                  if next_token == :c_llave do
+                    {%AST{node_name: :function, value: :main, left_node: statement_node}, rest}
+                  else
+                    {{:error, "Error: se encontró '  ' y se esperaba  '}' "}, rest}
+                  end
+              end
             else
-              IO.puts("Falta llave de apertura")
-              {:error, "Error: llave de apertura no encontrada", rest}
+              {{:error, "Error: se encontró '#{next_token}' y se esperaba  '{' "},rest}
             end
           else
-            IO.puts "Error: parentesis de cierre no encontrado"
-            #{:error, "Error: parentesis de cierre no encontrado"}
+            {{:error, "Error: se encontró '#{next_token}' y se esperaba  ')' "},rest}
           end
         else
-          {:error, "Error: parentesis de apertura no encontrado", rest}
+          {{:error, "Error: se encontró '#{next_token}' y se esperaba  '(' "},rest}
         end
       else
-        {:error, "Error: funcion main no encontrada", rest}
+        {{:error, "Error: se encontró '#{next_token}' y se esperaba  'main' "},rest}
       end
     else
-      {:error, "Error, tipo de retorno no definido", rest}
+      {{:error, "Error: se encontró '#{next_token}' y se esperaba  'int' "},rest}
     end
   end
-
 
   def parse_statement([next_token | rest]) do
     if next_token == :return_keyword do
@@ -90,61 +75,68 @@ defmodule Parser do
 
       case expression do
         {{:error, error_message}, rest} ->
-          {{:error, error_message}, rest} ## manejo de errores
-
+          {{:error, error_message}, rest}
 
         {exp_node, [next_token | rest]} ->
           if next_token == :semicolon do
-            {%AST{node_name: :return, left_node: exp_node}, rest} ##Estruc  AST del prof
-          else #error
-            {{:error, "Error:   ; no encontrado"}, rest}
+            {%AST{node_name: :return, left_node: exp_node}, rest}
+          else
+            {{:error, "Error: se encontró '#{next_token}' y se esperaba 'semicolon' "},
+             rest}
           end
       end
     else
-      {{:error, "Error: return no encontrado"}, rest}
+      {{:error, "Error: se encontró '#{next_token}' y se esperaba  'return' "}, rest}
     end
   end
 
   def parse_expression([next_token | rest]) do
     case next_token do
-
       {:constant, value} -> {%AST{node_name: :constant, value: value}, rest}
 
-      :negacion ->
-        parse_unarios([{next_token} | rest])
+      :negacion -> 
+        parse_unarios([next_token | rest])
 
       :complemento ->
-        parse_unarios([{next_token} | rest])
+        parse_unarios([next_token | rest])
+
+      :logical_negation ->  
+        parse_unarios([next_token | rest])
+
+      _-> {{:error, "Error: se encontró '#{next_token}' y se esperaba una constante"},rest}
+    end
+  end
+  
+  def parse_unarios ([next_token | rest]) do
+    case next_token do 
+
+      :negacion -> 
+        new_expression=parse_expression(rest)
+        {node,rest2}=new_expression
+        case new_expression do 
+        {{:error, error_message}, rest} -> {{:error, error_message}, rest}
+        _-> {%AST{node_name: :negation, left_node: node}, rest2}
+        end   
+
+      :complemento ->
+        new_expression=parse_expression(rest)
+        {node,rest2}=new_expression
+        case new_expression do 
+        {{:error, error_message}, rest} -> {{:error, error_message}, rest}
+        _-> {%AST{node_name: :complement, left_node: node}, rest2}
+        end
 
       :logical_negation ->
-        parse_unarios([{next_token} | rest])
+        new_expression=parse_expression(rest)
+        {node,rest2}=new_expression
+        case new_expression do 
+        {{:error, error_message}, rest} -> {{:error, error_message}, rest}
+        _-> {%AST{node_name: :logical, left_node: node}, rest2}
+        end
 
-      _ -> {{:error, "Error: it was found ->#{next_token}<- when expecting  ->constant<- "}, rest}
+      _ -> {{:error, "Error: operador unario no encontrado", next_token}, rest}
+
     end
   end
 
-  def parse_unarios([next_token | rest]) do
-    case next_token do
-      :negacion ->
-      new_expresion = parse_expression (rest)
-      {node, rest_complement } = new_expresion
-      {%AST{node_name: :negation, left_node: node}, rest_complement}
-
-      :complemento ->
-        new_expresion=parse_expression(rest)
-        {_,rest_complement}=new_expresion
-        {%AST{node_name: :unary, left_node: new_expresion}, rest_complement}
-
-        :logical_negation ->
-          new_expresion=parse_expression(rest)
-          {_,rest_complement}=new_expresion
-          {%AST{node_name: :logic_n, left_node: new_expresion}, rest_complement}
-      _ -> {{:error, "Error, arbol",next_token}, rest}
-      end
-
-
 end
-
-end
-
-

@@ -1,12 +1,13 @@
-defmodule ProyectoCompilador.MixProject do
+defmodule Compilers.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :compilers,
+      app: :Compilers,
       version: "0.1.0",
-      elixir: "~> 1.8",
+      ## Nombre del modulo que va a ser el MAIN (modulo principal)
       escript: [main_module: Compilers],
+      elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]

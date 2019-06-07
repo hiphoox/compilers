@@ -3,74 +3,70 @@ defmodule Lexer do
     Enum.flat_map(words, &lex_raw_tokens/1)
   end
 
-def get_constant(program) do
-  #se leen enteros
-  auxiliar = Regex.run(~r/^\d+/, program)
+  def get_constant(program) do
+    #se leen enteros
+    auxiliar = Regex.run(~r/^\d+/, program)
     if auxiliar != nil do
-        case auxiliar do
-          [value] ->
-            {{:constant, String.to_integer(value)}, String.trim_leading(program, value)}
-          end
-        else
-          {["ERROR: Sintaxis invalida", program], ""}
-        end
+      case auxiliar do
+        [value] ->
+          {{:constant, String.to_integer(value)}, String.trim_leading(program, value)}
+      end
+    else
+      {["error", program], ""}
     end
-
+  end
 
   def lex_raw_tokens(program) when program != "" do
 
     {token, rest} =
       case program do
-        "int" <> rest ->
+        "int" <> rest -> 
           {:int_keyword, rest}
-
-        "return" <> rest ->
-            {:return_keyword, rest}
-
-        "main" <> rest ->
-            {:main_keyword, rest}
-
-        "{" <> rest ->
+        
+        "return" <> rest -> 
+          {:return_keyword, rest}
+        
+        "main" <> rest -> 
+          {:main_keyword, rest}
+        
+        "{" <> rest -> 
           {:a_llave, rest}
-
-        "}" <> rest ->
+       
+        "}" <> rest -> 
           {:c_llave, rest}
-
-        "(" <> rest ->
+       
+        "(" <> rest -> 
           {:a_parentesis, rest}
-
-        ")" <> rest ->
+       
+        ")" <> rest -> 
           {:c_parentesis, rest}
 
-        ";" <> rest ->
-          {:semicolon, rest}
-
-         "-" <> rest -> 
+        "-" <> rest -> 
           {:negacion, rest}
-
-
-      "~" <> rest -> 
+         
+        "~" <> rest -> 
           {:complemento, rest}
+         
+        "!" <> rest -> 
+          {:logical_negation, rest}
+       
+        ";" <> rest -> 
+          {:semicolon, rest}
+       
+        rest -> get_constant(rest)
+      end
 
-         "!" <> rest -> 
-        {:logical_negation, rest}
-
-        rest ->  get_constant(rest)
-
-        end
-
-if rest != "" do
-  auxiliar2 = rest
-  resto = lex_raw_tokens(auxiliar2)
-  [token | resto]
-else
-  resto = lex_raw_tokens(rest)
-   [token | resto]
-
+    if rest != "" do
+      auxiliar2 = rest
+      resto = lex_raw_tokens(auxiliar2)
+      [token | resto]
+    else
+      resto = lex_raw_tokens(rest)
+      [token | resto]
+    end
   end
-end
+
   def lex_raw_tokens(_program) do
     []
   end
-
 end
